@@ -107,39 +107,50 @@ We price engagements based on scope, timeline, and the rigor required (e.g., pro
   ];
 
   return (
-    <section className="not-prose grid gap-4 sm:grid-cols-2">
+    <section id="offer-catalog" className="not-prose mt-6 grid gap-6 lg:grid-cols-2">
       {offers.map((o) => (
         <article
           key={o.id}
           id={o.id}
-          className="rounded-2xl border border-neutral-200 p-5 shadow-sm"
+          className="flex h-full flex-col rounded-2xl border border-neutral-200 bg-white p-7 shadow-sm"
         >
-          <div className="flex items-start justify-between gap-4">
-            <h3 className="text-base font-semibold text-neutral-900">{o.title}</h3>
-            <div className="shrink-0 text-sm font-semibold text-neutral-900">
+          <div className="flex items-start justify-between gap-6">
+            <h3 className="text-lg font-semibold leading-snug text-neutral-900">
+              {o.title}
+            </h3>
+            <div className="shrink-0 text-base font-semibold text-neutral-900">
               {o.startingAt}
             </div>
           </div>
 
-          <p className="mt-2 text-sm text-neutral-700">
-            <span className="font-medium text-neutral-900">Best for:</span> {o.bestFor}
-          </p>
-          <p className="mt-2 text-sm text-neutral-700">
-            <span className="font-medium text-neutral-900">What you get:</span> {o.whatYouGet}
-          </p>
+          <div className="mt-4 space-y-3 text-base leading-relaxed text-neutral-700">
+            <p>
+              <span className="font-medium text-neutral-900">Best for:</span>{" "}
+              {o.bestFor}
+            </p>
+            <p>
+              <span className="font-medium text-neutral-900">What you get:</span>{" "}
+              {o.whatYouGet}
+            </p>
+          </div>
 
-          <div className="mt-4 grid gap-4">
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
             <div>
-              <div className="text-sm font-medium text-neutral-900">Includes</div>
-              <ul className="mt-2 list-disc pl-5 text-sm text-neutral-700">
+              <div className="text-sm font-semibold tracking-wide text-neutral-900">
+                Includes
+              </div>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-base leading-relaxed text-neutral-700">
                 {o.includes.map((x) => (
                   <li key={x}>{x}</li>
                 ))}
               </ul>
             </div>
+
             <div>
-              <div className="text-sm font-medium text-neutral-900">Deliverables</div>
-              <ul className="mt-2 list-disc pl-5 text-sm text-neutral-700">
+              <div className="text-sm font-semibold tracking-wide text-neutral-900">
+                Deliverables
+              </div>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-base leading-relaxed text-neutral-700">
                 {o.deliverables.map((x) => (
                   <li key={x}>{x}</li>
                 ))}
@@ -147,23 +158,21 @@ We price engagements based on scope, timeline, and the rigor required (e.g., pro
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-neutral-700">
-            <span className="font-medium text-neutral-900">Timeline:</span> {o.timeline}
+          <div className="mt-6 text-base text-neutral-700">
+            <span className="font-medium text-neutral-900">Timeline:</span>{" "}
+            {o.timeline}
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
             <a
-              href={`/pricing#${o.id}`}
+              href={`#${o.id}`}
               className="font-medium underline underline-offset-4"
               aria-label={`Link to ${o.title}`}
             >
               Link to this offer
             </a>
             <span className="text-neutral-400">•</span>
-            <a
-              href="/contact"
-              className="font-medium underline underline-offset-4"
-            >
+            <a href="/contact" className="font-medium underline underline-offset-4">
               Schedule a Strategy Call
             </a>
           </div>
@@ -177,38 +186,29 @@ We price engagements based on scope, timeline, and the rigor required (e.g., pro
 
 {(() => {
   const outcomes = [
-    { label: "Faster alignment on priorities and risk." },
-    { label: "Fewer late-stage reversals from “new information.”" },
-    { label: "Clear ownership, timelines, and decision logs." },
-    { label: "Stronger readiness for audits, customer reviews, and regulatory questions." },
+    { label: "Faster alignment on priorities and risk.", href: "#blueprint" },
+    { label: "Fewer late-stage reversals from “new information.”", href: "#prototype" },
+    { label: "Clear ownership, timelines, and decision logs.", href: "#build-ship" },
+    { label: "Stronger readiness for audits, customer reviews, and regulatory questions.", href: "#retainer" },
   ];
 
   return (
     <section className="not-prose grid gap-3 sm:grid-cols-2">
-      {outcomes.map((o) =>
-        o.href ? (
-          <a
-            key={o.label}
-            href={o.href}
-            className="rounded-xl border border-neutral-200 p-4 text-sm text-neutral-800 hover:bg-neutral-50"
-          >
-            {o.label}
-          </a>
-        ) : (
-          <div
-            key={o.label}
-            className="rounded-xl border border-neutral-200 p-4 text-sm text-neutral-800"
-          >
-            {o.label}
-          </div>
-        )
-      )}
+      {outcomes.map((o) => (
+        <a
+          key={o.label}
+          href={o.href}
+          className="rounded-xl border border-neutral-200 p-4 text-sm text-neutral-800 hover:bg-neutral-50"
+        >
+          {o.label}
+        </a>
+      ))}
     </section>
   );
 })()}
 
 <div className="not-prose mt-6">
-  <a href="/pricing" className="text-sm font-medium underline underline-offset-4">
+  <a href="#offer-catalog" className="text-sm font-medium underline underline-offset-4">
     See engagement options
   </a>
 </div>
