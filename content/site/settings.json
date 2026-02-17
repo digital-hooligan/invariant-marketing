@@ -1,0 +1,21 @@
+{
+  "primaryCtaLabel": "Schedule a Strategy Call",
+  "primaryCtaHref": "/contact",
+  "secondaryCtaLabel": "Read Security Posture",
+  "secondaryCtaHref": "/security",
+  "mainNav": [
+    { "label": "Platform", "href": "/platform" },
+    { "label": "How it Works", "href": "/how-it-works" },
+    { "label": "Security", "href": "/security" },
+    { "label": "Governance", "href": "/governance" },
+    { "label": "Solutions", "href": "/solutions" },
+    { "label": "Case Studies", "href": "/case-studies" },
+    { "label": "Pricing", "href": "/pricing" }
+  ],
+  "footerNav": [
+    { "label": "Company", "href": "/company" },
+    { "label": "Contact", "href": "/contact" },
+    { "label": "Legal", "href": "/legal" }
+  ],
+  "legalEntityName": "Digital Hooligan LLC d/b/a Invariant"
+}
