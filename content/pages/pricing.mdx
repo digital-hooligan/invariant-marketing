@@ -3,11 +3,227 @@ type: page
 slug: "pricing"
 seo:
   title: "Pricing"
-  description: "Engagement models and packaging."
+  description: "Standard offers and starting prices for Invariant engagements."
   canonical: "/pricing"
 title: "Pricing"
+lede: "Standard offers with starting prices. We recommend the smallest engagement that produces a defensible outcome."
 ---
 
 # Pricing
 
-Placeholder content.
+We price engagements based on scope, timeline, and the rigor required (e.g., production gates, customer commitments, regulated environments). Below are our standard offers. If you’re unsure which one fits, we’ll recommend the smallest thing that produces a defensible decision or a shippable increment.
+
+[Schedule a Strategy Call](/contact)
+
+---
+
+## Offer catalog
+
+{(() => {
+  const offers = [
+    {
+      id: "blueprint",
+      title: "Decision-to-Spec Discovery (Blueprint)",
+      bestFor:
+        "Teams who need a decision-grade plan before committing to a build (architecture choice, feasibility questions, roadmap bets, system redesign).",
+      whatYouGet:
+        "A concise, reviewable blueprint that unblocks build work with clear boundaries and next steps.",
+      includes: [
+        "Problem framing (what’s being decided, success criteria, constraints)",
+        "Requirements capture + assumptions log",
+        "Architecture options analysis with explicit tradeoffs",
+        "Risks, mitigations, and “what would change our mind” triggers",
+      ],
+      deliverables: [
+        "Blueprint package (PDF + editable notes/diagrams)",
+        "Prioritized backlog + delivery plan",
+        "Recommendation + next-step plan",
+      ],
+      timeline: "1–5 weeks (tier-dependent)",
+      startingAt: "$2,500",
+    },
+    {
+      id: "prototype",
+      title: "Prototype Sprint (Working Demo)",
+      bestFor:
+        "Proving the critical technical path end-to-end before investing in a full build (integrations, performance unknowns, edge/hardware feasibility, workflow viability).",
+      whatYouGet:
+        "A runnable prototype and demo path that de-risks production build work.",
+      includes: [
+        "Success criteria + demo flow defined at kickoff",
+        "Targeted validation spikes for the riskiest unknowns",
+        "Prototype implementation + runnable demo path",
+        "Known limitations + production hardening recommendations",
+      ],
+      deliverables: [
+        "Prototype repo/branch with run instructions",
+        "Demo script (+ optional short demo video)",
+        "Findings memo: risks closed, risks remaining, next steps",
+      ],
+      timeline: "2–6 weeks (tier-dependent)",
+      startingAt: "$9,500",
+    },
+    {
+      id: "build-ship",
+      title: "Build & Ship Increment (Production Slice)",
+      bestFor:
+        "Shipping a defined product slice with explicit acceptance criteria—without open-ended scope.",
+      whatYouGet:
+        "A production-oriented delivery increment with QA gates and release artifacts.",
+      includes: [
+        "Kickoff scope lock (epics/features defined with acceptance criteria)",
+        "Implementation with repo hygiene + basic automated checks",
+        "QA gates + stabilization window (tier-dependent)",
+        "Release notes + deployment checklist",
+      ],
+      deliverables: [
+        "Production code for scoped increment",
+        "Release package (notes, runbook/ops notes as applicable)",
+        "Handoff walkthrough + next-increment backlog",
+      ],
+      timeline: "4–12 weeks (tier-dependent)",
+      startingAt: "$24,000",
+    },
+    {
+      id: "retainer",
+      title: "Automation & Integrations Retainer (Monthly Capacity)",
+      bestFor:
+        "Ongoing delivery capacity for APIs, workflows, and operational automation—without open-ended scope.",
+      whatYouGet:
+        "A monthly capacity bucket with explicit limits, prioritization, and clear Definition of Done per task.",
+      includes: [
+        "Monthly planning + prioritization",
+        "Delivery on approved automation/integration tasks",
+        "Weekly async status updates (written)",
+        "Overage option only with written approval",
+      ],
+      deliverables: [
+        "Shipped artifacts per task (PRs, scripts, API changes, docs)",
+        "Monthly recap: shipped items + impact notes",
+      ],
+      timeline: "Monthly (renewable)",
+      startingAt: "$2,500 / month",
+    },
+  ];
+
+  return (
+    <section className="not-prose grid gap-4 sm:grid-cols-2">
+      {offers.map((o) => (
+        <article
+          key={o.id}
+          id={o.id}
+          className="rounded-2xl border border-neutral-200 p-5 shadow-sm"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-base font-semibold text-neutral-900">{o.title}</h3>
+            <div className="shrink-0 text-sm font-semibold text-neutral-900">
+              {o.startingAt}
+            </div>
+          </div>
+
+          <p className="mt-2 text-sm text-neutral-700">
+            <span className="font-medium text-neutral-900">Best for:</span> {o.bestFor}
+          </p>
+          <p className="mt-2 text-sm text-neutral-700">
+            <span className="font-medium text-neutral-900">What you get:</span> {o.whatYouGet}
+          </p>
+
+          <div className="mt-4 grid gap-4">
+            <div>
+              <div className="text-sm font-medium text-neutral-900">Includes</div>
+              <ul className="mt-2 list-disc pl-5 text-sm text-neutral-700">
+                {o.includes.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-neutral-900">Deliverables</div>
+              <ul className="mt-2 list-disc pl-5 text-sm text-neutral-700">
+                {o.deliverables.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-4 text-sm text-neutral-700">
+            <span className="font-medium text-neutral-900">Timeline:</span> {o.timeline}
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
+            <a
+              href={`/pricing#${o.id}`}
+              className="font-medium underline underline-offset-4"
+              aria-label={`Link to ${o.title}`}
+            >
+              Link to this offer
+            </a>
+            <span className="text-neutral-400">•</span>
+            <a
+              href="/contact"
+              className="font-medium underline underline-offset-4"
+            >
+              Schedule a Strategy Call
+            </a>
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+})()}
+
+### Typical outcomes
+
+{(() => {
+  const outcomes = [
+    { label: "Faster alignment on priorities and risk." },
+    { label: "Fewer late-stage reversals from “new information.”" },
+    { label: "Clear ownership, timelines, and decision logs." },
+    { label: "Stronger readiness for audits, customer reviews, and regulatory questions." },
+  ];
+
+  return (
+    <section className="not-prose grid gap-3 sm:grid-cols-2">
+      {outcomes.map((o) =>
+        o.href ? (
+          <a
+            key={o.label}
+            href={o.href}
+            className="rounded-xl border border-neutral-200 p-4 text-sm text-neutral-800 hover:bg-neutral-50"
+          >
+            {o.label}
+          </a>
+        ) : (
+          <div
+            key={o.label}
+            className="rounded-xl border border-neutral-200 p-4 text-sm text-neutral-800"
+          >
+            {o.label}
+          </div>
+        )
+      )}
+    </section>
+  );
+})()}
+
+<div className="not-prose mt-6">
+  <a href="/pricing" className="text-sm font-medium underline underline-offset-4">
+    See engagement options
+  </a>
+</div>
+---
+
+## How we scope
+
+We keep scope small and outcomes explicit. Pricing changes with:
+
+- urgency (compressed timelines),
+- depth of evidence/validation required,
+- number of stakeholders / systems / environments,
+- production rigor (QA gates, release management),
+- security/compliance expectations.
+
+If you’re on a deadline, we’ll propose the smallest engagement that produces a defensible outcome.
+
+[Schedule a Strategy Call](/contact)
