@@ -4,4 +4,5 @@ out
 dist
 .DS_Store
 .env
-.env.*
+.env.*# TS incremental build
+tsconfig.tsbuildinfo
