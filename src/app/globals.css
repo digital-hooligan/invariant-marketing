@@ -2,10 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../styles/marketing-tokens.css";
+
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   margin: 0;
+  background: var(--mk-color-bg);
+  color: var(--mk-color-text);
+  font-family: var(--mk-type-font-sans);
+  font-size: var(--mk-type-size-body);
+  line-height: var(--mk-type-lh-base);
+}
+
+/* Links: cyan + always underlined */
+a {
+  color: var(--mk-color-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Focus ring: 2px cyan outline with offset */
+:focus-visible {
+  outline: var(--mk-focus-ring-width) solid var(--mk-color-focus-ring);
+  outline-offset: var(--mk-focus-ring-offset);
+}
+
+/* Reduced motion (mandatory) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Prose: keep readable on dark background */
+.prose {
+  color: var(--mk-color-text);
+}
+.prose :where(p, li) {
+  color: var(--mk-color-text);
+}
+.prose :where(h1, h2, h3) {
+  color: var(--mk-color-text);
+}
+.prose :where(code) {
+  color: var(--mk-color-text);
+}
+
+/* Remove default summary marker (if used later) */
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
 }

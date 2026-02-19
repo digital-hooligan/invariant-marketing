@@ -1,0 +1,75 @@
+:root {
+  /* DS-v1 Color Tokens (Locked) */
+  --mk-color-bg: #0b0f14;
+  --mk-color-surface-1: #121824;
+  --mk-color-surface-2: #182235;
+  --mk-color-border: #263245;
+  --mk-color-text: #f7faff;
+  --mk-color-text-muted: #8a94a6;
+  --mk-color-cta: #2dffb7;
+  --mk-color-cta-hover: #18e6a3;
+  --mk-color-link: #00e5ff;
+  --mk-color-warning: #f2c94c;
+  --mk-color-danger: #ff3b30;
+  --mk-color-success: #22c55e; /* restricted: intake confirmation only */
+
+  /* DS-v1 Typography (Locked stacks) */
+  --mk-type-font-sans:
+    Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --mk-type-font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* DS-v1 Type scale (frozen) */
+  --mk-type-size-h1: 48px;
+  --mk-type-size-h2: 32px;
+  --mk-type-size-h3: 24px;
+  --mk-type-size-body: 18px;
+  --mk-type-size-small: 14px;
+  --mk-type-size-mono: 14px;
+
+  --mk-type-lh-tight: 1.1;
+  --mk-type-lh-base: 1.5;
+  --mk-type-lh-loose: 1.7;
+
+  --mk-type-weight-regular: 400;
+  --mk-type-weight-medium: 500;
+  --mk-type-weight-semibold: 600;
+
+  /* DS-v1 Spacing (8px base) */
+  --mk-space-0: 0px;
+  --mk-space-1: 8px;
+  --mk-space-2: 16px;
+  --mk-space-3: 24px;
+  --mk-space-4: 32px;
+  --mk-space-5: 40px;
+  --mk-space-6: 48px;
+  --mk-space-8: 64px;
+  --mk-space-10: 80px;
+  --mk-space-12: 96px;
+  --mk-space-16: 128px;
+
+  /* Layout */
+  --mk-layout-content-max: 1200px;
+  --mk-layout-gutter: 24px;
+  --mk-layout-gap: var(--mk-space-4);
+
+  /* Borders & Radius */
+  --mk-border-1: 1px;
+  --mk-radius-sm: 8px;
+  --mk-radius-md: 12px;
+  --mk-radius-lg: 16px;
+
+  /* Shadow (subtle) */
+  --mk-shadow-1: 0 1px 0 rgba(0, 0, 0, 0.25);
+
+  /* Motion (constrained) */
+  --mk-motion-duration-fast: 120ms;
+  --mk-motion-duration-base: 180ms;
+  --mk-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Focus */
+  --mk-color-focus-ring: var(--mk-color-link);
+  --mk-focus-ring-width: 2px;
+  --mk-focus-ring-offset: 2px;
+}
