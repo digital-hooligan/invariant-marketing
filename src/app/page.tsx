@@ -82,6 +82,7 @@ export default async function HomePage() {
   // but render the canon wireframe structure directly for "/" route.
   void (await getHomePage());
 
+export default function HomePage() {
   return (
     <article className="w-full">
       {/* SECTION 1 — HERO */}
