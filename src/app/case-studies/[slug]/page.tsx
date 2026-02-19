@@ -36,12 +36,13 @@ export default async function CaseStudyDetail({
   if (!cs) notFound();
 
   return (
-    <article className="space-y-6">
-      <header>
-        <h1 className="text-3xl font-semibold">{cs.frontmatter.title}</h1>
-        <p className="opacity-80">{cs.frontmatter.summary}</p>
+    <article className="mx-auto max-w-mk-content space-y-mk-6 px-mk-4">
+      <header className="space-y-mk-2">
+        <h1 className="text-mk-h1 font-mkSemibold">{cs.frontmatter.title}</h1>
+        <p className="text-mk-body text-mk-muted">{cs.frontmatter.summary}</p>
       </header>
-      <section className="prose max-w-none">{cs.content}</section>
+
+      <section className="mk-prose max-w-none">{cs.content}</section>
     </article>
   );
 }

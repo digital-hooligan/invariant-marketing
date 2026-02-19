@@ -32,15 +32,18 @@ export default async function LegalDocPage({
   if (!doc) notFound();
 
   return (
-    <article className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-3xl font-semibold">{doc.frontmatter.title}</h1>
-        <div className="text-sm opacity-75">
+    <article className="space-y-mk-6">
+      <header className="space-y-mk-1">
+        <h1 className="text-mk-h1 font-mkSemibold">{doc.frontmatter.title}</h1>
+
+        <div className="text-mk-small text-mk-muted">
           Last updated: {doc.frontmatter.lastUpdated}
         </div>
       </header>
-      <section className="prose max-w-none">{doc.content}</section>
-      <footer className="text-xs opacity-75">
+
+      <section className="mk-prose max-w-none">{doc.content}</section>
+
+      <footer className="text-mk-small text-mk-muted">
         {doc.frontmatter.legalEntityName}
       </footer>
     </article>

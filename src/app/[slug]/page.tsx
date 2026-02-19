@@ -36,11 +36,12 @@ export default async function TopLevelPage({
   if (!page) notFound();
 
   return (
-    <article className="space-y-6">
+    <article className="space-y-mk-6">
       <header>
-        <h1 className="text-3xl font-semibold">{page.frontmatter.title}</h1>
+        <h1 className="text-mk-h1 font-mkSemibold">{page.frontmatter.title}</h1>
       </header>
-      <section className="prose max-w-none">{page.content}</section>
+
+      <section className="mk-prose max-w-none">{page.content}</section>
     </article>
   );
 }
