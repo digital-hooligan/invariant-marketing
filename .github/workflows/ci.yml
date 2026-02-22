@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -15,14 +15,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm (use packageManager version)
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
+      - name: Determine pnpm version from packageManager
+        id: pnpm
+        run: |
+          node -e "const pm=require('./package.json').packageManager||''; const m=pm.match(/^pnpm@(.+)$/); if(!m){console.error('package.json#packageManager must be pnpm@<version>'); process.exit(1);} process.stdout.write(`version=${m[1]}\n`);" >> "$GITHUB_OUTPUT"
+
+      - name: Setup pnpm via Corepack (enforced)
+        run: |
+          corepack enable
+          corepack prepare "pnpm@${{ steps.pnpm.outputs.version }}" --activate
+          pnpm --version
 
       - name: Install
         run: pnpm install --frozen-lockfile
