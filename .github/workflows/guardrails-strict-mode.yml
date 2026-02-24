@@ -1,0 +1,50 @@
+# .github/workflows/guardrails-strict-mode.yml
+name: Guardrails — Strict Mode
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "warn or error"
+        required: false
+        default: "error"
+
+concurrency:
+  group: guardrails-strict-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardrails-strict:
+    name: guardrails-strict
+    runs-on: ubuntu-latest
+    env:
+      # Timeline toggle:
+      # - Week 1: set to "warn"
+      # - Week 2+: set to "error"
+      GUARDRAILS_MODE: ${{ inputs.mode || 'error' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "9"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Cross-repo import boundary (marketing ↔ platform)
+        run: node scripts/guardrails/cross-repo-imports.mjs
+
+      - name: Authority / Implied Autonomy language gate
+        run: node scripts/guardrails/authority-keywords.mjs
