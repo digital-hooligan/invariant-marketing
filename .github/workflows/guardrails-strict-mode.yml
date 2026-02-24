@@ -42,16 +42,17 @@ jobs:
           echo "packageManager: ${PM}"
           if [[ "${PM}" =~ ^pnpm@([0-9]+\.[0-9]+\.[0-9]+) ]]; then
             VER="${BASH_REMATCH[1]}"
-            echo "Activating pnpm@${VER} via Corepack"
             corepack prepare "pnpm@${VER}" --activate
           else
-            echo "No packageManager pnpm@x.y.z found; defaulting to pnpm@9.0.0"
             corepack prepare "pnpm@9.0.0" --activate
           fi
           pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: E1 transitive boundary gate
+        run: node scripts/guardrails/e1-boundary-transitive.mjs
 
       - name: Cross-repo import boundary
         run: node scripts/guardrails/cross-repo-imports.mjs
