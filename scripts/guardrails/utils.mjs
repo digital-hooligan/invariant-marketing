@@ -20,13 +20,30 @@ export function modeFromEnv() {
   return mode;
 }
 
+/**
+ * Canonical ignore scope for governance scanning:
+ * - Do not scan GitHub templates/workflows (they contain example prohibited phrases)
+ * - Do not scan the guardrail scripts themselves (they contain denylists/examples)
+ * - Do not scan guardrail implementation docs/summaries (they reference repo names/patterns)
+ * - Do not scan build/vendor outputs
+ */
 export function shouldIgnoreFile(p) {
   const norm = p.replaceAll("\\", "/");
+
+  // Repo governance / CI / templates
+  if (norm.startsWith(".github/")) return true;
+
+  // Guardrails implementation (contains denylist terms by design)
+  if (norm.startsWith("scripts/guardrails/")) return true;
+  if (norm.startsWith("docs/guardrails/")) return true;
+
+  // Build/vendor
   if (norm.startsWith(".next/")) return true;
   if (norm.startsWith("node_modules/")) return true;
   if (norm.startsWith("dist/")) return true;
   if (norm.startsWith("build/")) return true;
   if (norm.startsWith("coverage/")) return true;
+
   return false;
 }
 
