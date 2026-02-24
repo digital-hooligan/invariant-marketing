@@ -1,0 +1,19 @@
+# Invariant Marketing Ownership
+
+# Root governance
+/README.md @digital-hooligan/owner
+/SECURITY.md @digital-hooligan/owner
+
+# CI enforcement (root)
+/.github/ @digital-hooligan/owner
+
+# CI workflows must be CODEOWNER-reviewed (no bypass)
+/.github/workflows/ @digital-hooligan/owner
+
+# Guardrails implementation must be CODEOWNER-reviewed
+/scripts/guardrails/ @digital-hooligan/owner
+/docs/guardrails/ @digital-hooligan/owner
+
+# Public surface (optional: keep under owner until marketing team owners are defined)
+/content/ @digital-hooligan/owner
+/src/ @digital-hooligan/owner

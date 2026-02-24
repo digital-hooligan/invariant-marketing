@@ -1,16 +1,19 @@
 // scripts/guardrails/e1-boundary-transitive.mjs
 import fs from "node:fs";
-import { execSync } from "node:child_process";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 const RULE_ID = "E1-BOUNDARY-TRANSITIVE";
 const DOC_POINTER =
   "docs/guardrails/BOUNDARY_ENFORCEMENT.md#e1-boundary-transitive";
 
+const MAX_BUFFER_BYTES = 16 * 1024 * 1024; // keep modest; we avoid giant outputs now
+
 function sh(cmd) {
   return execSync(cmd, {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
+    maxBuffer: MAX_BUFFER_BYTES,
   }).trim();
 }
 
@@ -24,119 +27,6 @@ function exists(p) {
     return true;
   } catch {
     return false;
-  }
-}
-
-function printFailure({
-  violations,
-  lockHits,
-  workspaceProtocolHits,
-  gitUrlHits,
-}) {
-  console.log(
-    `❌ Guardrails: Transitive dependency boundary (${RULE_ID}): ${violations.length} violation(s)\n`,
-  );
-
-  for (const v of violations) {
-    console.log(`- package: ${v.pkg}`);
-    console.log(`  chain: ${v.chain.join(" -> ")}`);
-  }
-
-  if (workspaceProtocolHits.length) {
-    console.log(
-      `\n- workspace protocol references detected (review for indirection risk):`,
-    );
-    for (const h of workspaceProtocolHits) console.log(`  - ${h}`);
-  }
-
-  if (gitUrlHits.length) {
-    console.log(
-      `\n- git URL dependencies detected (must not resolve to forbidden roots):`,
-    );
-    for (const h of gitUrlHits) console.log(`  - ${h}`);
-  }
-
-  if (lockHits.length) {
-    console.log(`\n- lockfile forbidden-origin indicators:`);
-    for (const h of lockHits) console.log(`  - ${h}`);
-  }
-
-  console.log(`\nHow to comply (one paragraph):`);
-  console.log(
-    `Remove any direct or transitive dependency that originates from forbidden platform/IP roots. ` +
-      `Avoid workspace:* indirection that points to forbidden namespaces, avoid git/url deps mapping to platform repos, ` +
-      `and remove any vendored package that resolves back to forbidden roots. Re-run locally with: ` +
-      `"pnpm install --frozen-lockfile && node scripts/guardrails/e1-boundary-transitive.mjs".`,
-  );
-
-  console.log(`\nCanonical doc: ${DOC_POINTER}`);
-  process.exit(1);
-}
-
-function printSuccess() {
-  console.log(
-    `✅ Guardrails: Transitive dependency boundary (${RULE_ID}): no findings`,
-  );
-}
-
-const FORBIDDEN_NAME_PREFIXES = ["@scientia/"];
-
-const FORBIDDEN_NAME_EXACT = new Set(["scientia-platform"]);
-
-// Additional forbidden path-like indicators (lockfile / URLs)
-const FORBIDDEN_ORIGIN_MARKERS = [
-  "digital-hooligan/scientia-platform",
-  "scientia-platform",
-  "/packages/foundations",
-  "/packages/auth",
-  "/packages/db",
-  "/packages/audit",
-  "/packages/evidence",
-  "/packages/feature-flags",
-  "/packages/observability",
-  "/packages/engine",
-  "/engines/",
-];
-
-function isForbiddenPkgName(name) {
-  if (!name) return false;
-  if (FORBIDDEN_NAME_EXACT.has(name)) return true;
-  for (const p of FORBIDDEN_NAME_PREFIXES) {
-    if (name.startsWith(p)) return true;
-  }
-  return false;
-}
-
-/**
- * Build dependency tree via pnpm. Deterministic because it runs after frozen install.
- * We rely on `pnpm list --json` output and walk the graph to find forbidden package names.
- */
-function getPnpmListJson() {
-  // Ensure pnpm exists and deps installed
-  const raw = sh("pnpm list --json --depth 50");
-  const parsed = JSON.parse(raw);
-
-  // pnpm returns array for workspace; single object for single project
-  return Array.isArray(parsed) ? parsed : [parsed];
-}
-
-function walkTree(node, chain, violations) {
-  const name = node?.name;
-  if (name && isForbiddenPkgName(name)) {
-    violations.push({ pkg: name, chain: [...chain, name] });
-    // keep walking to show additional hits if nested
-  }
-
-  const deps = node?.dependencies || {};
-  for (const depName of Object.keys(deps)) {
-    const child = deps[depName];
-    // pnpm list uses object values with `name` fields sometimes missing; normalize
-    const childName = child?.name || depName;
-    walkTree(
-      { ...child, name: childName },
-      [...chain, node?.name || "<root>"],
-      violations,
-    );
   }
 }
 
@@ -174,55 +64,180 @@ function scanPackageJsonForIndirection() {
   return { hitsWorkspace, hitsGit };
 }
 
-function scanLockfileForForbiddenOrigins() {
-  const lockPath = path.resolve("pnpm-lock.yaml");
-  if (!exists(lockPath)) return [];
-  const txt = readText(lockPath);
+// forbidden name roots
+const FORBIDDEN_EXACT = new Set(["scientia-platform"]);
+const FORBIDDEN_PREFIXES = ["@scientia/"];
+
+// forbidden “origin” markers (URLs/paths) that imply coupling even if the name is disguised
+const FORBIDDEN_ORIGIN_MARKERS = [
+  "digital-hooligan/scientia-platform",
+  "scientia-platform",
+  "/packages/foundations",
+  "/packages/auth",
+  "/packages/db",
+  "/packages/audit",
+  "/packages/evidence",
+  "/packages/feature-flags",
+  "/packages/observability",
+  "/packages/engine",
+  "/engines/",
+];
+
+// Extract forbidden package names from pnpm-lock.yaml text without parsing YAML.
+function findForbiddenNamesInLockText(lockText) {
+  const found = new Set();
+
+  // exact
+  if (lockText.includes("scientia-platform")) found.add("scientia-platform");
+
+  // prefix matches: @scientia/<name>
+  const rx = /\b@scientia\/[a-zA-Z0-9._-]+\b/g;
+  const matches = lockText.match(rx) || [];
+  for (const m of matches) found.add(m);
+
+  // Normalize out false positives like references in comments by requiring it to appear in a key-ish context too.
+  // (Lightweight check: also accept if found anywhere; enforcement errs safe.)
+  return [...found].filter(Boolean);
+}
+
+function findForbiddenOriginsInLockText(lockText) {
   const hits = [];
-
   for (const marker of FORBIDDEN_ORIGIN_MARKERS) {
-    if (txt.includes(marker)) hits.push(`pnpm-lock.yaml contains "${marker}"`);
+    if (lockText.includes(marker))
+      hits.push(`pnpm-lock.yaml contains "${marker}"`);
   }
-
-  // crude detection of git tarballs / repo refs
-  if (txt.includes("github.com:"))
+  // also flag presence of git-based resolution (needs manual review if present)
+  if (lockText.includes("git+"))
+    hits.push(`pnpm-lock.yaml contains "git+" (review for forbidden origins)`);
+  if (lockText.includes("github.com:"))
     hits.push(
       `pnpm-lock.yaml contains "github.com:" (review for forbidden origins)`,
     );
-  if (txt.includes("git+"))
-    hits.push(`pnpm-lock.yaml contains "git+" (review for forbidden origins)`);
-
   return hits;
+}
+
+function isForbiddenPkgName(name) {
+  if (!name) return false;
+  if (FORBIDDEN_EXACT.has(name)) return true;
+  for (const p of FORBIDDEN_PREFIXES) if (name.startsWith(p)) return true;
+  return false;
+}
+
+/**
+ * Produce a deterministic “dependency chain” using pnpm why.
+ * We keep output small by capturing only a short excerpt.
+ */
+function dependencyChainExcerpt(pkgName) {
+  try {
+    const out = sh(`pnpm why --filter . "${pkgName}"`);
+    const lines = out.split(/\r?\n/).slice(0, 30);
+    return lines.join("\n");
+  } catch (e) {
+    const msg = String(
+      e?.stderr?.toString?.() || e?.message || e || "unknown error",
+    );
+    return `pnpm why failed for "${pkgName}" (truncated): ${msg.slice(0, 400)}...`;
+  }
+}
+
+function fail({
+  forbiddenPkgs,
+  originHits,
+  workspaceProtocolHits,
+  gitUrlHits,
+}) {
+  console.log(
+    `❌ Guardrails: Transitive dependency boundary (${RULE_ID}): ${forbiddenPkgs.length + originHits.length} finding(s)\n`,
+  );
+
+  if (forbiddenPkgs.length) {
+    console.log(`Resolved forbidden package name(s):`);
+    for (const p of forbiddenPkgs) console.log(`- ${p}`);
+  }
+
+  if (originHits.length) {
+    console.log(`\nForbidden-origin indicator(s):`);
+    for (const h of originHits) console.log(`- ${h}`);
+  }
+
+  if (workspaceProtocolHits.length) {
+    console.log(
+      `\nworkspace:* indirection present (review for forbidden mapping):`,
+    );
+    for (const h of workspaceProtocolHits) console.log(`- ${h}`);
+  }
+
+  if (gitUrlHits.length) {
+    console.log(
+      `\ngit/url dependency spec present (must not resolve to forbidden roots):`,
+    );
+    for (const h of gitUrlHits) console.log(`- ${h}`);
+  }
+
+  // Dependency chain requirement: show “who pulled it in”
+  if (forbiddenPkgs.length) {
+    console.log(`\nDependency chain (who pulled it in):`);
+    for (const p of forbiddenPkgs) {
+      console.log(`\n=== pnpm why ${p} ===`);
+      console.log(dependencyChainExcerpt(p));
+    }
+  }
+
+  console.log(`\nHow to comply:`);
+  console.log(
+    `Remove any direct or transitive dependency that originates from forbidden platform/IP roots. ` +
+      `Replace upstream packages that pull forbidden namespaces, remove workspace:* indirection that maps to forbidden roots, ` +
+      `and remove git/url deps or vendored packages that resolve back to scientia-platform or @scientia/* internals. ` +
+      `Re-run locally with: "pnpm install --frozen-lockfile && node scripts/guardrails/e1-boundary-transitive.mjs".`,
+  );
+
+  console.log(`\nCanonical doc: ${DOC_POINTER}`);
+  process.exit(1);
+}
+
+function ok() {
+  console.log(
+    `✅ Guardrails: Transitive dependency boundary (${RULE_ID}): no findings`,
+  );
 }
 
 function main() {
   const { hitsWorkspace, hitsGit } = scanPackageJsonForIndirection();
 
-  const list = getPnpmListJson();
-  const violations = [];
-
-  for (const root of list) {
-    const rootName = root?.name || "<workspace>";
-    walkTree(root, [rootName], violations);
+  const lockPath = path.resolve("pnpm-lock.yaml");
+  if (!exists(lockPath)) {
+    console.log(
+      `❌ Guardrails: Transitive dependency boundary (${RULE_ID}): tool failure\n`,
+    );
+    console.log(
+      `pnpm-lock.yaml not found. This repo must use pnpm-lock.yaml for deterministic enforcement.`,
+    );
+    console.log(`Canonical doc: ${DOC_POINTER}`);
+    process.exit(1);
   }
 
-  const lockHits = scanLockfileForForbiddenOrigins();
+  const lockText = readText(lockPath);
 
-  // Fail if forbidden package names found in resolved graph OR forbidden origins indicated in lockfile.
+  const forbiddenNames =
+    findForbiddenNamesInLockText(lockText).filter(isForbiddenPkgName);
+  const originHits = findForbiddenOriginsInLockText(lockText);
+
+  // Deterministic pass: no forbidden names and no forbidden origin markers
   if (
-    violations.length > 0 ||
-    lockHits.some((h) => h.includes("digital-hooligan/scientia-platform"))
+    forbiddenNames.length === 0 &&
+    originHits.filter((h) => h.includes("digital-hooligan/scientia-platform"))
+      .length === 0
   ) {
-    printFailure({
-      violations,
-      lockHits,
-      workspaceProtocolHits: hitsWorkspace,
-      gitUrlHits: hitsGit,
-    });
+    ok();
     return;
   }
 
-  printSuccess();
+  fail({
+    forbiddenPkgs: forbiddenNames,
+    originHits,
+    workspaceProtocolHits: hitsWorkspace,
+    gitUrlHits: hitsGit,
+  });
 }
 
 main();
