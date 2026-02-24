@@ -13,7 +13,9 @@
     "env:check": "node tooling/env-contract/validate.mjs --mode=check",
     "env:validate:local": "node tooling/env-contract/validate.mjs --mode=runtime --tier=local",
     "env:validate:preview": "node tooling/env-contract/validate.mjs --mode=runtime --tier=preview",
-    "env:validate:production": "node tooling/env-contract/validate.mjs --mode=runtime --tier=production"
+    "env:validate:production": "node tooling/env-contract/validate.mjs --mode=runtime --tier=production",
+    "guardrails:e1": "node scripts/guardrails/scan-prohibited-patterns.mjs",
+    "guardrails:e1:test": "node --test scripts/guardrails/tests/*.test.mjs"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.0.1",
