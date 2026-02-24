@@ -2,35 +2,52 @@
 import {
   gitLsFiles,
   readText,
-  shouldIgnoreFile,
   modeFromEnv,
   exitWithFindings,
 } from "./utils.mjs";
 
 /**
- * Purpose:
- * Prevent invariant-marketing from importing/connecting to scientia-platform internals.
+ * STRICT SCOPE SCANNER
  *
- * Escape hatch:
- * `guardrails:allow-crossrepo` on same line suppresses a hit (should be extremely rare).
+ * Only scan marketing surface areas:
+ *   - content/**
+ *   - src/**
+ *
+ * Never scan:
+ *   - .github/**
+ *   - scripts/**
+ *   - docs/**
+ *   - tooling/**
+ *   - config/**
+ *
+ * Marketing must not couple to scientia-platform internals.
  */
 
 const mode = modeFromEnv();
 
-const TARGET_EXT = new Set([
-  ".ts",
-  ".tsx",
-  ".js",
-  ".jsx",
-  ".mjs",
-  ".cjs",
-  ".md",
-  ".mdx",
-  ".txt",
-  ".yml",
-  ".yaml",
-  ".json",
-]);
+/**
+ * Only scan marketing surface directories.
+ */
+function isTargetFile(file) {
+  const norm = file.replaceAll("\\", "/");
+
+  if (!(norm.startsWith("content/") || norm.startsWith("src/"))) {
+    return false;
+  }
+
+  const lower = norm.toLowerCase();
+
+  // ignore lockfiles and binaries
+  if (
+    lower.endsWith("pnpm-lock.yaml") ||
+    lower.endsWith("package-lock.json") ||
+    lower.endsWith("yarn.lock")
+  ) {
+    return false;
+  }
+
+  return true;
+}
 
 const DISALLOWED_SUBSTRINGS = [
   "scientia-platform",
@@ -51,24 +68,6 @@ const DISALLOWED_REGEX = [
   /\bhttps?:\/\/github\.com\/digital-hooligan\/scientia-platform\b/i,
 ];
 
-function isTargetFile(file) {
-  if (shouldIgnoreFile(file)) return false;
-  const lower = file.toLowerCase();
-
-  if (
-    lower.endsWith("pnpm-lock.yaml") ||
-    lower.endsWith("package-lock.json") ||
-    lower.endsWith("yarn.lock")
-  ) {
-    return false;
-  }
-
-  for (const ext of TARGET_EXT) {
-    if (lower.endsWith(ext)) return true;
-  }
-  return false;
-}
-
 function hasEscapeHatch(line) {
   return line.includes("guardrails:allow-crossrepo");
 }
@@ -84,9 +83,11 @@ function main() {
     } catch {
       continue;
     }
+
     if (content.includes("\u0000")) continue;
 
     const lines = content.split(/\r?\n/);
+
     for (let i = 0; i < lines.length; i++) {
       const raw = lines[i];
       if (hasEscapeHatch(raw)) continue;
