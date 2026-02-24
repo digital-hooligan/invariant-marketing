@@ -26,15 +26,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Activate pnpm from packageManager
+        shell: bash
+        run: |
+          set -euo pipefail
+          PM="$(node -p "require('./package.json').packageManager || ''")"
+          echo "packageManager: ${PM}"
+          if [[ "${PM}" =~ ^pnpm@([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            VER="${BASH_REMATCH[1]}"
+            echo "Activating pnpm@${VER} via Corepack"
+            corepack prepare "pnpm@${VER}" --activate
+          else
+            echo "No packageManager pnpm@x.y.z found; defaulting to pnpm@9.0.0"
+            corepack prepare "pnpm@9.0.0" --activate
+          fi
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
