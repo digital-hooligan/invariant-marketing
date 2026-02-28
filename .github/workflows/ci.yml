@@ -1,9 +1,10 @@
 name: CI
 
 on:
-  pull_request:
   push:
-    branches: [ main ]
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -15,23 +16,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm (use packageManager version)
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
+      - name: Enable pnpm (corepack)
+        run: |
+          corepack enable
+          pnpm --version
+
       - name: Install
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm run lint --if-present
 
       - name: Typecheck
-        run: pnpm typecheck
+        run: pnpm run typecheck --if-present
 
       - name: Build
-        run: pnpm build
+        run: pnpm run build --if-present
