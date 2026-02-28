@@ -1,38 +1,37 @@
-name: Build
+name: build
 
 on:
-  pull_request:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: pnpm
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Enable pnpm (corepack)
+        run: |
+          corepack enable
+          pnpm --version
 
-      - name: Install pnpm (from packageManager)
-        run: corepack install
-
-      - name: Verify pnpm
-        run: pnpm --version
-
-      - name: Install dependencies
+      - name: Install
         run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
 
       - name: Build
         run: pnpm build
