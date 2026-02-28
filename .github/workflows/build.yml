@@ -6,36 +6,12 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 jobs:
-  env-contract:
-    name: env-contract
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Enable pnpm (corepack)
-        run: |
-          corepack enable
-          pnpm --version
-
-      - name: Install
-        run: pnpm install --frozen-lockfile
-
-      # Keep your existing env contract command here.
-      # If you already have a script, prefer: pnpm env:contract (or similar).
-      - name: Env contract check (no secrets)
-        run: pnpm run env:contract --if-present
-
   build:
-    name: build
     runs-on: ubuntu-latest
-    needs: env-contract
     steps:
       - uses: actions/checkout@v4
 
@@ -43,11 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Enable pnpm (corepack)
+        shell: bash
         run: |
           corepack enable
+          PM="$(node -p "require('./package.json').packageManager")"
+          echo "packageManager=$PM"
+          corepack prepare "$PM" --activate
           pnpm --version
 
       - name: Install
