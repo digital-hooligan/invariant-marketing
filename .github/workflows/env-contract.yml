@@ -1,9 +1,13 @@
 name: env-contract
 
 on:
-  pull_request:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   env-contract:
@@ -12,16 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # NOTE: Do NOT use setup-node cache here; it can fail trying to locate npm.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 20
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: "9.0.0"
+      - name: Enable pnpm (corepack)
+        shell: bash
+        run: |
+          corepack enable
+          PM="$(node -p "require('./package.json').packageManager")"
+          echo "packageManager=$PM"
+          corepack prepare "$PM" --activate
+          pnpm --version
 
       - name: Resolve pnpm store path
         id: pnpm-store
