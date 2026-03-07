@@ -90,21 +90,21 @@ export default async function HomePage() {
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h1 className="text-[32px] md:text-[48px] leading-[1.1] font-semibold text-[var(--mk-color-text)]">
-                Structure for decisions that actually move the work forward.
+                Decisions deserve better systems.
               </h1>
 
               <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-                Invariant helps teams reduce execution drift by clarifying what
-                matters, defining scope, and shipping in controlled increments.
+                Organizations collect signals everywhere: documents, dashboards,
+                meetings, and chat threads. The decisions those signals should
+                inform often remain scattered and unclear.
               </p>
 
               <div className="text-[14px] leading-[1.5] text-[var(--mk-color-text-muted)] max-w-[80ch] flex flex-col gap-2">
                 <p>
-                  Human-led engagements. No automation. No predictive systems.
+                  Scientia introduces a decision-centric operating model.
                 </p>
                 <p>
-                  Invariant is a consulting studio. We do not provide software
-                  platforms or automated decision systems.
+                  Scientia.io provides the platform that runs that model.
                 </p>
               </div>
             </div>
@@ -121,37 +121,34 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-col gap-8">
             <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              How the work stays grounded
+              Why This Matters
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Structured Thinking
+                  Clarity
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Decisions are framed with explicit constraints, assumptions,
-                  and review points.
+                  Decisions are visible and understandable.
                 </p>
               </div>
 
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Operator-Led Delivery
+                  Traceability
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Work is led by humans with accountable execution—no delegated
-                  “autonomy” claims.
+                  Evidence and reasoning remain attached to outcomes.
                 </p>
               </div>
 
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Defined Scope Discipline
+                  Accountability
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Engagements follow defined scopes and written agreements.
-                  Outcomes depend on client participation and constraints.
+                  Teams know how and why choices were made.
                 </p>
               </div>
             </div>
@@ -164,24 +161,24 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-col gap-6">
             <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              When work loses structure, decisions decay
+              The Problem
             </h2>
 
             <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              Most teams don’t lack tools. They lack a stable decision surface:
-              clear constraints, review cadence, and ownership. Without that,
-              execution drifts and priorities reshuffle faster than the work can
-              ship.
+              Modern work generates signals, but decisions still disappear.
+              Teams gather information constantly, yet the surrounding context
+              is often lost when decisions happen.
             </p>
 
             <ul className="list-disc pl-6 text-[16px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
-              <li>Meetings replace movement</li>
-              <li>Tools multiply without clarity</li>
-              <li>Decisions decay without review</li>
+              <li>Decisions without clear evidence</li>
+              <li>Repeated mistakes because context disappears</li>
+              <li>Teams debating the same issues again</li>
+              <li>No traceable reasoning behind important choices</li>
             </ul>
 
             <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              We do not replace executive judgment. We structure it.
+              Organizations accumulate data, but not decision clarity.
             </p>
           </div>
         </Container>
@@ -192,44 +189,44 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-col gap-8">
             <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              A simple operating pattern
+              A Decision-Centric Operating Model
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Define the decision surface
+                  Signals
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Clarify what must be decided, by whom, and under what
-                  constraints.
+                  Incoming information and evidence are structured instead of
+                  remaining scattered across tools.
                 </p>
               </div>
 
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Clarify constraints
+                  Context
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Make tradeoffs explicit early so execution doesn’t collapse
-                  later.
+                  Decisions stay connected to historical and situational
+                  understanding.
                 </p>
               </div>
 
               <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Align execution
+                  Decisions
                 </h3>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Convert decisions into scoped increments that can ship and be
-                  reviewed.
+                  Choices become first-class objects linked to evidence,
+                  context, and execution.
                 </p>
               </div>
             </div>
 
             <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Delivered through defined consulting engagements, not software
-              deployment.
+              This creates a continuous chain from signal to context to
+              decision to execution.
             </p>
           </div>
         </Container>
@@ -240,48 +237,50 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-col gap-8">
             <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Engagement flow
+              The Platform That Implements the Model
             </h2>
 
             <ol className="grid grid-cols-1 md:grid-cols-3 gap-6 list-decimal pl-6 md:pl-0">
               <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 1
+                  Element 1
                 </div>
                 <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Conversation
+                  Signals
                 </div>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Exploratory. Not legal/financial/compliance advice.
+                  Structure incoming signals and preserve evidence.
                 </p>
               </li>
 
               <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 2
+                  Element 2
                 </div>
                 <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Scope &amp; Proposal
+                  Context
                 </div>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Define constraints, deliverables, and review cadence before
-                  work begins.
+                  Maintain continuity around events and discussions.
                 </p>
               </li>
 
               <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
                 <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 3
+                  Element 3
                 </div>
                 <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Build &amp; Ship
+                  Decisions
                 </div>
                 <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Structured execution with scoped increments and documented
-                  decisions.
+                  Record and govern decisions with evidence and reasoning.
                 </p>
               </li>
             </ol>
+            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
+              Execution is instrumented so actions connected to decisions remain
+              visible over time.
+            </p>
           </div>
         </Container>
       </Section>
@@ -291,17 +290,19 @@ export default async function HomePage() {
         <Container>
           <div className="flex flex-col gap-6 items-start">
             <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Start a Conversation
+              Move from scattered signals to structured decisions
             </h2>
 
             <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              We’ll review your inquiry and respond within X business days.
+              Scientia defines the model. Scientia.io is the platform that
+              implements it. Explore how the system works in practice.
             </p>
 
             <PrimaryCta fullWidthOnMobile />
 
             <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Subject to scope review and mutual fit.
+              Digital Hooligan LLC created the Scientia system and the
+              Scientia.io platform.
             </p>
           </div>
         </Container>

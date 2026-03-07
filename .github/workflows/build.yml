@@ -1,16 +1,16 @@
-name: env-contract
+name: build
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
 
 permissions:
   contents: read
 
 jobs:
-  env-contract:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,22 +30,14 @@ jobs:
           corepack prepare "$PM" --activate
           pnpm --version
 
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: |
-          echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Env contract check (no secrets)
-        run: pnpm run env:check
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build
+        run: pnpm run build
