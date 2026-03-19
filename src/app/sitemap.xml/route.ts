@@ -12,6 +12,7 @@ function xmlEscape(s: string) {
 export function GET() {
   const staticRoutes = [
     "/",
+    "/cohort",
     ...TOP_LEVEL_SLUGS.map((s) => `/${s}`),
     "/case-studies",
     "/legal",
