@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { SiteSettings } from "@/content/siteSettings";
+import { TrackedLink } from "@/components/analytics/PublicAnalytics";
 
 export function SiteFooter({ settings }: { settings: SiteSettings }) {
   return (
@@ -10,14 +10,16 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
       >
         <nav className="flex flex-wrap gap-4 text-sm">
           {settings.footerNav.map((item) => (
-            <Link
+            <TrackedLink
               key={item.href}
               href={item.href}
-              className="hover:underline"
-              style={{ color: "var(--mk-color-text)" }}
+              event="public_nav_click"
+              label={item.label}
+              location="footer_nav"
+              className="hover:underline text-[var(--mk-color-text)]"
             >
               {item.label}
-            </Link>
+            </TrackedLink>
           ))}
         </nav>
         <div

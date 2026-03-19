@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { SiteSettings } from "@/content/siteSettings";
+import { TrackedLink } from "@/components/analytics/PublicAnalytics";
 
 export function SiteHeader({ settings }: { settings: SiteSettings }) {
   return (
@@ -8,35 +8,47 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
         className="mx-auto w-full px-6 py-4 flex items-center justify-between gap-6"
         style={{ maxWidth: "var(--mk-layout-content-max)" }}
       >
-        <Link
+        <TrackedLink
           href="/"
+          event="public_nav_click"
+          label="Scientia.io"
+          location="header_brand"
           className="font-semibold no-underline text-[var(--mk-color-text)]"
         >
-          Invariant
-        </Link>
+          Scientia.io
+        </TrackedLink>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm">
           {settings.mainNav.map((item) => (
-            <Link
+            <TrackedLink
               key={item.href}
               href={item.href}
+              event="public_nav_click"
+              label={item.label}
+              location="header_nav"
               className="hover:underline text-[var(--mk-color-text)]"
             >
               {item.label}
-            </Link>
+            </TrackedLink>
           ))}
         </nav>
 
         <div className="flex items-center gap-3 text-sm">
-          <Link
+          <TrackedLink
             href={settings.secondaryCtaHref}
+            event="public_cta_click"
+            label={settings.secondaryCtaLabel}
+            location="header_secondary"
             className="hover:underline text-[var(--mk-color-text)]"
           >
             {settings.secondaryCtaLabel}
-          </Link>
+          </TrackedLink>
 
-          <Link
+          <TrackedLink
             href={settings.primaryCtaHref}
+            event="public_cta_click"
+            label={settings.primaryCtaLabel}
+            location="header_primary"
             className={[
               "inline-flex items-center justify-center",
               "min-h-[44px]",
@@ -53,7 +65,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
             ].join(" ")}
           >
             {settings.primaryCtaLabel}
-          </Link>
+          </TrackedLink>
         </div>
       </div>
     </header>

@@ -1,12 +1,67 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import { TrackedLink } from "@/components/analytics/PublicAnalytics";
+import { MkCard } from "@/components/mk/MkCard";
+import { MkSection } from "@/components/mk/MkSection";
+import { PUBLIC_ENTRY_POINTS } from "@/content/publicEntries";
 import { getHomePage } from "@/content/pages";
 
-const PRIMARY_CTA_LABEL = "Start a Conversation";
+const PRIMARY_CTA_LABEL = "Schedule a Strategy Call";
 const PRIMARY_CTA_HREF = "/contact";
+const SECONDARY_CTA_LABEL = "Read Security Posture";
+const SECONDARY_CTA_HREF = "/security";
+
+const AUDIENCE_GROUPS = [
+  {
+    title: "Operators and program leads",
+    body: "Teams that need decisions to remain legible across handoffs, reviews, and execution follow-through.",
+  },
+  {
+    title: "Executives and governance owners",
+    body: "Leaders who need a durable record of what was decided, why it was decided, and what evidence supported it.",
+  },
+  {
+    title: "Security, compliance, and trust evaluators",
+    body: "Reviewers who need clear public boundaries, auditability language, and a trustworthy entry path before private access is granted.",
+  },
+] as const;
+
+const SYSTEM_MODULES = [
+  {
+    title: "Signals",
+    body: "Incoming information is collected as evidence instead of disappearing into isolated tools and threads.",
+  },
+  {
+    title: "Context",
+    body: "The surrounding history, constraints, and prior decisions remain connected to what teams are evaluating now.",
+  },
+  {
+    title: "Decisions",
+    body: "Important choices are treated as first-class objects with rationale, evidence, and accountable ownership.",
+  },
+  {
+    title: "Execution",
+    body: "Follow-through stays visible so the path from decision to action can be reviewed later.",
+  },
+] as const;
+
+const TRUST_PILLARS = [
+  {
+    title: "Evidence attached to outcomes",
+    body: "Scientia frames decisions around explicit evidence and reasoning rather than implied context or oral history.",
+  },
+  {
+    title: "Auditability without surface creep",
+    body: "The public site explains trust posture and qualified entry points without exposing app, admin, founder, or operator workflows.",
+  },
+  {
+    title: "Boundary-safe public entry",
+    body: "Docs, learning materials, and request-access paths live on the public surface while protected access remains provisioned privately.",
+  },
+] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await getHomePage();
+
   return {
     title: frontmatter.seo.title,
     description: frontmatter.seo.description,
@@ -19,294 +74,317 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function PrimaryCta({
-  fullWidthOnMobile = false,
-}: {
-  fullWidthOnMobile?: boolean;
-}) {
+function PrimaryCta({ location }: { location: string }) {
   return (
-    <Link
+    <TrackedLink
       href={PRIMARY_CTA_HREF}
+      event="public_cta_click"
+      label={PRIMARY_CTA_LABEL}
+      location={location}
       className={[
-        "inline-flex items-center justify-center",
-        "min-h-[44px]",
+        "inline-flex min-h-[44px] items-center justify-center",
         "rounded-[var(--mk-radius-md)]",
+        "bg-[var(--mk-color-cta)]",
         "px-6 py-4",
         "text-sm font-semibold",
-        "no-underline",
-        "bg-[var(--mk-color-cta)]",
-        "text-[var(--mk-color-bg)]",
-        "hover:bg-[var(--mk-color-cta-hover)]",
-        "transition-colors",
-        "duration-[120ms]",
+        "text-[var(--mk-color-bg)] no-underline",
+        "transition-colors duration-[120ms]",
         "ease-[cubic-bezier(0.2,0.8,0.2,1)]",
-        fullWidthOnMobile ? "w-full md:w-auto" : "",
+        "hover:bg-[var(--mk-color-cta-hover)]",
       ].join(" ")}
     >
       {PRIMARY_CTA_LABEL}
-    </Link>
+    </TrackedLink>
   );
 }
 
-function Section({
-  children,
-  dense = false,
-}: {
-  children: React.ReactNode;
-  dense?: boolean;
-}) {
+function SecondaryCta({ location }: { location: string }) {
   return (
-    <section
-      className={["w-full", dense ? "py-12 md:py-16" : "py-14 md:py-24"].join(
-        " ",
-      )}
+    <TrackedLink
+      href={SECONDARY_CTA_HREF}
+      event="public_cta_click"
+      label={SECONDARY_CTA_LABEL}
+      location={location}
+      className={[
+        "inline-flex min-h-[44px] items-center justify-center",
+        "rounded-[var(--mk-radius-md)] border",
+        "border-[var(--mk-color-border)]",
+        "px-6 py-4",
+        "text-sm font-semibold text-[var(--mk-color-text)] no-underline",
+        "transition-colors duration-[120ms]",
+        "ease-[cubic-bezier(0.2,0.8,0.2,1)]",
+        "hover:bg-[var(--mk-color-surface-1)]",
+      ].join(" ")}
     >
-      {children}
-    </section>
-  );
-}
-
-function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      className="mx-auto w-full px-6"
-      style={{ maxWidth: "var(--mk-layout-content-max)" }}
-    >
-      {children}
-    </div>
+      {SECONDARY_CTA_LABEL}
+    </TrackedLink>
   );
 }
 
 export default async function HomePage() {
-  // Preserve content source-of-truth loading (keeps content pipeline warm),
-  // but render the canon wireframe structure directly for "/" route.
   void (await getHomePage());
 
   return (
     <article className="w-full">
-      {/* SECTION 1 — HERO */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-4">
-              <h1 className="text-[32px] md:text-[48px] leading-[1.1] font-semibold text-[var(--mk-color-text)]">
-                Decisions deserve better systems.
-              </h1>
-
-              <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-                Organizations collect signals everywhere: documents, dashboards,
-                meetings, and chat threads. The decisions those signals should
-                inform often remain scattered and unclear.
+      <MkSection>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.85fr)] lg:items-end">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+                Public Scientia platform site v0.1
               </p>
-
-              <div className="text-[14px] leading-[1.5] text-[var(--mk-color-text-muted)] max-w-[80ch] flex flex-col gap-2">
-                <p>
-                  Scientia introduces a decision-centric operating model.
-                </p>
-                <p>
-                  Scientia.io provides the platform that runs that model.
-                </p>
-              </div>
+              <h1 className="text-[34px] font-semibold leading-[1.05] text-[var(--mk-color-text)] md:text-[56px]">
+                Decisions deserve a public surface that is clear, bounded, and
+                defensible.
+              </h1>
+              <p className="max-w-[70ch] text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
+                Scientia is the system. Scientia.io is the platform entry
+                surface. This site explains what the platform is, who it is
+                for, and how to reach documentation, learning material, login
+                onboarding, and request-access paths without exposing protected
+                workflows.
+              </p>
             </div>
 
-            <div className="flex">
-              <PrimaryCta fullWidthOnMobile />
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 2 — TRUST FRAME (3 Pillars) */}
-      <Section dense>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Why This Matters
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Clarity
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Decisions are visible and understandable.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Traceability
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Evidence and reasoning remain attached to outcomes.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Accountability
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Teams know how and why choices were made.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 3 — PROBLEM FRAMING */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-6">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              The Problem
-            </h2>
-
-            <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              Modern work generates signals, but decisions still disappear.
-              Teams gather information constantly, yet the surrounding context
-              is often lost when decisions happen.
-            </p>
-
-            <ul className="list-disc pl-6 text-[16px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
-              <li>Decisions without clear evidence</li>
-              <li>Repeated mistakes because context disappears</li>
-              <li>Teams debating the same issues again</li>
-              <li>No traceable reasoning behind important choices</li>
-            </ul>
-
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Organizations accumulate data, but not decision clarity.
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 4 — APPROACH OVERVIEW */}
-      <Section dense>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              A Decision-Centric Operating Model
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Signals
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Incoming information and evidence are structured instead of
-                  remaining scattered across tools.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Context
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Decisions stay connected to historical and situational
-                  understanding.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Decisions
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Choices become first-class objects linked to evidence,
-                  context, and execution.
-                </p>
-              </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <PrimaryCta location="home_hero_primary" />
+              <SecondaryCta location="home_hero_secondary" />
             </div>
 
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              This creates a continuous chain from signal to context to
-              decision to execution.
+            <p className="max-w-[72ch] text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+              The public site does not expose app, admin, founder, or operator
+              workflow functionality. It is the durable public entry layer for
+              trust, documentation, and qualified access.
             </p>
           </div>
-        </Container>
-      </Section>
 
-      {/* SECTION 5 — ENGAGEMENT FLOW (3-Step) */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              The Platform That Implements the Model
+          <MkCard>
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                  What this public surface covers
+                </h2>
+                <p className="mt-2 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                  Trust framing, system orientation, approved CTA paths, and
+                  public docs/learn/login entry points.
+                </p>
+              </div>
+
+              <div className="space-y-3 text-sm text-[var(--mk-color-text)]">
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3">
+                  Scientia defines the decision-centric system.
+                </div>
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3">
+                  Scientia.io provides the platform entry surface.
+                </div>
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3">
+                  Protected access is provisioned privately after qualification.
+                </div>
+              </div>
+            </div>
+          </MkCard>
+        </div>
+      </MkSection>
+
+      <MkSection tone="surface-1">
+        <div className="space-y-6">
+          <div className="max-w-[72ch] space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+              What Scientia is
+            </p>
+            <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+              A decision-centric system with a public platform entry layer.
             </h2>
-
-            <ol className="grid grid-cols-1 md:grid-cols-3 gap-6 list-decimal pl-6 md:pl-0">
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Element 1
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Signals
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Structure incoming signals and preserve evidence.
-                </p>
-              </li>
-
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Element 2
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Context
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Maintain continuity around events and discussions.
-                </p>
-              </li>
-
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Element 3
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Decisions
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Record and govern decisions with evidence and reasoning.
-                </p>
-              </li>
-            </ol>
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Execution is instrumented so actions connected to decisions remain
-              visible over time.
+            <p className="text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
+              Organizations already collect signals from documents, dashboards,
+              meetings, and chat threads. Scientia introduces the system for
+              structuring that information around accountable decisions.
+              Scientia.io is the platform surface where buyers, evaluators, and
+              approved users begin.
             </p>
           </div>
-        </Container>
-      </Section>
 
-      {/* SECTION 6 — CTA BLOCK */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-6 items-start">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Move from scattered signals to structured decisions
+          <div className="grid gap-6 md:grid-cols-3">
+            <MkCard>
+              <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                System
+              </h3>
+              <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                Scientia defines the operating model and the governance
+                language.
+              </p>
+            </MkCard>
+            <MkCard>
+              <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                Platform
+              </h3>
+              <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                Scientia.io provides the approved public entry and orientation
+                surface for that model.
+              </p>
+            </MkCard>
+            <MkCard>
+              <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                Boundary
+              </h3>
+              <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                Protected app and internal workflow functionality remain outside
+                this public site.
+              </p>
+            </MkCard>
+          </div>
+        </div>
+      </MkSection>
+
+      <MkSection>
+        <div className="space-y-6">
+          <div className="max-w-[72ch] space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+              Who it is for
+            </p>
+            <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+              Teams that need trust before private access.
             </h2>
+          </div>
 
-            <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              Scientia defines the model. Scientia.io is the platform that
-              implements it. Explore how the system works in practice.
+          <div className="grid gap-6 md:grid-cols-3">
+            {AUDIENCE_GROUPS.map((group) => (
+              <MkCard key={group.title}>
+                <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                  {group.title}
+                </h3>
+                <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                  {group.body}
+                </p>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      <MkSection tone="surface-1">
+        <div className="space-y-6">
+          <div className="max-w-[72ch] space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+              System overview
             </p>
+            <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+              The public model is simple: signals, context, decisions, and
+              execution stay connected.
+            </h2>
+          </div>
 
-            <PrimaryCta fullWidthOnMobile />
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {SYSTEM_MODULES.map((module) => (
+              <MkCard key={module.title}>
+                <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                  {module.title}
+                </h3>
+                <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                  {module.body}
+                </p>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
 
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Digital Hooligan LLC created the Scientia system and the
-              Scientia.io platform.
+      <MkSection>
+        <div className="space-y-6">
+          <div className="max-w-[72ch] space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+              Trust, evidence, and auditability
+            </p>
+            <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+              Public trust comes from explicit boundaries and durable evidence
+              language.
+            </h2>
+            <p className="text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
+              The site frames Scientia around evidence, traceability, and
+              accountability. It deliberately avoids exposing internal operator
+              mechanics or implying that private administrative surfaces are
+              public.
             </p>
           </div>
-        </Container>
-      </Section>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {TRUST_PILLARS.map((pillar) => (
+              <MkCard key={pillar.title}>
+                <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                  {pillar.title}
+                </h3>
+                <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                  {pillar.body}
+                </p>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      <MkSection tone="surface-1">
+        <div className="space-y-6">
+          <div className="max-w-[72ch] space-y-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+              Docs, learn, and login entry
+            </p>
+            <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+              Approved public entry points without workflow leakage.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {PUBLIC_ENTRY_POINTS.map((entry) => (
+              <MkCard key={entry.title}>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                      {entry.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                      {entry.description}
+                    </p>
+                  </div>
+                  <TrackedLink
+                    href={entry.href}
+                    event="public_entry_click"
+                    label={entry.label}
+                    location="home_entry_grid"
+                    className="inline-flex text-sm font-semibold text-[var(--mk-color-link)]"
+                  >
+                    {entry.label}
+                  </TrackedLink>
+                </div>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      <MkSection>
+        <div className="rounded-[var(--mk-radius-lg)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-8 md:p-10">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-[64ch] space-y-3">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+                CTA paths
+              </p>
+              <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
+                Start with public review, then move into qualified access.
+              </h2>
+              <p className="text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
+                Use the public docs and learning pages to evaluate fit, then use
+                the approved request-access path to schedule a strategy call or
+                begin private onboarding.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <PrimaryCta location="home_final_primary" />
+              <SecondaryCta location="home_final_secondary" />
+            </div>
+          </div>
+        </div>
+      </MkSection>
     </article>
   );
 }
