@@ -2,15 +2,16 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { PageViewTracker } from "@/components/analytics/PublicAnalytics";
 import { getSiteSettings } from "@/content/siteSettings";
 
 export const metadata: Metadata = {
   title: {
-    default: "Invariant",
-    template: "%s | Invariant",
+    default: "Scientia.io",
+    template: "%s | Scientia.io",
   },
   description:
-    "Evidence-first operating posture. Clear boundaries. Defensible decisions.",
+    "Scientia is the system. Scientia.io is the public platform surface for trust, documentation, and qualified entry.",
 };
 
 export default function RootLayout({
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
+        <PageViewTracker />
         <SiteHeader settings={settings} />
         <main className="flex-1">
           <div className="mx-auto max-w-5xl px-6 py-10">{children}</div>
