@@ -1,18 +1,7 @@
 import "server-only";
 
 import nodemailer from "nodemailer";
-
-export type ContactIntakeSource = "contact" | "cohort";
-
-export type ContactIntakePayload = {
-  source: ContactIntakeSource;
-  name: string;
-  email: string;
-  organization?: string;
-  role?: string;
-  timeline?: string;
-  message: string;
-};
+import type { ContactSubmissionPayload } from "@/lib/contact-submission";
 
 function requireContactIntakeEnv(key: string) {
   const value = process.env[key];
@@ -38,30 +27,35 @@ function createTransport() {
   });
 }
 
-function buildSubject({ source, name }: ContactIntakePayload) {
-  return source === "cohort"
-    ? `New cohort intake from ${name}`
-    : `New contact intake from ${name}`;
+function getFounderInboxEmail() {
+  return (
+    process.env.CONTACT_INBOX_TO?.trim() ||
+    process.env.FOUNDER_INBOX_EMAIL?.trim() ||
+    requireContactIntakeEnv("CONTACT_INBOX_TO")
+  );
 }
 
-function buildTextBody(payload: ContactIntakePayload) {
+function buildSubject({ name }: ContactSubmissionPayload) {
+  return `New contact submission - ${name}`;
+}
+
+function buildTextBody(payload: ContactSubmissionPayload) {
   const fields = [
-    `Source: ${payload.source}`,
+    "Contact submission received",
+    "",
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,
-    `Organization: ${payload.organization || "Not provided"}`,
-    `Role: ${payload.role || "Not provided"}`,
-    `Timeline: ${payload.timeline || "Not provided"}`,
+    `Company or role: ${payload.companyOrRole || "Not provided"}`,
     "",
-    "Message",
+    "Context:",
     payload.message,
   ];
 
   return fields.join("\n");
 }
 
-export async function deliverContactIntake(payload: ContactIntakePayload) {
-  const founderInbox = requireContactIntakeEnv("FOUNDER_INBOX_EMAIL");
+export async function deliverContactIntake(payload: ContactSubmissionPayload) {
+  const founderInbox = getFounderInboxEmail();
   const fromEmail = requireContactIntakeEnv("CONTACT_INTAKE_FROM_EMAIL");
   const transport = createTransport();
 

@@ -46,15 +46,17 @@ export function CohortApplicationForm() {
     setSubmitState("submitting");
 
     try {
-      const response = await fetch("/api/contact-intake", {
+      const companyOrRole = [form.role.trim(), form.team.trim()]
+        .filter(Boolean)
+        .join(" - ");
+
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          source: "cohort",
           name: form.name,
           email: form.email,
-          organization: form.team,
-          role: form.role,
+          companyOrRole,
           message: form.challenge,
         }),
       });
