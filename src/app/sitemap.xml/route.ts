@@ -13,8 +13,8 @@ export function GET() {
     "/",
     "/cohort",
     ...TOP_LEVEL_SLUGS.map((s) => `/${s}`),
+    ...LEGAL_DOC_SLUGS.map((s) => `/${s}`),
     "/legal",
-    ...LEGAL_DOC_SLUGS.map((s) => `/legal/${s}`),
   ];
 
   const routes = staticRoutes;
