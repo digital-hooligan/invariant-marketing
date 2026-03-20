@@ -1,34 +1,92 @@
 import type { Metadata } from "next";
-import { TrackedLink } from "@/components/analytics/PublicAnalytics";
+import { CohortApplicationForm } from "@/components/cohort/CohortApplicationForm";
 import { MkCard } from "@/components/mk/MkCard";
 import { MkSection } from "@/components/mk/MkSection";
 
-const PRIMARY_CTA_LABEL = "Request Cohort Access";
-const PRIMARY_CTA_HREF = "/contact";
-const SECONDARY_CTA_LABEL = "See the Broader Public Site";
-const SECONDARY_CTA_HREF = "/";
+const COHORT_CONTEXT = [
+  {
+    title: "What this is",
+    body: "A limited, working cohort for founders and operators who want clearer visibility into the work that drives their decisions. This is not a public release or open sign-up.",
+  },
+  {
+    title: "Who it is for",
+    body: "People actively running teams, reviewing priorities, and carrying real decision weight. It is a fit for builders who want signal, context, and honest feedback, not passive browsing.",
+  },
+  {
+    title: "Why now",
+    body: "Most teams are not short on effort. They are short on clarity. This cohort exists to work on that problem directly with a small group in real working conditions.",
+  },
+] as const;
 
-const IMPLEMENTATION_RULES = [
+const SHIFT_POINTS = [
+  "See what actually matters and what can wait.",
+  "Move with clearer context instead of reacting late.",
+  "Review work in a way that is easier to explain and trust.",
+] as const;
+
+const PARTICIPATION_GROUPS = [
   {
-    title: "Current role",
-    body: "This route is the temporary campaign and conversion surface for the current early cohort.",
+    title: "What you get",
+    items: [
+      "A structured way to view your work and decisions.",
+      "Clearer context around what is changing and why.",
+      "A working environment built to help you notice signals instead of chase them.",
+    ],
   },
   {
-    title: "Route placement",
-    body: "The cohort page lives at /cohort so the homepage can remain a separate long-term public site surface.",
+    title: "What is expected",
+    items: [
+      "Active participation, not passive access.",
+      "Comfort working inside something early and evolving.",
+      "Direct feedback on what is useful and what is not.",
+    ],
   },
   {
-    title: "Migration path",
-    body: "As the broader public site expands, /cohort stays a focused conversion endpoint instead of becoming a homepage substitute.",
+    title: "Access model",
+    items: [
+      "Limited seats for the current cohort.",
+      "Applications are reviewed as capacity allows.",
+      "Cohort size and timing are constrained, and placement is not immediate.",
+    ],
   },
+] as const;
+
+const TRUST_BLOCKS = [
+  {
+    title: "Early by design",
+    body: "This is an early-stage cohort experience, not a polished product launch. Expect something evolving, shaped through real use with a small group.",
+  },
+  {
+    title: "Selective on purpose",
+    body: "Not everyone should join. We are looking for founders, operators, and small teams who are actively doing the work and can benefit from clear visibility now.",
+  },
+  {
+    title: "What happens next",
+    body: "We review submissions on a rolling basis. Where there is a fit, we follow up with timing and next steps. This does not provide general access to a standalone product or platform.",
+  },
+] as const;
+
+const TRUST_STRIP = [
+  "Small, focused cohort",
+  "No hype or overpromises",
+  "Built for real operators",
+  "Clear visibility into next steps",
 ] as const;
 
 export const metadata: Metadata = {
   title: "Early Cohort",
   description:
-    "Temporary campaign and conversion surface for the current early cohort.",
+    "A launch-ready public conversion surface for the current Scientia early cohort.",
   alternates: { canonical: "/cohort" },
 };
+
+function SectionEyebrow({ children }: { children: string }) {
+  return (
+    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
+      {children}
+    </p>
+  );
+}
 
 export default function CohortPage() {
   return (
@@ -49,103 +107,204 @@ export default function CohortPage() {
         }}
       />
 
-      <article className="w-full">
+      <article className="w-full overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(0,229,255,0.14),transparent_28%),linear-gradient(180deg,#0b0f14_0%,#0e1420_100%)]">
         <MkSection>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(280px,0.7fr)] lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-start">
             <div className="space-y-6">
               <div className="space-y-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
-                  Early cohort
-                </p>
-                <h1 className="text-[34px] font-semibold leading-[1.05] text-[var(--mk-color-text)] md:text-[56px]">
-                  Request access to the current cohort.
+                <SectionEyebrow>Current early cohort</SectionEyebrow>
+                <h1 className="max-w-[12ch] text-[40px] font-semibold leading-[0.98] text-[var(--mk-color-text)] md:text-[72px]">
+                  Clarity, not more tools.
                 </h1>
-                <p className="max-w-[68ch] text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
-                  This page is the temporary campaign and conversion surface for
-                  the current early cohort. It exists to route qualified
-                  interest into a single request path without taking on homepage
-                  or broader public-site responsibilities.
+                <p className="max-w-[62ch] text-[18px] leading-[1.6] text-[var(--mk-color-text)] opacity-90 md:text-[20px]">
+                  A small, early cohort for founders and operators who want to
+                  see what actually matters in their work without adding more
+                  noise.
+                </p>
+                <p className="max-w-[64ch] text-sm leading-[1.8] text-[var(--mk-color-text-muted)]">
+                  Scientia is being introduced through a small cohort inside the
+                  broader RadixOS work. This page is the temporary public
+                  invitation for that cohort and nothing more.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <TrackedLink
-                  href={PRIMARY_CTA_HREF}
-                  event="public_cta_click"
-                  label={PRIMARY_CTA_LABEL}
-                  location="cohort_hero_primary"
-                  className={[
-                    "inline-flex min-h-[44px] items-center justify-center",
-                    "rounded-[var(--mk-radius-md)]",
-                    "bg-[var(--mk-color-cta)]",
-                    "px-6 py-4",
-                    "text-sm font-semibold",
-                    "text-[var(--mk-color-bg)] no-underline",
-                    "transition-colors duration-[120ms]",
-                    "ease-[cubic-bezier(0.2,0.8,0.2,1)]",
-                    "hover:bg-[var(--mk-color-cta-hover)]",
-                  ].join(" ")}
-                >
-                  {PRIMARY_CTA_LABEL}
-                </TrackedLink>
-
-                <TrackedLink
-                  href={SECONDARY_CTA_HREF}
-                  event="public_cta_click"
-                  label={SECONDARY_CTA_LABEL}
-                  location="cohort_hero_secondary"
-                  className="text-sm font-semibold text-[var(--mk-color-link)]"
-                >
-                  {SECONDARY_CTA_LABEL}
-                </TrackedLink>
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[rgba(18,24,36,0.82)] px-4 py-4">
+                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--mk-color-text-muted)]">
+                    Cohort shape
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-[var(--mk-color-text)]">
+                    Small, reviewed, and intentionally selective
+                  </p>
+                </div>
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[rgba(18,24,36,0.82)] px-4 py-4">
+                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--mk-color-text-muted)]">
+                    Best fit
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-[var(--mk-color-text)]">
+                    Founders, operators, and small teams carrying live decisions
+                  </p>
+                </div>
+                <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[rgba(18,24,36,0.82)] px-4 py-4">
+                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--mk-color-text-muted)]">
+                    Working promise
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-[var(--mk-color-text)]">
+                    Clearer visibility, grounded decisions, and honest next
+                    steps
+                  </p>
+                </div>
               </div>
-
-              <p className="max-w-[68ch] text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                Majority inbound traffic can land here during early rollout
-                without changing the ownership of the homepage. Route stability
-                stays fixed at /cohort while lifecycle classification shifts
-                later through explicit scope decisions.
-              </p>
             </div>
 
+            <div id="apply">
+              <CohortApplicationForm />
+            </div>
+          </div>
+        </MkSection>
+
+        <MkSection>
+          <div className="space-y-6">
+            <div className="max-w-[70ch] space-y-3">
+              <SectionEyebrow>Cohort context</SectionEyebrow>
+              <h2 className="text-[28px] font-semibold leading-[1.08] text-[var(--mk-color-text)] md:text-[42px]">
+                A focused invitation for people who feel the cost of unclear
+                visibility.
+              </h2>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-3">
+              {COHORT_CONTEXT.map((item) => (
+                <MkCard key={item.title}>
+                  <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-[1.75] text-[var(--mk-color-text-muted)]">
+                    {item.body}
+                  </p>
+                </MkCard>
+              ))}
+            </div>
+          </div>
+        </MkSection>
+
+        <MkSection tone="surface-1">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
             <MkCard>
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-                  Conversion boundary
-                </h2>
-                <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                  One action lives here: request access to the current cohort.
-                  This route does not branch into alternate funnels, simulate
-                  site navigation, or stand in for the broader public surface.
+              <SectionEyebrow>Problem</SectionEyebrow>
+              <h2 className="mt-3 text-[28px] font-semibold leading-[1.12] text-[var(--mk-color-text)] md:text-[40px]">
+                You are not missing effort. You are missing clarity.
+              </h2>
+              <p className="mt-4 text-sm leading-[1.8] text-[var(--mk-color-text-muted)]">
+                You are juggling tools, dashboards, and updates, but still
+                reacting instead of seeing ahead. Important signals get buried.
+                Priorities blur. Decisions feel heavier than they should.
+              </p>
+              <div className="mt-6 rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-5 py-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--mk-color-text-muted)]">
+                  Noise to clarity
                 </p>
+                <div className="mt-4 flex flex-col gap-4 text-sm md:flex-row md:items-center">
+                  <div className="flex-1 rounded-[var(--mk-radius-sm)] border border-[var(--mk-color-border)] px-4 py-4 text-[var(--mk-color-text-muted)]">
+                    Scattered updates, buried signals, reactive reviews
+                  </div>
+                  <div className="text-center text-[var(--mk-color-link)] md:text-left">
+                    to
+                  </div>
+                  <div className="flex-1 rounded-[var(--mk-radius-sm)] border border-[rgba(45,255,183,0.28)] bg-[rgba(45,255,183,0.08)] px-4 py-4 text-[var(--mk-color-text)]">
+                    Clear context, grounded decisions, and work you can explain
+                  </div>
+                </div>
               </div>
             </MkCard>
+
+            <MkCard>
+              <SectionEyebrow>What changes</SectionEyebrow>
+              <h2 className="mt-3 text-[28px] font-semibold leading-[1.12] text-[var(--mk-color-text)] md:text-[40px]">
+                Not more inputs. Clearer context.
+              </h2>
+              <ul className="mt-6 space-y-4 text-sm leading-[1.8] text-[var(--mk-color-text-muted)]">
+                {SHIFT_POINTS.map((point) => (
+                  <li
+                    key={point}
+                    className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-4"
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </MkCard>
+          </div>
+        </MkSection>
+
+        <MkSection>
+          <div className="space-y-6">
+            <div className="max-w-[70ch] space-y-3">
+              <SectionEyebrow>Participation details</SectionEyebrow>
+              <h2 className="text-[28px] font-semibold leading-[1.08] text-[var(--mk-color-text)] md:text-[42px]">
+                This is active participation, not passive access.
+              </h2>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-3">
+              {PARTICIPATION_GROUPS.map((group) => (
+                <MkCard key={group.title}>
+                  <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+                    {group.title}
+                  </h3>
+                  <ul className="mt-4 space-y-3 text-sm leading-[1.8] text-[var(--mk-color-text-muted)]">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="mt-[7px] h-2 w-2 shrink-0 rounded-full bg-[var(--mk-color-link)]" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </MkCard>
+              ))}
+            </div>
           </div>
         </MkSection>
 
         <MkSection tone="surface-1">
           <div className="space-y-6">
-            <div className="max-w-[72ch] space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--mk-color-link)]">
-                Rollout guidance
-              </p>
-              <h2 className="text-[28px] font-semibold leading-[1.15] text-[var(--mk-color-text)] md:text-[40px]">
-                Keep the campaign route stable while the broader site catches
-                up.
+            <div className="max-w-[70ch] space-y-3">
+              <SectionEyebrow>Trust and reassurance</SectionEyebrow>
+              <h2 className="text-[28px] font-semibold leading-[1.08] text-[var(--mk-color-text)] md:text-[42px]">
+                Honest constraints are part of the offer.
               </h2>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-              {IMPLEMENTATION_RULES.map((rule) => (
-                <MkCard key={rule.title}>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {TRUST_BLOCKS.map((block) => (
+                <MkCard key={block.title}>
                   <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
-                    {rule.title}
+                    {block.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                    {rule.body}
+                  <p className="mt-3 text-sm leading-[1.75] text-[var(--mk-color-text-muted)]">
+                    {block.body}
                   </p>
                 </MkCard>
               ))}
+            </div>
+
+            <div className="rounded-[var(--mk-radius-lg)] border border-[var(--mk-color-border)] bg-[rgba(18,24,36,0.9)] px-6 py-5">
+              <div className="grid gap-3 md:grid-cols-4">
+                {TRUST_STRIP.map((item) => (
+                  <p
+                    key={item}
+                    className="text-sm font-medium leading-[1.6] text-[var(--mk-color-text)]"
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-5 text-xs leading-[1.8] text-[var(--mk-color-text-muted)]">
+                This is an early-stage cohort experience. Participation does
+                not guarantee product access, feature availability, or specific
+                outcomes. Access, timing, and inclusion are determined at our
+                discretion based on cohort fit and capacity.
+              </p>
             </div>
           </div>
         </MkSection>
