@@ -60,11 +60,3 @@ export const LegalDocumentFrontmatter = z.object({
   legalEntityName: z.string().min(1),
   contentOwner: z.string().optional(),
 });
-
-export const CaseStudyFrontmatter = z.object({
-  type: z.literal("caseStudy"),
-  slug: z.string().min(1),
-  seo: PageSEO,
-  title: z.string().min(1),
-  summary: z.string().min(1),
-});

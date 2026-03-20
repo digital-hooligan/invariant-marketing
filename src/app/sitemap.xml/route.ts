@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { TOP_LEVEL_SLUGS } from "@/content/pages";
 import { LEGAL_DOC_SLUGS } from "@/content/legal";
-import { listCaseStudySlugs } from "@/content/caseStudies";
 
 function xmlEscape(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -14,14 +13,11 @@ export function GET() {
     "/",
     "/cohort",
     ...TOP_LEVEL_SLUGS.map((s) => `/${s}`),
-    "/case-studies",
     "/legal",
     ...LEGAL_DOC_SLUGS.map((s) => `/legal/${s}`),
   ];
 
-  const caseStudyRoutes = listCaseStudySlugs().map((s) => `/case-studies/${s}`);
-
-  const routes = [...staticRoutes, ...caseStudyRoutes];
+  const routes = staticRoutes;
 
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
