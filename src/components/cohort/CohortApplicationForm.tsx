@@ -22,28 +22,11 @@ const INITIAL_STATE: FormState = {
   challenge: "",
 };
 
-function buildMailtoBody({
-  name,
-  email,
-  role,
-  team,
-  challenge,
-}: FormState) {
-  return [
-    "Scientia Cohort Application",
-    "",
-    `Name: ${name}`,
-    `Email: ${email}`,
-    `Role: ${role}`,
-    `Team: ${team || "Not provided"}`,
-    "",
-    "What clarity are you looking for right now?",
-    challenge,
-  ].join("\n");
-}
+type SubmitState = "idle" | "submitting" | "success" | "error";
 
 export function CohortApplicationForm() {
   const [form, setForm] = useState(INITIAL_STATE);
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
 
   const handleChange =
     (field: keyof FormState) =>
@@ -52,7 +35,7 @@ export function CohortApplicationForm() {
       setForm((current) => ({ ...current, [field]: value }));
     };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     trackPublicEvent("public_cta_click", {
@@ -60,9 +43,32 @@ export function CohortApplicationForm() {
       location: "cohort_form",
     });
 
-    const subject = encodeURIComponent("Scientia Cohort Application");
-    const body = encodeURIComponent(buildMailtoBody(form));
-    window.location.href = `mailto:cohort@scientiaos.io?subject=${subject}&body=${body}`;
+    setSubmitState("submitting");
+
+    try {
+      const response = await fetch("/api/contact-intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "cohort",
+          name: form.name,
+          email: form.email,
+          organization: form.team,
+          role: form.role,
+          message: form.challenge,
+        }),
+      });
+
+      if (!response.ok) {
+        setSubmitState("error");
+        return;
+      }
+
+      setForm(INITIAL_STATE);
+      setSubmitState("success");
+    } catch {
+      setSubmitState("error");
+    }
   };
 
   return (
@@ -81,85 +87,104 @@ export function CohortApplicationForm() {
           </p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <label className="flex flex-col gap-2">
-            <span className="text-sm text-[var(--mk-color-text-muted)]">
-              Name
-            </span>
-            <input
-              name="name"
-              required
-              value={form.name}
-              onChange={handleChange("name")}
-              className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
-            />
-          </label>
+        {submitState === "success" ? (
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-[var(--mk-color-text)]">
+              Application received
+            </h3>
+            <p className="text-sm leading-[1.75] text-[var(--mk-color-text-muted)]">
+              Your submission was sent to the founder-managed inbox. We review
+              cohort applications on a rolling basis and follow up directly when
+              there is a fit.
+            </p>
+          </div>
+        ) : (
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-[var(--mk-color-text-muted)]">
+                Name
+              </span>
+              <input
+                name="name"
+                required
+                value={form.name}
+                onChange={handleChange("name")}
+                className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
+              />
+            </label>
 
-          <label className="flex flex-col gap-2">
-            <span className="text-sm text-[var(--mk-color-text-muted)]">
-              Work email
-            </span>
-            <input
-              name="email"
-              type="email"
-              required
-              value={form.email}
-              onChange={handleChange("email")}
-              className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
-            />
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-[var(--mk-color-text-muted)]">
+                Work email
+              </span>
+              <input
+                name="email"
+                type="email"
+                required
+                value={form.email}
+                onChange={handleChange("email")}
+                className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
+              />
+            </label>
 
-          <label className="flex flex-col gap-2">
-            <span className="text-sm text-[var(--mk-color-text-muted)]">
-              Role
-            </span>
-            <input
-              name="role"
-              required
-              value={form.role}
-              onChange={handleChange("role")}
-              className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
-            />
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-[var(--mk-color-text-muted)]">
+                Role
+              </span>
+              <input
+                name="role"
+                required
+                value={form.role}
+                onChange={handleChange("role")}
+                className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
+              />
+            </label>
 
-          <label className="flex flex-col gap-2">
-            <span className="text-sm text-[var(--mk-color-text-muted)]">
-              Team or company
-            </span>
-            <input
-              name="team"
-              value={form.team}
-              onChange={handleChange("team")}
-              className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
-            />
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-[var(--mk-color-text-muted)]">
+                Team or company
+              </span>
+              <input
+                name="team"
+                value={form.team}
+                onChange={handleChange("team")}
+                className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
+              />
+            </label>
 
-          <label className="flex flex-col gap-2">
-            <span className="text-sm text-[var(--mk-color-text-muted)]">
-              What clarity are you looking for right now?
-            </span>
-            <textarea
-              name="challenge"
-              required
-              rows={5}
-              value={form.challenge}
-              onChange={handleChange("challenge")}
-              className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
-            />
-          </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-[var(--mk-color-text-muted)]">
+                What clarity are you looking for right now?
+              </span>
+              <textarea
+                name="challenge"
+                required
+                rows={5}
+                value={form.challenge}
+                onChange={handleChange("challenge")}
+                className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-[var(--mk-color-text)]"
+              />
+            </label>
 
-          <button
-            type="submit"
-            className="inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--mk-radius-md)] bg-[var(--mk-color-cta)] px-6 py-4 text-sm font-semibold text-[#081018] no-underline transition-colors duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:bg-[var(--mk-color-cta-hover)]"
-          >
-            {CTA_LABEL}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={submitState === "submitting"}
+              className="inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--mk-radius-md)] bg-[var(--mk-color-cta)] px-6 py-4 text-sm font-semibold text-[#081018] no-underline transition-colors duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:bg-[var(--mk-color-cta-hover)] disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {submitState === "submitting" ? "Sending..." : CTA_LABEL}
+            </button>
+
+            {submitState === "error" ? (
+              <p className="text-sm leading-[1.75] text-[var(--mk-color-text-muted)]">
+                We could not send your application right now. Please try again.
+              </p>
+            ) : null}
+          </form>
+        )}
 
         <p className="text-xs leading-[1.8] text-[var(--mk-color-text-muted)]">
-          Submitting opens an email draft to <strong>cohort@scientiaos.io</strong>{" "}
-          with your application details. This is a cohort application, not
-          instant access.
+          Submissions route to a single founder-managed inbox for review. This
+          is a cohort application, not instant access.
         </p>
       </div>
     </MkCard>
