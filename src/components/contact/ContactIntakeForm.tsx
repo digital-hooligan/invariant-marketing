@@ -1,49 +1,124 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import {
+  useState,
+  type ChangeEvent,
+  type FocusEvent,
+  type FormEvent,
+} from "react";
 import { trackPublicEvent } from "@/components/analytics/PublicAnalytics";
+import {
+  CONTACT_SUBMISSION_GLOBAL_ERROR,
+  type ContactSubmissionFieldErrors,
+  type ContactSubmissionFieldName,
+  validateContactSubmission,
+} from "@/lib/contact-submission";
 
-const CTA_LABEL = "Send Inquiry";
+const CTA_LABEL = "Send message";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
+type FormState = {
+  name: string;
+  email: string;
+  companyOrRole: string;
+  message: string;
+};
+
+const INITIAL_STATE: FormState = {
+  name: "",
+  email: "",
+  companyOrRole: "",
+  message: "",
+};
+
+type ContactApiErrorResponse = {
+  data: null;
+  error: string;
+  meta?: {
+    fieldErrors?: ContactSubmissionFieldErrors;
+  };
+};
+
 export function ContactIntakeForm() {
+  const [form, setForm] = useState<FormState>(INITIAL_STATE);
+  const [fieldErrors, setFieldErrors] = useState<ContactSubmissionFieldErrors>(
+    {},
+  );
+  const [formError, setFormError] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
+
+  function validateField(field: ContactSubmissionFieldName, value: string) {
+    const payload = {
+      ...form,
+      [field]: value,
+    };
+    const result = validateContactSubmission(payload);
+
+    return result.ok ? "" : result.fieldErrors[field] || "";
+  }
+
+  function handleChange(
+    field: keyof FormState,
+  ): (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void {
+    return (event) => {
+      const { value } = event.target;
+
+      setForm((current) => ({ ...current, [field]: value }));
+      setFieldErrors((current) => ({ ...current, [field]: "" }));
+      setFormError("");
+      if (submitState === "error") {
+        setSubmitState("idle");
+      }
+    };
+  }
+
+  function handleBlur(field: ContactSubmissionFieldName) {
+    return (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const error = validateField(field, event.target.value);
+      setFieldErrors((current) => ({ ...current, [field]: error }));
+    };
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
+    const result = validateContactSubmission(form);
+
+    if (!result.ok) {
+      setFieldErrors(result.fieldErrors);
+      setFormError(result.error);
+      setSubmitState("error");
+      return;
+    }
 
     setSubmitState("submitting");
+    setFieldErrors({});
+    setFormError("");
     trackPublicEvent("public_cta_click", {
       label: CTA_LABEL,
       location: "contact_form",
     });
 
     try {
-      const response = await fetch("/api/contact-intake", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source: "contact",
-          name: formData.get("name"),
-          email: formData.get("email"),
-          organization: formData.get("org"),
-          timeline: formData.get("timeline"),
-          message: formData.get("problem"),
-        }),
+        body: JSON.stringify(result.data),
       });
 
       if (!response.ok) {
+        const payload = (await response.json()) as ContactApiErrorResponse;
+        setFieldErrors(payload.meta?.fieldErrors || {});
+        setFormError(payload.error || CONTACT_SUBMISSION_GLOBAL_ERROR);
         setSubmitState("error");
         return;
       }
 
-      form.reset();
+      setForm(INITIAL_STATE);
       setSubmitState("success");
     } catch {
+      setFormError("Didn't go through. Try again.");
       setSubmitState("error");
     }
   }
@@ -52,11 +127,13 @@ export function ContactIntakeForm() {
     return (
       <div className="space-y-3">
         <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-          Request received
+          Received
         </h2>
         <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-          Your submission was sent to the founder-managed inbox. We will review
-          it and follow up directly.
+          Your message is in. We&apos;ll review and respond manually.
+        </p>
+        <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+          If it&apos;s a fit, you&apos;ll hear from us at the email you provided.
         </p>
       </div>
     );
@@ -64,19 +141,43 @@ export function ContactIntakeForm() {
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
+      {formError ? (
+        <div
+          className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-sm"
+          style={{ color: "var(--mk-color-text)" }}
+        >
+          {formError}
+        </div>
+      ) : null}
+
       <div className="grid gap-4 md:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span
             className="text-sm"
             style={{ color: "var(--mk-color-text-muted)" }}
           >
-            Name
+            Full name
           </span>
           <input
             name="name"
             required
+            value={form.name}
+            onChange={handleChange("name")}
+            onBlur={handleBlur("name")}
+            placeholder="Jane Doe"
             className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
           />
+          <span
+            className="text-xs"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            Who should we reply to?
+          </span>
+          {fieldErrors.name ? (
+            <span className="text-sm text-[var(--mk-color-link)]">
+              {fieldErrors.name}
+            </span>
+          ) : null}
         </label>
 
         <label className="flex flex-col gap-2">
@@ -90,8 +191,23 @@ export function ContactIntakeForm() {
             name="email"
             type="email"
             required
+            value={form.email}
+            onChange={handleChange("email")}
+            onBlur={handleBlur("email")}
+            placeholder="you@company.com"
             className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
           />
+          <span
+            className="text-xs"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            We&apos;ll respond here. No spam.
+          </span>
+          {fieldErrors.email ? (
+            <span className="text-sm text-[var(--mk-color-link)]">
+              {fieldErrors.email}
+            </span>
+          ) : null}
         </label>
       </div>
 
@@ -100,12 +216,27 @@ export function ContactIntakeForm() {
           className="text-sm"
           style={{ color: "var(--mk-color-text-muted)" }}
         >
-          Organization (optional)
+          Company or role (optional)
         </span>
         <input
-          name="org"
+          name="companyOrRole"
+          value={form.companyOrRole}
+          onChange={handleChange("companyOrRole")}
+          onBlur={handleBlur("companyOrRole")}
+          placeholder="Founder, Ops Lead, etc."
           className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
         />
+        <span
+          className="text-xs"
+          style={{ color: "var(--mk-color-text-muted)" }}
+        >
+          Helpful, not required.
+        </span>
+        {fieldErrors.companyOrRole ? (
+          <span className="text-sm text-[var(--mk-color-link)]">
+            {fieldErrors.companyOrRole}
+          </span>
+        ) : null}
       </label>
 
       <label className="flex flex-col gap-2">
@@ -113,28 +244,29 @@ export function ContactIntakeForm() {
           className="text-sm"
           style={{ color: "var(--mk-color-text-muted)" }}
         >
-          What are you trying to solve?
+          What are you working on?
         </span>
         <textarea
-          name="problem"
+          name="message"
           required
           rows={5}
+          value={form.message}
+          onChange={handleChange("message")}
+          onBlur={handleBlur("message")}
+          placeholder="Brief context, goal, or problem"
           className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
         />
-      </label>
-
-      <label className="flex flex-col gap-2">
         <span
-          className="text-sm"
+          className="text-xs"
           style={{ color: "var(--mk-color-text-muted)" }}
         >
-          Timeline
+          A few lines is enough. Include constraints if they matter.
         </span>
-        <input
-          name="timeline"
-          required
-          className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-        />
+        {fieldErrors.message ? (
+          <span className="text-sm text-[var(--mk-color-link)]">
+            {fieldErrors.message}
+          </span>
+        ) : null}
       </label>
 
       <div className="pt-2">
@@ -146,15 +278,6 @@ export function ContactIntakeForm() {
           {submitState === "submitting" ? "Sending..." : CTA_LABEL}
         </button>
       </div>
-
-      {submitState === "error" ? (
-        <div
-          className="text-sm"
-          style={{ color: "var(--mk-color-text-muted)" }}
-        >
-          We could not send your request right now. Please try again.
-        </div>
-      ) : null}
 
       <div
         className="text-sm"
