@@ -20,7 +20,7 @@ const COHORT_CONTEXT = [
 
 const SHIFT_POINTS = [
   "See what actually matters and what can wait.",
-  "Make decisions with clearer context instead of reacting late.",
+  "Move with clearer context instead of reacting late.",
   "Review work in a way that is easier to explain and trust.",
 ] as const;
 
