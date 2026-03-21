@@ -1,38 +1,76 @@
 import { NextResponse } from "next/server";
 import { deliverContactIntake } from "@/lib/contact-intake";
 import {
-  CONTACT_SUBMISSION_GLOBAL_ERROR,
-  validateContactSubmission,
+  CONTACT_SUBMISSION_MAX_BODY_BYTES,
+  CONTACT_SUBMISSION_REQUEST_ERROR,
+  validateContactSubmissionRequest,
 } from "@/lib/contact-submission";
 
-const METHOD_NOT_ALLOWED_ERROR = "Method not allowed.";
-const DELIVERY_ERROR = "Something failed on our side. Try again in a moment.";
+const GENERIC_FAILURE_BODY = {
+  data: null,
+  error: CONTACT_SUBMISSION_REQUEST_ERROR,
+  meta: {
+    submitted: false,
+  },
+} as const;
+
+function buildFailureResponse(status: 400 | 405 | 413 | 415 | 500) {
+  return NextResponse.json(GENERIC_FAILURE_BODY, { status });
+}
+
+function isJsonContentType(request: Request) {
+  const contentType = request.headers.get("content-type");
+
+  if (!contentType) {
+    return false;
+  }
+
+  const [mediaType] = contentType.split(";");
+  return mediaType.trim().toLowerCase() === "application/json";
+}
+
+function getContentLength(request: Request) {
+  const header = request.headers.get("content-length");
+
+  if (!header) {
+    return null;
+  }
+
+  const parsed = Number.parseInt(header, 10);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function isBodyTooLarge(body: string) {
+  return new TextEncoder().encode(body).length > CONTACT_SUBMISSION_MAX_BODY_BYTES;
+}
 
 function methodNotAllowed() {
-  return NextResponse.json(
-    {
-      data: null,
-      error: METHOD_NOT_ALLOWED_ERROR,
-      meta: {},
-    },
-    { status: 405 },
-  );
+  return buildFailureResponse(405);
 }
 
 export async function POST(request: Request) {
+  if (!isJsonContentType(request)) {
+    return buildFailureResponse(415);
+  }
+
+  const contentLength = getContentLength(request);
+
+  if (contentLength !== null && contentLength > CONTACT_SUBMISSION_MAX_BODY_BYTES) {
+    return buildFailureResponse(413);
+  }
+
   try {
-    const body = await request.json();
-    const result = validateContactSubmission(body);
+    const rawBody = await request.text();
+
+    if (isBodyTooLarge(rawBody)) {
+      return buildFailureResponse(413);
+    }
+
+    const body = JSON.parse(rawBody) as unknown;
+    const result = validateContactSubmissionRequest(body);
 
     if (!result.ok) {
-      return NextResponse.json(
-        {
-          data: null,
-          error: result.error,
-          meta: { fieldErrors: result.fieldErrors },
-        },
-        { status: 400 },
-      );
+      return buildFailureResponse(result.status);
     }
 
     await deliverContactIntake(result.data);
@@ -44,27 +82,29 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     if (error instanceof SyntaxError) {
-      return NextResponse.json(
-        {
-          data: null,
-          error: CONTACT_SUBMISSION_GLOBAL_ERROR,
-          meta: {},
-        },
-        { status: 400 },
-      );
+      return buildFailureResponse(400);
     }
 
-    return NextResponse.json(
-      {
-        data: null,
-        error: DELIVERY_ERROR,
-        meta: {},
-      },
-      { status: 500 },
-    );
+    return buildFailureResponse(500);
   }
 }
 
 export async function GET() {
+  return methodNotAllowed();
+}
+
+export async function PUT() {
+  return methodNotAllowed();
+}
+
+export async function PATCH() {
+  return methodNotAllowed();
+}
+
+export async function DELETE() {
+  return methodNotAllowed();
+}
+
+export async function OPTIONS() {
   return methodNotAllowed();
 }

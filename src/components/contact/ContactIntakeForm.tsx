@@ -26,6 +26,7 @@ type FormState = {
   email: string;
   companyOrRole: string;
   message: string;
+  honeypot: string;
 };
 
 type FieldElement = HTMLInputElement | HTMLTextAreaElement;
@@ -35,14 +36,12 @@ const INITIAL_STATE: FormState = {
   email: "",
   companyOrRole: "",
   message: "",
+  honeypot: "",
 };
 
 type ContactApiErrorResponse = {
   data: null;
   error: string;
-  meta?: {
-    fieldErrors?: ContactSubmissionFieldErrors;
-  };
 };
 
 export function ContactIntakeForm() {
@@ -72,6 +71,7 @@ export function ContactIntakeForm() {
       email: value.email.trim(),
       companyOrRole: value.companyOrRole.trim(),
       message: value.message.trim(),
+      honeypot: value.honeypot,
     };
   }
 
@@ -151,15 +151,16 @@ export function ContactIntakeForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result.data),
+        body: JSON.stringify({
+          ...result.data,
+          honeypot: trimmedForm.honeypot,
+        }),
       });
 
       if (!response.ok) {
         const payload = (await response.json()) as ContactApiErrorResponse;
-        setFieldErrors(payload.meta?.fieldErrors || {});
         setFormError(payload.error || CONTACT_SUBMISSION_GLOBAL_ERROR);
         setSubmitState("error");
-        focusFirstInvalidField(payload.meta?.fieldErrors || {});
         return;
       }
 
@@ -219,6 +220,7 @@ export function ContactIntakeForm() {
             value={form.name}
             onChange={handleChange("name")}
             onBlur={handleBlur("name")}
+            autoComplete="name"
             placeholder="Jane Doe"
             aria-invalid={fieldErrors.name ? "true" : "false"}
             aria-describedby={fieldErrors.name ? "contact-name-error" : undefined}
@@ -262,6 +264,7 @@ export function ContactIntakeForm() {
             value={form.email}
             onChange={handleChange("email")}
             onBlur={handleBlur("email")}
+            autoComplete="email"
             placeholder="you@company.com"
             aria-invalid={fieldErrors.email ? "true" : "false"}
             aria-describedby={fieldErrors.email ? "contact-email-error" : undefined}
@@ -304,6 +307,7 @@ export function ContactIntakeForm() {
           value={form.companyOrRole}
           onChange={handleChange("companyOrRole")}
           onBlur={handleBlur("companyOrRole")}
+          autoComplete="organization"
           placeholder="Founder, Ops Lead, etc."
           aria-invalid={fieldErrors.companyOrRole ? "true" : "false"}
           aria-describedby={
@@ -331,6 +335,17 @@ export function ContactIntakeForm() {
           </span>
         ) : null}
       </label>
+
+      <input
+        type="text"
+        name="honeypot"
+        value={form.honeypot}
+        onChange={handleChange("honeypot")}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
 
       <label className="flex flex-col gap-2">
         <span
