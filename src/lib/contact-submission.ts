@@ -31,7 +31,7 @@ export type ContactSubmissionValidationResult =
     };
 
 export const CONTACT_SUBMISSION_GLOBAL_ERROR =
-  "Something's off. Check the fields below and try again.";
+  "Check the highlighted fields and try again.";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -49,7 +49,7 @@ export function validateContactSubmission(
       fieldErrors: {
         name: "Enter your name.",
         email: "Enter your email.",
-        message: "Add a bit of context.",
+        message: "Add a message.",
       },
     };
   }
@@ -85,7 +85,7 @@ export function validateContactSubmission(
   }
 
   if (!data.message) {
-    fieldErrors.message = "Add a bit of context.";
+    fieldErrors.message = "Add a message.";
   } else if (data.message.length < 10) {
     fieldErrors.message = "Add a few more details so we can understand.";
   } else if (data.message.length > 5000) {

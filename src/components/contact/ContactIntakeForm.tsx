@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  useEffect,
+  useRef,
   useState,
   type ChangeEvent,
   type FocusEvent,
@@ -8,6 +10,7 @@ import {
 } from "react";
 import { trackPublicEvent } from "@/components/analytics/PublicAnalytics";
 import {
+  CONTACT_SUBMISSION_FIELD_NAMES,
   CONTACT_SUBMISSION_GLOBAL_ERROR,
   type ContactSubmissionFieldErrors,
   type ContactSubmissionFieldName,
@@ -24,6 +27,8 @@ type FormState = {
   companyOrRole: string;
   message: string;
 };
+
+type FieldElement = HTMLInputElement | HTMLTextAreaElement;
 
 const INITIAL_STATE: FormState = {
   name: "",
@@ -47,6 +52,38 @@ export function ContactIntakeForm() {
   );
   const [formError, setFormError] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const fieldRefs = useRef<Record<ContactSubmissionFieldName, FieldElement | null>>({
+    name: null,
+    email: null,
+    companyOrRole: null,
+    message: null,
+  });
+  const successMessageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (submitState === "success") {
+      successMessageRef.current?.focus();
+    }
+  }, [submitState]);
+
+  function trimFormState(value: FormState): FormState {
+    return {
+      name: value.name.trim(),
+      email: value.email.trim(),
+      companyOrRole: value.companyOrRole.trim(),
+      message: value.message.trim(),
+    };
+  }
+
+  function focusFirstInvalidField(errors: ContactSubmissionFieldErrors) {
+    const firstInvalidField = CONTACT_SUBMISSION_FIELD_NAMES.find(
+      (fieldName) => errors[fieldName],
+    );
+
+    if (firstInvalidField) {
+      fieldRefs.current[firstInvalidField]?.focus();
+    }
+  }
 
   function validateField(field: ContactSubmissionFieldName, value: string) {
     const payload = {
@@ -75,7 +112,9 @@ export function ContactIntakeForm() {
 
   function handleBlur(field: ContactSubmissionFieldName) {
     return (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const error = validateField(field, event.target.value);
+      const trimmedValue = event.target.value.trim();
+      setForm((current) => ({ ...current, [field]: trimmedValue }));
+      const error = validateField(field, trimmedValue);
       setFieldErrors((current) => ({ ...current, [field]: error }));
     };
   }
@@ -83,12 +122,20 @@ export function ContactIntakeForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const result = validateContactSubmission(form);
+    if (submitState === "submitting") {
+      return;
+    }
+
+    const trimmedForm = trimFormState(form);
+    setForm(trimmedForm);
+
+    const result = validateContactSubmission(trimmedForm);
 
     if (!result.ok) {
       setFieldErrors(result.fieldErrors);
       setFormError(result.error);
       setSubmitState("error");
+      focusFirstInvalidField(result.fieldErrors);
       return;
     }
 
@@ -112,38 +159,43 @@ export function ContactIntakeForm() {
         setFieldErrors(payload.meta?.fieldErrors || {});
         setFormError(payload.error || CONTACT_SUBMISSION_GLOBAL_ERROR);
         setSubmitState("error");
+        focusFirstInvalidField(payload.meta?.fieldErrors || {});
         return;
       }
 
       setForm(INITIAL_STATE);
+      setFormError("");
       setSubmitState("success");
     } catch {
-      setFormError("Didn't go through. Try again.");
+      setFormError("Something went wrong. Try again. Your message is still here.");
       setSubmitState("error");
     }
   }
 
   if (submitState === "success") {
     return (
-      <div className="space-y-3">
+      <div
+        ref={successMessageRef}
+        tabIndex={-1}
+        aria-live="polite"
+        className="space-y-3 rounded-[var(--mk-radius-md)] border border-[var(--mk-color-success)] bg-[var(--mk-color-surface-2)] px-4 py-4"
+      >
         <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-          Received
+          Message sent
         </h2>
         <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-          Your message is in. We&apos;ll review and respond manually.
-        </p>
-        <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-          If it&apos;s a fit, you&apos;ll hear from us at the email you provided.
+          We&apos;ll review and follow up.
         </p>
       </div>
     );
   }
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit}>
+    <form className="space-y-5" onSubmit={handleSubmit} noValidate aria-busy={submitState === "submitting"}>
       {formError ? (
         <div
-          className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-sm"
+          aria-live="polite"
+          className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-danger)] bg-[var(--mk-color-surface-2)] px-4 py-3 text-sm"
           style={{ color: "var(--mk-color-text)" }}
         >
           {formError}
@@ -159,13 +211,23 @@ export function ContactIntakeForm() {
             Full name
           </span>
           <input
+            ref={(element) => {
+              fieldRefs.current.name = element;
+            }}
             name="name"
             required
             value={form.name}
             onChange={handleChange("name")}
             onBlur={handleBlur("name")}
             placeholder="Jane Doe"
+            aria-invalid={fieldErrors.name ? "true" : "false"}
+            aria-describedby={fieldErrors.name ? "contact-name-error" : undefined}
             className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
+            style={
+              fieldErrors.name
+                ? { borderColor: "var(--mk-color-danger)" }
+                : undefined
+            }
           />
           <span
             className="text-xs"
@@ -174,7 +236,10 @@ export function ContactIntakeForm() {
             Who should we reply to?
           </span>
           {fieldErrors.name ? (
-            <span className="text-sm text-[var(--mk-color-link)]">
+            <span
+              id="contact-name-error"
+              className="text-sm text-[var(--mk-color-danger)]"
+            >
               {fieldErrors.name}
             </span>
           ) : null}
@@ -188,6 +253,9 @@ export function ContactIntakeForm() {
             Email
           </span>
           <input
+            ref={(element) => {
+              fieldRefs.current.email = element;
+            }}
             name="email"
             type="email"
             required
@@ -195,7 +263,14 @@ export function ContactIntakeForm() {
             onChange={handleChange("email")}
             onBlur={handleBlur("email")}
             placeholder="you@company.com"
+            aria-invalid={fieldErrors.email ? "true" : "false"}
+            aria-describedby={fieldErrors.email ? "contact-email-error" : undefined}
             className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
+            style={
+              fieldErrors.email
+                ? { borderColor: "var(--mk-color-danger)" }
+                : undefined
+            }
           />
           <span
             className="text-xs"
@@ -204,7 +279,10 @@ export function ContactIntakeForm() {
             We&apos;ll respond here. No spam.
           </span>
           {fieldErrors.email ? (
-            <span className="text-sm text-[var(--mk-color-link)]">
+            <span
+              id="contact-email-error"
+              className="text-sm text-[var(--mk-color-danger)]"
+            >
               {fieldErrors.email}
             </span>
           ) : null}
@@ -219,12 +297,24 @@ export function ContactIntakeForm() {
           Company or role (optional)
         </span>
         <input
+          ref={(element) => {
+            fieldRefs.current.companyOrRole = element;
+          }}
           name="companyOrRole"
           value={form.companyOrRole}
           onChange={handleChange("companyOrRole")}
           onBlur={handleBlur("companyOrRole")}
           placeholder="Founder, Ops Lead, etc."
+          aria-invalid={fieldErrors.companyOrRole ? "true" : "false"}
+          aria-describedby={
+            fieldErrors.companyOrRole ? "contact-company-or-role-error" : undefined
+          }
           className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
+          style={
+            fieldErrors.companyOrRole
+              ? { borderColor: "var(--mk-color-danger)" }
+              : undefined
+          }
         />
         <span
           className="text-xs"
@@ -233,7 +323,10 @@ export function ContactIntakeForm() {
           Helpful, not required.
         </span>
         {fieldErrors.companyOrRole ? (
-          <span className="text-sm text-[var(--mk-color-link)]">
+          <span
+            id="contact-company-or-role-error"
+            className="text-sm text-[var(--mk-color-danger)]"
+          >
             {fieldErrors.companyOrRole}
           </span>
         ) : null}
@@ -247,6 +340,9 @@ export function ContactIntakeForm() {
           What are you working on?
         </span>
         <textarea
+          ref={(element) => {
+            fieldRefs.current.message = element;
+          }}
           name="message"
           required
           rows={5}
@@ -254,7 +350,14 @@ export function ContactIntakeForm() {
           onChange={handleChange("message")}
           onBlur={handleBlur("message")}
           placeholder="Brief context, goal, or problem"
+          aria-invalid={fieldErrors.message ? "true" : "false"}
+          aria-describedby={fieldErrors.message ? "contact-message-error" : undefined}
           className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
+          style={
+            fieldErrors.message
+              ? { borderColor: "var(--mk-color-danger)" }
+              : undefined
+          }
         />
         <span
           className="text-xs"
@@ -263,7 +366,10 @@ export function ContactIntakeForm() {
           A few lines is enough. Include constraints if they matter.
         </span>
         {fieldErrors.message ? (
-          <span className="text-sm text-[var(--mk-color-link)]">
+          <span
+            id="contact-message-error"
+            className="text-sm text-[var(--mk-color-danger)]"
+          >
             {fieldErrors.message}
           </span>
         ) : null}
@@ -273,6 +379,7 @@ export function ContactIntakeForm() {
         <button
           type="submit"
           disabled={submitState === "submitting"}
+          aria-busy={submitState === "submitting"}
           className="inline-flex min-h-[44px] items-center justify-center rounded-[var(--mk-radius-md)] bg-[var(--mk-color-cta)] px-6 py-4 text-sm font-semibold text-[var(--mk-color-bg)] transition-colors duration-[120ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:bg-[var(--mk-color-cta-hover)] disabled:cursor-not-allowed disabled:opacity-70"
         >
           {submitState === "submitting" ? "Sending..." : CTA_LABEL}
