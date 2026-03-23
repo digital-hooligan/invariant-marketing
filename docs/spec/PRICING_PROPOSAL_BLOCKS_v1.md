@@ -1,26 +1,20 @@
----
-type: page
-slug: "pricing"
-seo:
-  title: "Pricing"
-  description: "Founder Services and RadixOS Product pricing, translated directly from approved pricing artifacts."
-  canonical: "/pricing"
-title: "Pricing"
----
+# Proposal Pricing Blocks v1
 
-# Pricing
+Locked source translation only. No paraphrase, no inferred values.
 
 ## Founder Services
-
-Clarity first. Then structure. Then guided implementation.
-
-Founder-led systems engagements for businesses that need better decisions, cleaner operations, and stronger execution.
 
 ### Decision Architecture Sprint
 
 Decision Architecture Sprint — $2,500
 
 A focused founder-led sprint to diagnose operating friction, clarify priorities, and produce a practical decision roadmap.
+
+Payment terms defined in agreement.
+
+Bounded scope. Proposal-defined expansion. Out-of-scope work requires a new SOW or paid work.
+
+No guarantees of outcomes. No legal or financial advisory.
 
 ### Operating System Design Sprint
 
@@ -30,6 +24,12 @@ A deeper engagement to redesign workflows, decision structure, tooling alignment
 
 Final scope and pricing are confirmed in proposal after discovery and fit review.
 
+Payment terms defined in agreement.
+
+Bounded scope. Proposal-defined expansion. Out-of-scope work requires a new SOW or paid work.
+
+No guarantees of outcomes. No legal or financial advisory.
+
 ### Fractional Systems Partner
 
 Fractional Systems Partner — Starting at $3,000/mo
@@ -38,11 +38,13 @@ Ongoing founder-level support for implementation guidance, decision review, oper
 
 Final scope and pricing are confirmed in proposal after discovery and fit review.
 
+Payment terms defined in agreement.
+
+Bounded scope. Proposal-defined expansion. Out-of-scope work requires a new SOW or paid work.
+
+No guarantees of outcomes. No legal or financial advisory.
+
 ## RadixOS Product
-
-A decision operating system for founder-led teams.
-
-Workspace-based RadixOS access for founders and small teams that want clearer decisions, better operating rhythm, and stronger execution structure.
 
 ### RadixOS Starter
 
@@ -50,11 +52,19 @@ RadixOS Starter — $79/mo
 
 A focused entry plan for founder-led operators who want a structured home for decisions, priorities, and execution clarity.
 
+Payment terms defined in agreement.
+
+No guarantees of outcomes. No legal or financial advisory.
+
 ### RadixOS Team
 
 RadixOS Team — $249/mo
 
 A team-oriented plan for businesses that need shared decision structure, clearer operating rhythm, and a stronger execution system across more than one operator.
+
+Payment terms defined in agreement.
+
+No guarantees of outcomes. No legal or financial advisory.
 
 ### RadixOS Operator
 
@@ -64,4 +74,6 @@ A premium plan for founder-led teams that want deeper operational support, stron
 
 Final plan scope, seat expansion, and any added support are confirmed during onboarding or custom agreement review.
 
-[Schedule a Strategy Call](/contact)
+Payment terms defined in agreement.
+
+No guarantees of outcomes. No legal or financial advisory.
