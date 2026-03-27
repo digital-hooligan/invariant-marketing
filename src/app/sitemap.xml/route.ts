@@ -3,11 +3,6 @@ import { requireEnv } from "@/lib/env";
 
 const INDEXABLE_ROUTES = [
   "/",
-  "/cohort",
-  "/platform",
-  "/how-it-works",
-  "/security",
-  "/governance",
   "/solutions",
   "/pricing",
   "/company",

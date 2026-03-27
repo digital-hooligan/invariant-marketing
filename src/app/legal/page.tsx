@@ -6,7 +6,7 @@ const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
   width: 1200,
   height: 630,
-  alt: "Scientia.io public site",
+  alt: "Invariant marketing site",
 } as const;
 
 export async function generateMetadata(): Promise<Metadata> {

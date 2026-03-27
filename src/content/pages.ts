@@ -2,13 +2,9 @@ import path from "node:path";
 import fs from "node:fs";
 import { pagesDir } from "./paths";
 import { loadMdxWithFrontmatter } from "./mdx";
-import { HomeFrontmatter, TopLevelPageFrontmatter } from "./schema";
+import { TopLevelPageFrontmatter } from "./schema";
 
 export const TOP_LEVEL_SLUGS = [
-  "platform",
-  "how-it-works",
-  "security",
-  "governance",
   "solutions",
   "pricing",
   "company",
@@ -16,15 +12,9 @@ export const TOP_LEVEL_SLUGS = [
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];
 
-export async function getHomePage() {
-  const filePath = path.join(pagesDir, "home.mdx");
-  return loadMdxWithFrontmatter({
-    filePath,
-    parseFrontmatter: (fm) => HomeFrontmatter.parse(fm),
-  });
-}
-
 export async function getTopLevelPage(slug: string) {
+  if (!TOP_LEVEL_SLUGS.includes(slug as TopLevelSlug)) return null;
+
   const filePath = path.join(pagesDir, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
 
