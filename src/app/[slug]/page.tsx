@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MDXContent } from "@/components/mdx/MDXContent";
+import { MkSection } from "@/components/mk/MkSection";
 import { getTopLevelPage, TOP_LEVEL_SLUGS } from "@/content/pages";
 import { getLegalDoc, LEGAL_DOC_SLUGS } from "@/content/legal";
 
@@ -7,7 +9,7 @@ const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
   width: 1200,
   height: 630,
-  alt: "Scientia.io public site",
+  alt: "Invariant marketing site",
 } as const;
 
 export async function generateStaticParams() {
@@ -82,15 +84,17 @@ export default async function TopLevelPage({
   const page = await getTopLevelPage(slug);
   if (page) {
     return (
-      <article className="space-y-mk-6">
-        <header>
-          <h1 className="text-mk-h1 font-mkSemibold">
-            {page.frontmatter.title}
-          </h1>
-        </header>
+      <MkSection>
+        <article className="max-w-3xl space-y-8">
+          <header>
+            <h1 className="text-[40px] font-semibold leading-[1.05] text-[var(--mk-color-text)] md:text-[56px]">
+              {page.frontmatter.title}
+            </h1>
+          </header>
 
-        <section className="mk-prose max-w-none">{page.content}</section>
-      </article>
+          <MDXContent>{page.content}</MDXContent>
+        </article>
+      </MkSection>
     );
   }
 
@@ -98,22 +102,24 @@ export default async function TopLevelPage({
   if (!legalDoc) notFound();
 
   return (
-    <article className="space-y-mk-6">
-      <header className="space-y-mk-1">
-        <h1 className="text-mk-h1 font-mkSemibold">
-          {legalDoc.frontmatter.title}
-        </h1>
+    <MkSection>
+      <article className="max-w-3xl space-y-8">
+        <header className="space-y-3">
+          <h1 className="text-[40px] font-semibold leading-[1.05] text-[var(--mk-color-text)] md:text-[56px]">
+            {legalDoc.frontmatter.title}
+          </h1>
 
-        <div className="text-mk-small text-mk-muted">
-          Last updated: {legalDoc.frontmatter.lastUpdated}
-        </div>
-      </header>
+          <div className="text-sm text-[var(--mk-color-text-muted)]">
+            Last updated: {legalDoc.frontmatter.lastUpdated}
+          </div>
+        </header>
 
-      <section className="mk-prose max-w-none">{legalDoc.content}</section>
+        <MDXContent>{legalDoc.content}</MDXContent>
 
-      <footer className="text-mk-small text-mk-muted">
-        {legalDoc.frontmatter.legalEntityName}
-      </footer>
-    </article>
+        <footer className="text-sm text-[var(--mk-color-text-muted)]">
+          {legalDoc.frontmatter.legalEntityName}
+        </footer>
+      </article>
+    </MkSection>
   );
 }

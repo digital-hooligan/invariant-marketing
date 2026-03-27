@@ -46,16 +46,59 @@ a {
 
 /* Prose: keep readable on dark background */
 .prose {
+  max-width: none;
   color: var(--mk-color-text);
+}
+.prose > * + * {
+  margin-top: 1.1rem;
 }
 .prose :where(p, li) {
   color: var(--mk-color-text);
+  line-height: 1.8;
 }
 .prose :where(h1, h2, h3) {
   color: var(--mk-color-text);
+  line-height: 1.12;
+  font-weight: 600;
+}
+.prose :where(h1) {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+}
+.prose :where(h2) {
+  margin-top: 2.8rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+.prose :where(h3) {
+  margin-top: 1.9rem;
+  font-size: 1.25rem;
+}
+.prose :where(ul, ol) {
+  padding-left: 1.4rem;
+}
+.prose :where(li + li) {
+  margin-top: 0.4rem;
+}
+.prose :where(strong) {
+  color: var(--mk-color-text);
+}
+.prose :where(blockquote) {
+  margin: 1.6rem 0;
+  border-left: 3px solid var(--mk-color-border);
+  padding-left: 1rem;
+  color: var(--mk-color-text-muted);
 }
 .prose :where(code) {
   color: var(--mk-color-text);
+  border-radius: 0.4rem;
+  background: var(--mk-color-surface-2);
+  padding: 0.12rem 0.35rem;
+}
+.prose :where(hr) {
+  margin: 2rem 0;
+  border-color: var(--mk-color-border);
+}
+.prose :where(a) {
+  color: var(--mk-color-link);
 }
 
 /* Remove default summary marker (if used later) */

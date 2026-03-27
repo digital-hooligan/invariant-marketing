@@ -11,11 +11,11 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
         <TrackedLink
           href="/"
           event="public_nav_click"
-          label="Scientia.io"
+          label="Invariant"
           location="header_brand"
           className="font-semibold no-underline text-[var(--mk-color-text)]"
         >
-          Scientia.io
+          Invariant
         </TrackedLink>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm">

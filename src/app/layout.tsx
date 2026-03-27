@@ -11,30 +11,30 @@ const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
   width: 1200,
   height: 630,
-  alt: "Scientia.io public site",
+  alt: "Invariant marketing site",
 } as const;
 
 export const metadata: Metadata = {
   metadataBase: new URL(PUBLIC_SITE_URL),
   title: {
-    default: "Scientia.io",
-    template: "%s | Scientia.io",
+    default: "Invariant",
+    template: "%s | Invariant",
   },
   description:
-    "Scientia is the system. Scientia.io is the public platform surface for trust, documentation, and qualified entry.",
+    "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
   openGraph: {
     type: "website",
-    siteName: "Scientia.io",
-    title: "Scientia.io",
+    siteName: "Invariant",
+    title: "Invariant",
     description:
-      "Scientia is the system. Scientia.io is the public platform surface for trust, documentation, and qualified entry.",
+      "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Scientia.io",
+    title: "Invariant",
     description:
-      "Scientia is the system. Scientia.io is the public platform surface for trust, documentation, and qualified entry.",
+      "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
   robots: {
