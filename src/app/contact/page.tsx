@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { ContactIntakeForm } from "@/components/contact/ContactIntakeForm";
 import { MkCard } from "@/components/mk/MkCard";
@@ -13,13 +14,13 @@ const DEFAULT_SOCIAL_IMAGE = {
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Invariant about systems engagements, discovery, and implementation work.",
+    "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
   alternates: { canonical: "/contact" },
   openGraph: {
     type: "website",
     title: "Contact",
     description:
-      "Contact Invariant about systems engagements, discovery, and implementation work.",
+      "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
     url: "/contact",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact",
     description:
-      "Contact Invariant about systems engagements, discovery, and implementation work.",
+      "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
   robots: {
@@ -48,11 +49,11 @@ export default function ContactPage() {
               lineHeight: "var(--mk-type-lh-tight)",
             }}
           >
-            Contact
+            Start a conversation
           </h1>
           <p className="mt-6" style={{ color: "var(--mk-color-text-muted)" }}>
-            Reach out about discovery, implementation, or ongoing systems work
-            with Invariant.
+            Tell us what you are trying to build or fix. We&apos;ll review and
+            respond with next steps if there&apos;s a fit.
           </p>
         </div>
       </MkSection>
@@ -72,7 +73,18 @@ export default function ContactPage() {
                 <li>Use this form for studio and engagement inquiries.</li>
                 <li>Share enough context for scope, timing, and fit review.</li>
                 <li>Replies are routed through a founder-managed inbox.</li>
+                <li>
+                  Information submitted here is used only to respond to your
+                  inquiry.
+                </li>
               </ul>
+              <p className="mt-4 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
+                See the{" "}
+                <Link href="/privacy" className="font-medium">
+                  Privacy Policy
+                </Link>{" "}
+                for details.
+              </p>
             </MkCard>
 
             <MkCard>

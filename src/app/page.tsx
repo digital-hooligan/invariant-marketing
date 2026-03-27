@@ -1,6 +1,40 @@
+import type { Metadata } from "next";
 import { TrackedLink } from "@/components/analytics/PublicAnalytics";
 import { MkCard } from "@/components/mk/MkCard";
 import { MkSection } from "@/components/mk/MkSection";
+
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Invariant marketing site",
+} as const;
+
+export const metadata: Metadata = {
+  title: "Digital Hooligan LLC",
+  description:
+    "Applied systems work for organizations that need clearer decisions, tighter workflows, and structured execution.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    title: "Digital Hooligan LLC",
+    description:
+      "Applied systems work for organizations that need clearer decisions, tighter workflows, and structured execution.",
+    url: "/",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Digital Hooligan LLC",
+    description:
+      "Applied systems work for organizations that need clearer decisions, tighter workflows, and structured execution.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 const SERVICES = [
   {

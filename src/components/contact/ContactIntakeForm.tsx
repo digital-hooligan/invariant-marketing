@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   useEffect,
   useRef,
@@ -18,6 +19,8 @@ import {
 } from "@/lib/contact-submission";
 
 const CTA_LABEL = "Send message";
+const CONTACT_SUBMIT_SUCCESS_EVENT = "contact_submit_success";
+const CONTACT_SUBMIT_ERROR_EVENT = "contact_submit_error";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
@@ -159,17 +162,35 @@ export function ContactIntakeForm() {
 
       if (!response.ok) {
         const payload = (await response.json()) as ContactApiErrorResponse;
-        setFormError(payload.error || CONTACT_SUBMISSION_GLOBAL_ERROR);
+        setFormError(
+          payload.error
+            ? "Something didn't go through. Check your connection and try again. If the issue persists, email hello@digitalhooligan.io."
+            : CONTACT_SUBMISSION_GLOBAL_ERROR,
+        );
         setSubmitState("error");
+        trackPublicEvent(CONTACT_SUBMIT_ERROR_EVENT, {
+          label: CTA_LABEL,
+          location: "contact_form",
+        });
         return;
       }
 
       setForm(INITIAL_STATE);
       setFormError("");
       setSubmitState("success");
+      trackPublicEvent(CONTACT_SUBMIT_SUCCESS_EVENT, {
+        label: CTA_LABEL,
+        location: "contact_form",
+      });
     } catch {
-      setFormError("Something went wrong. Try again. Your message is still here.");
+      setFormError(
+        "Something didn't go through. Check your connection and try again. If the issue persists, email hello@digitalhooligan.io.",
+      );
       setSubmitState("error");
+      trackPublicEvent(CONTACT_SUBMIT_ERROR_EVENT, {
+        label: CTA_LABEL,
+        location: "contact_form",
+      });
     }
   }
 
@@ -182,17 +203,30 @@ export function ContactIntakeForm() {
         className="space-y-3 rounded-[var(--mk-radius-md)] border border-[var(--mk-color-success)] bg-[var(--mk-color-surface-2)] px-4 py-4"
       >
         <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-          Message sent
+          Message received
         </h2>
         <p className="text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-          We&apos;ll review and follow up.
+          We&apos;ll review and respond with next steps if there&apos;s a fit.
         </p>
+        <div>
+          <Link
+            href="/"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] px-4 py-2 text-sm font-semibold no-underline"
+          >
+            Back to home
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit} noValidate aria-busy={submitState === "submitting"}>
+    <form
+      className="space-y-5"
+      onSubmit={handleSubmit}
+      noValidate
+      aria-busy={submitState === "submitting"}
+    >
       {formError ? (
         <div
           aria-live="polite"

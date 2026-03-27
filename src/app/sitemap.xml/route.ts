@@ -3,11 +3,11 @@ import { requireEnv } from "@/lib/env";
 
 const INDEXABLE_ROUTES = [
   "/",
+  "/offering",
   "/solutions",
   "/pricing",
   "/company",
   "/contact",
-  "/offering",
   "/legal",
   "/terms",
   "/privacy",
@@ -35,7 +35,15 @@ export function GET() {
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     routes
       .map((r) => {
-        const priority = r === "/" ? "1.0" : r.startsWith("/legal") || r === "/terms" || r === "/privacy" || r === "/disclaimer" ? "0.3" : "0.7";
+        const priority =
+          r === "/"
+            ? "1.0"
+            : r === "/legal" ||
+                r === "/terms" ||
+                r === "/privacy" ||
+                r === "/disclaimer"
+              ? "0.3"
+              : "0.7";
         return [
           "  <url>",
           `    <loc>${xmlEscape(getPublicUrl(r))}</loc>`,
