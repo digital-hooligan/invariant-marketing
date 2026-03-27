@@ -17,24 +17,28 @@ const DEFAULT_SOCIAL_IMAGE = {
 export const metadata: Metadata = {
   metadataBase: new URL(PUBLIC_SITE_URL),
   title: {
-    default: "Invariant",
+    default: "Digital Hooligan LLC",
     template: "%s | Invariant",
   },
   description:
-    "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
+    "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     siteName: "Invariant",
-    title: "Invariant",
+    title: "Digital Hooligan LLC",
     description:
-      "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
+      "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
+    url: "/",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Invariant",
+    title: "Digital Hooligan LLC",
     description:
-      "Invariant is the applied systems studio operated by Digital Hooligan LLC.",
+      "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
   robots: {

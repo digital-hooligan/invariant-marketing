@@ -10,9 +10,14 @@
     { "label": "Company", "href": "/company" }
   ],
   "footerNav": [
+    { "label": "Offering", "href": "/offering" },
+    { "label": "Solutions", "href": "/solutions" },
+    { "label": "Pricing", "href": "/pricing" },
     { "label": "Contact", "href": "/contact" },
     { "label": "Company", "href": "/company" },
-    { "label": "Legal", "href": "/legal" }
+    { "label": "Legal", "href": "/legal" },
+    { "label": "Privacy", "href": "/privacy" },
+    { "label": "Terms", "href": "/terms" }
   ],
   "legalEntityName": "Digital Hooligan LLC"
 }
