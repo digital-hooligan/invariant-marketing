@@ -1,8 +1,41 @@
+import type { Metadata } from "next";
 import { MkSection } from "@/components/mk/MkSection";
 import { MkCard } from "@/components/mk/MkCard";
 import { MkPrimaryCta } from "@/components/mk/MkButton";
 
 const PRIMARY_CTA_LABEL = "Start a Conversation";
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
+export const metadata: Metadata = {
+  title: "Offering",
+  description:
+    "How we structure engagements and deliver scoped increments.",
+  alternates: { canonical: "/offering" },
+  openGraph: {
+    type: "website",
+    title: "Offering",
+    description:
+      "How we structure engagements and deliver scoped increments.",
+    url: "/offering",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Offering",
+    description:
+      "How we structure engagements and deliver scoped increments.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function OfferingPage() {
   return (

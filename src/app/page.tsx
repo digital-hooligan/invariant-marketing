@@ -5,6 +5,13 @@ import { MkSection } from "@/components/mk/MkSection";
 import { PUBLIC_ENTRY_POINTS } from "@/content/publicEntries";
 import { getHomePage } from "@/content/pages";
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
 const PRIMARY_CTA_LABEL = "Schedule a Strategy Call";
 const PRIMARY_CTA_HREF = "/contact";
 const SECONDARY_CTA_LABEL = "Read Security Posture";
@@ -67,9 +74,21 @@ export async function generateMetadata(): Promise<Metadata> {
     description: frontmatter.seo.description,
     alternates: { canonical: frontmatter.seo.canonical },
     openGraph: {
+      type: "website",
       title: frontmatter.seo.title,
       description: frontmatter.seo.description,
       url: frontmatter.seo.canonical,
+      images: [DEFAULT_SOCIAL_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.seo.title,
+      description: frontmatter.seo.description,
+      images: [DEFAULT_SOCIAL_IMAGE.url],
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }

@@ -5,11 +5,37 @@ import { MkSection } from "@/components/mk/MkSection";
 import { MkCard } from "@/components/mk/MkCard";
 import { PUBLIC_ENTRY_POINTS } from "@/content/publicEntries";
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Use the approved public intake path to request contact or early access for Scientia.io.",
   alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    title: "Contact",
+    description:
+      "Use the approved public intake path to request contact or early access for Scientia.io.",
+    url: "/contact",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact",
+    description:
+      "Use the approved public intake path to request contact or early access for Scientia.io.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function ContactPage() {

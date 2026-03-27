@@ -73,11 +73,37 @@ const TRUST_STRIP = [
   "Clear visibility into next steps",
 ] as const;
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
 export const metadata: Metadata = {
   title: "Early Cohort",
   description:
     "A launch-ready public conversion surface for the current Scientia early cohort.",
   alternates: { canonical: "/cohort" },
+  openGraph: {
+    type: "website",
+    title: "Early Cohort",
+    description:
+      "A launch-ready public conversion surface for the current Scientia early cohort.",
+    url: "/cohort",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Early Cohort",
+    description:
+      "A launch-ready public conversion surface for the current Scientia early cohort.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function SectionEyebrow({ children }: { children: string }) {
