@@ -3,6 +3,13 @@ import { notFound } from "next/navigation";
 import { getTopLevelPage, TOP_LEVEL_SLUGS } from "@/content/pages";
 import { getLegalDoc, LEGAL_DOC_SLUGS } from "@/content/legal";
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
 export async function generateStaticParams() {
   return [...TOP_LEVEL_SLUGS, ...LEGAL_DOC_SLUGS].map((slug) => ({ slug }));
 }
@@ -20,9 +27,21 @@ export async function generateMetadata({
       description: page.frontmatter.seo.description,
       alternates: { canonical: page.frontmatter.seo.canonical },
       openGraph: {
+        type: "website",
         title: page.frontmatter.seo.title,
         description: page.frontmatter.seo.description,
         url: page.frontmatter.seo.canonical,
+        images: [DEFAULT_SOCIAL_IMAGE],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: page.frontmatter.seo.title,
+        description: page.frontmatter.seo.description,
+        images: [DEFAULT_SOCIAL_IMAGE.url],
+      },
+      robots: {
+        index: true,
+        follow: true,
       },
     };
   }
@@ -35,9 +54,21 @@ export async function generateMetadata({
     description: legalDoc.frontmatter.seo.description,
     alternates: { canonical: legalDoc.frontmatter.seo.canonical },
     openGraph: {
+      type: "article",
       title: legalDoc.frontmatter.seo.title,
       description: legalDoc.frontmatter.seo.description,
       url: legalDoc.frontmatter.seo.canonical,
+      images: [DEFAULT_SOCIAL_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: legalDoc.frontmatter.seo.title,
+      description: legalDoc.frontmatter.seo.description,
+      images: [DEFAULT_SOCIAL_IMAGE.url],
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }

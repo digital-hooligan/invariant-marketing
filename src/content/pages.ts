@@ -12,7 +12,6 @@ export const TOP_LEVEL_SLUGS = [
   "solutions",
   "pricing",
   "company",
-  "contact",
 ] as const;
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];

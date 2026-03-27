@@ -2,12 +2,36 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getLegalHub } from "@/content/legal";
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Scientia.io public site",
+} as const;
+
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await getLegalHub();
   return {
     title: frontmatter.seo.title,
     description: frontmatter.seo.description,
     alternates: { canonical: frontmatter.seo.canonical },
+    openGraph: {
+      type: "website",
+      title: frontmatter.seo.title,
+      description: frontmatter.seo.description,
+      url: frontmatter.seo.canonical,
+      images: [DEFAULT_SOCIAL_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.seo.title,
+      description: frontmatter.seo.description,
+      images: [DEFAULT_SOCIAL_IMAGE.url],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
