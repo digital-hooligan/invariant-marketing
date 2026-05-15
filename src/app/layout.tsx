@@ -6,11 +6,11 @@ import { getSiteSettings } from "@/content/siteSettings";
 
 export const metadata: Metadata = {
   title: {
-    default: "Invariant",
+    default: "Invariant — Execution-grade software systems",
     template: "%s | Invariant",
   },
   description:
-    "Evidence-first operating posture. Clear boundaries. Defensible decisions.",
+    "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <SiteHeader settings={settings} />
         <main className="flex-1">
-          <div className="mx-auto max-w-5xl px-6 py-10">{children}</div>
+          {children}
         </main>
         <SiteFooter settings={settings} />
       </body>

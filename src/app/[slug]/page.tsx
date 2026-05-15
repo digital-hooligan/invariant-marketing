@@ -36,12 +36,18 @@ export default async function TopLevelPage({
   if (!page) notFound();
 
   return (
-    <article className="space-y-mk-6">
-      <header>
-        <h1 className="text-mk-h1 font-mkSemibold">{page.frontmatter.title}</h1>
-      </header>
-
-      <section className="mk-prose max-w-none">{page.content}</section>
-    </article>
+    <div className="mx-auto w-full px-6 py-10" style={{ maxWidth: "var(--mk-layout-content-max)" }}>
+      <article className="space-y-6 max-w-3xl">
+        <header>
+          <h1
+            className="font-semibold"
+            style={{ fontSize: "var(--mk-type-size-h1)", lineHeight: "var(--mk-type-lh-tight)", color: "var(--mk-color-text)" }}
+          >
+            {page.frontmatter.title}
+          </h1>
+        </header>
+        <section>{page.content}</section>
+      </article>
+    </div>
   );
 }

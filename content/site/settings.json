@@ -1,16 +1,14 @@
 {
-  "primaryCtaLabel": "Start a Conversation",
+  "primaryCtaLabel": "Work with Invariant",
   "primaryCtaHref": "/contact",
-  "secondaryCtaLabel": "Read Security Posture",
-  "secondaryCtaHref": "/security",
+  "secondaryCtaLabel": "Explore Hooligan Labs",
+  "secondaryCtaHref": "/#labs",
   "mainNav": [
-    { "label": "Platform", "href": "/platform" },
-    { "label": "How it Works", "href": "/how-it-works" },
-    { "label": "Security", "href": "/security" },
-    { "label": "Governance", "href": "/governance" },
-    { "label": "Solutions", "href": "/solutions" },
-    { "label": "Case Studies", "href": "/case-studies" },
-    { "label": "Pricing", "href": "/pricing" }
+    { "label": "Work", "href": "/#services" },
+    { "label": "Labs", "href": "/#labs" },
+    { "label": "Services", "href": "/#services" },
+    { "label": "Company", "href": "/company" },
+    { "label": "Contact", "href": "/contact" }
   ],
   "footerNav": [
     { "label": "Company", "href": "/company" },

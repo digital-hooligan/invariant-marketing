@@ -1,9 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getHomePage } from "@/content/pages";
-
-const PRIMARY_CTA_LABEL = "Start a Conversation";
-const PRIMARY_CTA_HREF = "/contact";
+import { MkSection } from "@/components/mk/MkSection";
+import { MkCard } from "@/components/mk/MkCard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { frontmatter } = await getHomePage();
@@ -19,293 +18,546 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function PrimaryCta({
-  fullWidthOnMobile = false,
+function CtaLink({
+  href,
+  variant = "primary",
+  children,
+  fullWidth = false,
 }: {
-  fullWidthOnMobile?: boolean;
+  href: string;
+  variant?: "primary" | "secondary";
+  children: React.ReactNode;
+  fullWidth?: boolean;
 }) {
+  const base = [
+    "inline-flex items-center justify-center",
+    "min-h-[44px]",
+    "rounded-[var(--mk-radius-md)]",
+    "px-6 py-3",
+    "text-sm font-semibold",
+    "no-underline",
+    "transition-colors",
+    "duration-[120ms]",
+    "ease-[cubic-bezier(0.2,0.8,0.2,1)]",
+  ].join(" ");
+
+  const primary = [
+    "bg-[var(--mk-color-cta)]",
+    "text-[var(--mk-color-bg)]",
+    "hover:bg-[var(--mk-color-cta-hover)]",
+  ].join(" ");
+
+  const secondary = [
+    "border border-[var(--mk-color-border)]",
+    "text-[var(--mk-color-text)]",
+    "hover:border-[var(--mk-color-cta)]",
+    "hover:text-[var(--mk-color-cta)]",
+  ].join(" ");
+
   return (
     <Link
-      href={PRIMARY_CTA_HREF}
+      href={href}
       className={[
-        "inline-flex items-center justify-center",
-        "min-h-[44px]",
-        "rounded-[var(--mk-radius-md)]",
-        "px-6 py-4",
-        "text-sm font-semibold",
-        "no-underline",
-        "bg-[var(--mk-color-cta)]",
-        "text-[var(--mk-color-bg)]",
-        "hover:bg-[var(--mk-color-cta-hover)]",
-        "transition-colors",
-        "duration-[120ms]",
-        "ease-[cubic-bezier(0.2,0.8,0.2,1)]",
-        fullWidthOnMobile ? "w-full md:w-auto" : "",
-      ].join(" ")}
+        base,
+        variant === "primary" ? primary : secondary,
+        fullWidth ? "w-full md:w-auto" : "",
+      ]
+        .join(" ")
+        .trim()}
     >
-      {PRIMARY_CTA_LABEL}
+      {children}
     </Link>
   );
 }
 
-function Section({
-  children,
-  dense = false,
-}: {
-  children: React.ReactNode;
-  dense?: boolean;
-}) {
-  return (
-    <section
-      className={["w-full", dense ? "py-12 md:py-16" : "py-14 md:py-24"].join(
-        " ",
-      )}
-    >
-      {children}
-    </section>
-  );
-}
+const BUILDS = [
+  {
+    title: "SaaS Products",
+    body: "Full-cycle product builds: architecture, development, and deployment for founder-led and operator-led SaaS.",
+  },
+  {
+    title: "Workflow Automation",
+    body: "Reduce manual overhead with clearly bounded, auditable automation workflows.",
+  },
+  {
+    title: "Internal Dashboards",
+    body: "Operator visibility tools — control panels, monitoring surfaces, and decision dashboards.",
+  },
+  {
+    title: "AI-Assisted Operating Systems",
+    body: "Applied AI integrations with explicit scope and human judgment retained throughout.",
+  },
+  {
+    title: "Web Apps",
+    body: "Custom web applications with clean architecture, responsive design, and shipping discipline.",
+  },
+  {
+    title: "Applied R&D Prototypes",
+    body: "Rapid prototyping to test ideas and de-risk technical assumptions before full builds.",
+  },
+];
 
-function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      className="mx-auto w-full px-6"
-      style={{ maxWidth: "var(--mk-layout-content-max)" }}
-    >
-      {children}
-    </div>
-  );
-}
+const AUDIENCES = [
+  {
+    label: "Founders",
+    body: "Turning messy workflows and unproven ideas into working software systems.",
+  },
+  {
+    label: "Operators",
+    body: "Teams that need visibility, control, and repeatability — not more tooling overhead.",
+  },
+  {
+    label: "Small Teams",
+    body: "Organizations that need leverage without enterprise complexity or bloat.",
+  },
+  {
+    label: "Mission-adjacent orgs",
+    body: "Veteran-led and mission-driven organizations modernizing operations and internal infrastructure.",
+  },
+];
+
+const PRODUCTS = [
+  {
+    name: "Syntaxed",
+    tag: "Release confidence",
+    body: "Post-deploy sanity checks and release confidence tooling. Catch regressions before your users do.",
+  },
+  {
+    name: "RadixOS",
+    tag: "Founder OS",
+    body: "Operational OS for founder and operator decision flow. Clarity layer for the messy middle of running a company.",
+  },
+  {
+    name: "Scientia",
+    tag: "Platform intelligence",
+    body: "Platform intelligence and contract-aware systems for mission-adjacent and operationally complex organizations.",
+  },
+  {
+    name: "OpsToys",
+    tag: "Operator utilities",
+    body: "Browser-based operator utilities and workflow tooling. Small tools with outsized leverage.",
+  },
+  {
+    name: "PennyWize",
+    tag: "Financial signal",
+    body: "Small-cap signal and research assist. Operator-grade market intelligence without the noise.",
+  },
+  {
+    name: "HypeWatch",
+    tag: "Trend radar",
+    body: "Hype intelligence and trend radar. Know what's signal and what's noise before the cycle peaks.",
+  },
+];
+
+const SERVICES = [
+  {
+    title: "MVP / Product Builds",
+    body: "End-to-end product development from scoped discovery through shipped increment.",
+  },
+  {
+    title: "Automation Systems",
+    body: "Workflow design and implementation with explicit scope boundaries and human oversight.",
+  },
+  {
+    title: "Founder Dashboards",
+    body: "Operational visibility tooling: KPI surfaces, decision tools, and status boards.",
+  },
+  {
+    title: "Product Strategy",
+    body: "Structured discovery and prioritization for teams with too much signal and not enough clarity.",
+  },
+  {
+    title: "API & Integration Work",
+    body: "Backend integrations, API design, and data pipeline work for existing products and systems.",
+  },
+  {
+    title: "Applied R&D Prototyping",
+    body: "De-risk technical assumptions fast. Prototype to proof, not to permanence.",
+  },
+];
 
 export default async function HomePage() {
-  // Preserve content source-of-truth loading (keeps content pipeline warm),
-  // but render the canon wireframe structure directly for "/" route.
   void (await getHomePage());
 
   return (
     <article className="w-full">
-      {/* SECTION 1 — HERO */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-4">
-              <h1 className="text-[32px] md:text-[48px] leading-[1.1] font-semibold text-[var(--mk-color-text)]">
-                Structure for decisions that actually move the work forward.
-              </h1>
+      {/* ── HERO ── */}
+      <MkSection>
+        <div className="flex flex-col gap-6 max-w-[760px]">
+          <span
+            className="text-xs font-semibold uppercase tracking-widest"
+            style={{ color: "var(--mk-color-cta)", fontFamily: "var(--mk-type-font-mono)" }}
+          >
+            Digital Hooligan LLC dba Invariant
+          </span>
 
-              <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-                Invariant helps teams reduce execution drift by clarifying what
-                matters, defining scope, and shipping in controlled increments.
-              </p>
+          <h1
+            className="font-semibold leading-[1.05]"
+            style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", color: "var(--mk-color-text)" }}
+          >
+            Execution-grade software systems for messy operations.
+          </h1>
 
-              <div className="text-[14px] leading-[1.5] text-[var(--mk-color-text-muted)] max-w-[80ch] flex flex-col gap-2">
-                <p>
-                  Human-led engagements. No automation. No predictive systems.
+          <p
+            className="leading-[1.6] max-w-[68ch]"
+            style={{ fontSize: "var(--mk-type-size-body)", color: "var(--mk-color-text)", opacity: 0.9 }}
+          >
+            We design and ship SaaS products, automation workflows, internal
+            tools, and operational intelligence platforms for founders,
+            operators, and mission-adjacent teams that need clarity, speed, and
+            control.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <CtaLink href="/contact" variant="primary" fullWidth>
+              Work with Invariant
+            </CtaLink>
+            <CtaLink href="#labs" variant="secondary" fullWidth>
+              Explore Hooligan Labs
+            </CtaLink>
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── WHAT INVARIANT BUILDS ── */}
+      <MkSection tone="surface-1">
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2
+              className="font-semibold leading-[1.2]"
+              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            >
+              What Invariant builds
+            </h2>
+            <p
+              className="mt-2 max-w-[64ch]"
+              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+            >
+              Execution-grade systems across the full product surface — from
+              first prototype to production-grade SaaS.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {BUILDS.map((card) => (
+              <MkCard key={card.title}>
+                <h3
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  className="mt-2 leading-[1.6]"
+                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                >
+                  {card.body}
                 </p>
-                <p>
-                  Invariant is a consulting studio. We do not provide software
-                  platforms or automated decision systems.
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── WHO WE BUILD FOR ── */}
+      <MkSection>
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2
+              className="font-semibold leading-[1.2]"
+              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            >
+              Who we build for
+            </h2>
+            <p
+              className="mt-2 max-w-[64ch]"
+              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+            >
+              We work with people who need software that actually ships — not
+              strategy decks.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {AUDIENCES.map((item) => (
+              <div
+                key={item.label}
+                className="flex flex-col gap-2 p-6 rounded-[var(--mk-radius-md)] border"
+                style={{ borderColor: "var(--mk-color-border)" }}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                    style={{ background: "var(--mk-color-cta)" }}
+                  />
+                  <h3
+                    className="font-semibold"
+                    style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                  >
+                    {item.label}
+                  </h3>
+                </div>
+                <p
+                  className="leading-[1.6] pl-[14px]"
+                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                >
+                  {item.body}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── HOOLIGAN LABS ── */}
+      <MkSection tone="surface-1" id="labs">
+        <div className="flex flex-col gap-8">
+          <div>
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--mk-color-link)", fontFamily: "var(--mk-type-font-mono)" }}
+            >
+              Hooligan Labs — Product &amp; R&amp;D Ecosystem
+            </span>
+            <h2
+              className="mt-3 font-semibold leading-[1.2]"
+              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            >
+              Products in the lab
+            </h2>
+            <p
+              className="mt-2 max-w-[64ch]"
+              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+            >
+              Hooligan Labs is the R&amp;D and product-building arm of Digital
+              Hooligan LLC. Live products and tools in active development.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PRODUCTS.map((product) => (
+              <MkCard key={product.name}>
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <h3
+                    className="font-semibold"
+                    style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                  >
+                    {product.name}
+                  </h3>
+                  <span
+                    className="text-[11px] font-semibold flex-shrink-0 mt-0.5"
+                    style={{
+                      color: "var(--mk-color-link)",
+                      fontFamily: "var(--mk-type-font-mono)",
+                      opacity: 0.8,
+                    }}
+                  >
+                    {product.tag}
+                  </span>
+                </div>
+                <p
+                  className="leading-[1.6]"
+                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                >
+                  {product.body}
+                </p>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── SERVICES ── */}
+      <MkSection id="services">
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2
+              className="font-semibold leading-[1.2]"
+              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            >
+              Services
+            </h2>
+            <p
+              className="mt-2 max-w-[64ch]"
+              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+            >
+              Scoped engagements with clear deliverables. Work is led by
+              operators, not delegated to autonomy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {SERVICES.map((svc) => (
+              <div
+                key={svc.title}
+                className="p-6 rounded-[var(--mk-radius-md)] border"
+                style={{
+                  borderColor: "var(--mk-color-border)",
+                  background: "var(--mk-color-surface-1)",
+                }}
+              >
+                <h3
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  {svc.title}
+                </h3>
+                <p
+                  className="mt-2 leading-[1.6]"
+                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                >
+                  {svc.body}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-2">
+            <CtaLink href="/contact" variant="primary">
+              Start a Project
+            </CtaLink>
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── COMPANY STATUS / CREDIBILITY ── */}
+      <MkSection tone="surface-1">
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2
+              className="font-semibold leading-[1.2]"
+              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            >
+              Company
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  Legal Entity
+                </span>
+                <span
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  Digital Hooligan LLC
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  DBA
+                </span>
+                <span
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  Invariant
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  Ownership
+                </span>
+                <span
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  Veteran-owned software company
+                </span>
               </div>
             </div>
 
-            <div className="flex">
-              <PrimaryCta fullWidthOnMobile />
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 2 — TRUST FRAME (3 Pillars) */}
-      <Section dense>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              How the work stays grounded
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Structured Thinking
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Decisions are framed with explicit constraints, assumptions,
-                  and review points.
-                </p>
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  Federal Contracting
+                </span>
+                <span
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  Readiness in progress
+                </span>
               </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Operator-Led Delivery
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Work is led by humans with accountable execution—no delegated
-                  “autonomy” claims.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Defined Scope Discipline
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Engagements follow defined scopes and written agreements.
-                  Outcomes depend on client participation and constraints.
-                </p>
+              <div className="flex flex-col gap-1">
+                <span
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  SBA 8(a)
+                </span>
+                <span
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  Application in progress — not yet certified
+                </span>
               </div>
             </div>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </MkSection>
 
-      {/* SECTION 3 — PROBLEM FRAMING */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-6">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              When work loses structure, decisions decay
-            </h2>
-
-            <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              Most teams don’t lack tools. They lack a stable decision surface:
-              clear constraints, review cadence, and ownership. Without that,
-              execution drifts and priorities reshuffle faster than the work can
-              ship.
+      {/* ── FOUNDER NOTE ── */}
+      <MkSection>
+        <div className="max-w-[72ch]">
+          <span
+            className="text-xs uppercase tracking-widest"
+            style={{ color: "var(--mk-color-text-muted)", fontFamily: "var(--mk-type-font-mono)" }}
+          >
+            Founder Note
+          </span>
+          <blockquote
+            className="mt-4 pl-6"
+            style={{ borderLeft: "2px solid var(--mk-color-cta)" }}
+          >
+            <p
+              className="leading-[1.7]"
+              style={{
+                fontSize: "var(--mk-type-size-body)",
+                color: "var(--mk-color-text)",
+                opacity: 0.9,
+              }}
+            >
+              Digital Hooligan is built by an operator who understands messy
+              workflows, mission pressure, product ambiguity, and the need to
+              turn chaos into working systems. Invariant exists to turn that
+              chaos into clear, usable software.
             </p>
+          </blockquote>
+        </div>
+      </MkSection>
 
-            <ul className="list-disc pl-6 text-[16px] leading-[1.6] text-[var(--mk-color-text)] opacity-90">
-              <li>Meetings replace movement</li>
-              <li>Tools multiply without clarity</li>
-              <li>Decisions decay without review</li>
-            </ul>
-
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              We do not replace executive judgment. We structure it.
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 4 — APPROACH OVERVIEW */}
-      <Section dense>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              A simple operating pattern
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Define the decision surface
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Clarify what must be decided, by whom, and under what
-                  constraints.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Clarify constraints
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Make tradeoffs explicit early so execution doesn’t collapse
-                  later.
-                </p>
-              </div>
-
-              <div className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <h3 className="text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Align execution
-                </h3>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Convert decisions into scoped increments that can ship and be
-                  reviewed.
-                </p>
-              </div>
-            </div>
-
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Delivered through defined consulting engagements, not software
-              deployment.
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 5 — ENGAGEMENT FLOW (3-Step) */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-8">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Engagement flow
-            </h2>
-
-            <ol className="grid grid-cols-1 md:grid-cols-3 gap-6 list-decimal pl-6 md:pl-0">
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 1
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Conversation
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Exploratory. Not legal/financial/compliance advice.
-                </p>
-              </li>
-
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 2
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Scope &amp; Proposal
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Define constraints, deliverables, and review cadence before
-                  work begins.
-                </p>
-              </li>
-
-              <li className="md:list-none rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6">
-                <div className="text-[14px] text-[var(--mk-color-text-muted)]">
-                  Step 3
-                </div>
-                <div className="mt-1 text-[18px] font-semibold text-[var(--mk-color-text)]">
-                  Build &amp; Ship
-                </div>
-                <p className="mt-2 text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-                  Structured execution with scoped increments and documented
-                  decisions.
-                </p>
-              </li>
-            </ol>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SECTION 6 — CTA BLOCK */}
-      <Section>
-        <Container>
-          <div className="flex flex-col gap-6 items-start">
-            <h2 className="text-[24px] md:text-[32px] leading-[1.2] font-semibold text-[var(--mk-color-text)]">
-              Start a Conversation
-            </h2>
-
-            <p className="text-[18px] leading-[1.5] text-[var(--mk-color-text)] opacity-90 max-w-[72ch]">
-              We’ll review your inquiry and respond within X business days.
-            </p>
-
-            <PrimaryCta fullWidthOnMobile />
-
-            <p className="text-[14px] leading-[1.6] text-[var(--mk-color-text-muted)]">
-              Subject to scope review and mutual fit.
-            </p>
-          </div>
-        </Container>
-      </Section>
+      {/* ── FINAL CTA ── */}
+      <MkSection tone="surface-1">
+        <div className="flex flex-col gap-6 items-start">
+          <h2
+            className="font-semibold leading-[1.2]"
+            style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+          >
+            Bring the chaos.
+            <br />
+            We&apos;ll build the system.
+          </h2>
+          <CtaLink href="/contact" variant="primary" fullWidth>
+            Start a Project with Invariant
+          </CtaLink>
+        </div>
+      </MkSection>
     </article>
   );
 }

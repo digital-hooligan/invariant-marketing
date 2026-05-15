@@ -32,20 +32,32 @@ export default async function LegalDocPage({
   if (!doc) notFound();
 
   return (
-    <article className="space-y-mk-6">
-      <header className="space-y-mk-1">
-        <h1 className="text-mk-h1 font-mkSemibold">{doc.frontmatter.title}</h1>
+    <div className="mx-auto w-full px-6 py-10" style={{ maxWidth: "var(--mk-layout-content-max)" }}>
+      <article className="space-y-6 max-w-3xl">
+        <header className="space-y-2">
+          <h1
+            className="font-semibold"
+            style={{ fontSize: "var(--mk-type-size-h1)", lineHeight: "var(--mk-type-lh-tight)", color: "var(--mk-color-text)" }}
+          >
+            {doc.frontmatter.title}
+          </h1>
+          <div
+            className="text-sm"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            Last updated: {doc.frontmatter.lastUpdated}
+          </div>
+        </header>
 
-        <div className="text-mk-small text-mk-muted">
-          Last updated: {doc.frontmatter.lastUpdated}
-        </div>
-      </header>
+        <section>{doc.content}</section>
 
-      <section className="mk-prose max-w-none">{doc.content}</section>
-
-      <footer className="text-mk-small text-mk-muted">
-        {doc.frontmatter.legalEntityName}
-      </footer>
-    </article>
+        <footer
+          className="text-sm pt-4 border-t"
+          style={{ color: "var(--mk-color-text-muted)", borderColor: "var(--mk-color-border)" }}
+        >
+          {doc.frontmatter.legalEntityName}
+        </footer>
+      </article>
+    </div>
   );
 }

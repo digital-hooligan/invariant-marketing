@@ -29,10 +29,16 @@ export default async function CaseStudiesIndex() {
   }>;
 
   return (
-    <article className="space-y-6">
+    <div className="mx-auto w-full px-6 py-10" style={{ maxWidth: "var(--mk-layout-content-max)" }}>
+    <article className="space-y-6 max-w-3xl">
       <header>
-        <h1 className="text-3xl font-semibold">Case Studies</h1>
-        <p className="opacity-80">
+        <h1
+          className="font-semibold"
+          style={{ fontSize: "var(--mk-type-size-h1)", lineHeight: "var(--mk-type-lh-tight)", color: "var(--mk-color-text)" }}
+        >
+          Case Studies
+        </h1>
+        <p className="mt-3" style={{ color: "var(--mk-color-text-muted)" }}>
           Structured proof in a consistent, non-hype format.
         </p>
       </header>
@@ -56,5 +62,6 @@ export default async function CaseStudiesIndex() {
         )}
       </ul>
     </article>
+    </div>
   );
 }
