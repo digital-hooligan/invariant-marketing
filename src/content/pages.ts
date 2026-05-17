@@ -11,8 +11,7 @@ export const TOP_LEVEL_SLUGS = [
   "governance",
   "solutions",
   "pricing",
-  "company",
-  "contact",
+  // "company" and "contact" have dedicated page routes and are excluded here
 ] as const;
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];

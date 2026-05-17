@@ -1,130 +1,73 @@
+import type { Metadata } from "next";
 import { MkSection } from "@/components/mk/MkSection";
-import { MkCard } from "@/components/mk/MkCard";
+import { ContactForm } from "./ContactForm";
 
-const PRIMARY_CTA_LABEL = "Start a Conversation";
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+};
 
 export default function ContactPage() {
   return (
-    <div>
+    <article className="w-full">
       <MkSection>
-        <div className="max-w-3xl">
-          <h1
-            className="font-semibold"
+        <div className="flex flex-col gap-3 max-w-[56ch]">
+          <span
+            className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              fontSize: "var(--mk-type-size-h1)",
-              lineHeight: "var(--mk-type-lh-tight)",
+              color: "var(--mk-color-cta)",
+              fontFamily: "var(--mk-type-font-mono)",
             }}
           >
-            Contact
+            Invariant
+          </span>
+          <h1
+            className="font-semibold leading-[1.1]"
+            style={{
+              fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
+              color: "var(--mk-color-text)",
+            }}
+          >
+            Start a project.
           </h1>
-          <p className="mt-6" style={{ color: "var(--mk-color-text-muted)" }}>
-            This is the first step in determining fit.
+          <p
+            className="leading-[1.6]"
+            style={{
+              fontSize: "var(--mk-type-size-body)",
+              color: "var(--mk-color-text)",
+              opacity: 0.85,
+            }}
+          >
+            Tell us what you're trying to build and what's in your way. We
+            review every inquiry for fit — no automated responses.
           </p>
         </div>
       </MkSection>
 
-      <MkSection>
-        <div className="max-w-3xl">
-          <MkCard>
-            <form className="space-y-5" method="post" action="#">
-              <div className="grid gap-4 md:grid-cols-2">
-                <label className="flex flex-col gap-2">
-                  <span
-                    className="text-sm"
-                    style={{ color: "var(--mk-color-text-muted)" }}
-                  >
-                    Name
-                  </span>
-                  <input
-                    name="name"
-                    required
-                    className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-                  />
-                </label>
-
-                <label className="flex flex-col gap-2">
-                  <span
-                    className="text-sm"
-                    style={{ color: "var(--mk-color-text-muted)" }}
-                  >
-                    Email
-                  </span>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-                  />
-                </label>
-              </div>
-
-              <label className="flex flex-col gap-2">
-                <span
-                  className="text-sm"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  Organization (optional)
-                </span>
-                <input
-                  name="org"
-                  className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-                />
-              </label>
-
-              <label className="flex flex-col gap-2">
-                <span
-                  className="text-sm"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  What are you trying to solve?
-                </span>
-                <textarea
-                  name="problem"
-                  required
-                  rows={5}
-                  className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-                />
-              </label>
-
-              <label className="flex flex-col gap-2">
-                <span
-                  className="text-sm"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  Timeline
-                </span>
-                <input
-                  name="timeline"
-                  required
-                  className="rounded-[var(--mk-radius-md)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-2)] px-4 py-3"
-                />
-              </label>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center rounded-[var(--mk-radius-md)] px-6 py-4 text-sm font-semibold min-h-[44px]"
-                  style={{
-                    background: "var(--mk-color-cta)",
-                    color: "var(--mk-color-bg)",
-                    transition: `background var(--mk-motion-duration-fast) var(--mk-motion-ease)`,
-                  }}
-                >
-                  {PRIMARY_CTA_LABEL}
-                </button>
-              </div>
-
-              <div
-                className="text-sm"
-                style={{ color: "var(--mk-color-text-muted)" }}
-              >
-                We review inquiries for fit. A conversation may be offered if
-                aligned, or we may decline if misaligned.
-              </div>
-            </form>
-          </MkCard>
+      <MkSection tone="surface-1">
+        <div className="max-w-2xl">
+          <ContactForm />
         </div>
       </MkSection>
-    </div>
+
+      <MkSection>
+        <div
+          className="flex flex-col gap-2 max-w-[56ch] text-sm"
+          style={{ color: "var(--mk-color-text-muted)" }}
+        >
+          <p>
+            <strong style={{ color: "var(--mk-color-text)" }}>
+              What happens next:
+            </strong>{" "}
+            We read every submission. If there&apos;s a fit, we&apos;ll reach
+            out within 2–3 business days to schedule a conversation. If
+            we&apos;re not the right team for your project, we&apos;ll tell
+            you that directly.
+          </p>
+          <p>Scoped work only — we don&apos;t take open-ended retainers.</p>
+        </div>
+      </MkSection>
+    </article>
   );
 }
