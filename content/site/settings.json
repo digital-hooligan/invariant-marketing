@@ -6,16 +6,16 @@
   "mainNav": [
     { "label": "Work", "href": "/#services" },
     { "label": "Labs", "href": "/#labs" },
-    { "label": "Services", "href": "/#services" },
+    { "label": "Offerings", "href": "/offering" },
     { "label": "Company", "href": "/company" },
     { "label": "Contact", "href": "/contact" }
   ],
   "footerNav": [
     { "label": "Company", "href": "/company" },
     { "label": "Contact", "href": "/contact" },
-    { "label": "Offering", "href": "/offering" },
+    { "label": "Offerings", "href": "/offering" },
     { "label": "Solutions", "href": "/solutions" },
-    { "label": "Pricing", "href": "/pricing" },
+    { "label": "Labs", "href": "/#labs" },
     { "label": "Legal", "href": "/legal" }
   ],
   "legalEntityName": "Digital Hooligan LLC d/b/a Invariant"

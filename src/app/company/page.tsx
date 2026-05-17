@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 };
 
 const PRODUCTS = [
-  { name: "Syntaxed", tag: "Release confidence" },
-  { name: "RadixOS", tag: "Founder OS" },
-  { name: "Scientia", tag: "Platform intelligence" },
-  { name: "OpsToys", tag: "Operator utilities" },
-  { name: "PennyWize", tag: "Financial signal" },
-  { name: "HypeWatch", tag: "Trend radar" },
+  { name: "Syntaxed", tag: "Release confidence", href: "https://syntaxed.io" },
+  { name: "RadixOS", tag: "Founder OS", href: "https://scientiaos.io" },
+  { name: "Scientia", tag: "Platform intelligence", href: "https://scientiaos.io" },
+  { name: "OpsToys", tag: "Operator utilities", href: null },
+  { name: "PennyWize", tag: "Financial signal", href: null },
+  { name: "HypeWatch", tag: "Trend radar", href: null },
 ];
 
 export default function CompanyPage() {
@@ -252,30 +252,60 @@ export default function CompanyPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {PRODUCTS.map((p) => (
-              <div
-                key={p.name}
-                className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-1"
-                style={{ borderColor: "var(--mk-color-border)" }}
-              >
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
+            {PRODUCTS.map((p) => {
+              const inner = (
+                <>
+                  <span
+                    className="font-semibold"
+                    style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
+                  >
+                    {p.name}
+                    {p.href && (
+                      <span className="ml-1 text-xs opacity-60">↗</span>
+                    )}
+                  </span>
+                  <span
+                    className="text-[11px] font-semibold"
+                    style={{
+                      color: "var(--mk-color-link)",
+                      fontFamily: "var(--mk-type-font-mono)",
+                      opacity: 0.8,
+                    }}
+                  >
+                    {p.tag}
+                  </span>
+                  {!p.href && (
+                    <span
+                      className="text-[10px] mt-0.5"
+                      style={{ color: "var(--mk-color-text-muted)", opacity: 0.6 }}
+                    >
+                      In development
+                    </span>
+                  )}
+                </>
+              );
+
+              return p.href ? (
+                <a
+                  key={p.name}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-1 no-underline hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
+                  style={{ borderColor: "var(--mk-color-border)" }}
                 >
-                  {p.name}
-                </span>
-                <span
-                  className="text-[11px] font-semibold"
-                  style={{
-                    color: "var(--mk-color-link)",
-                    fontFamily: "var(--mk-type-font-mono)",
-                    opacity: 0.8,
-                  }}
+                  {inner}
+                </a>
+              ) : (
+                <div
+                  key={p.name}
+                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-1"
+                  style={{ borderColor: "var(--mk-color-border)" }}
                 >
-                  {p.tag}
-                </span>
-              </div>
-            ))}
+                  {inner}
+                </div>
+              );
+            })}
           </div>
         </div>
       </MkSection>
@@ -333,7 +363,11 @@ export default function CompanyPage() {
               { label: "Ownership", value: "Veteran-owned software company" },
               {
                 label: "Federal Contracting",
-                value: "Readiness in progress",
+                value: "Approved · SAM.gov registered",
+              },
+              {
+                label: "Certifications",
+                value: "SDVOSB · VOSB",
               },
               {
                 label: "SBA 8(a)",

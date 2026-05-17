@@ -5,9 +5,8 @@ import { loadMdxWithFrontmatter } from "./mdx";
 import { TopLevelPageFrontmatter } from "./schema";
 
 export const TOP_LEVEL_SLUGS = [
-  "solutions",
   "pricing",
-  // "company" and "contact" have dedicated page routes — excluded here
+  // "company", "contact", "solutions" have dedicated page routes — excluded here
 ] as const;
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];
