@@ -36,61 +36,33 @@ export const metadata: Metadata = {
 const SOLUTIONS = [
   {
     title: "Decision Architecture",
-    body: "Structure the decisions that drive your business. We map what decisions exist, who owns them, what context travels with them, and where accountability lives — so decisions stop dissolving into meetings and chat threads.",
-    signal: "Useful when: teams operate on tribal knowledge and important choices are made inconsistently or invisibly.",
+    body: "Structure the decisions that drive your business — who owns them, what context they need, and how accountability is enforced.",
+    href: "#decision-architecture",
   },
   {
     title: "Workflow and Execution Design",
-    body: "When coordination is the bottleneck, the answer isn't more tools — it's a cleaner model of how work moves. We redesign operating workflows, execution instrumentation, handoff structures, and internal tooling alignment.",
-    signal: "Useful when: work stalls at handoffs, accountability is unclear, or the same problems keep recurring.",
+    body: "Redesign how work moves through the organization. Cleaner handoffs, tighter execution loops, better visibility.",
+    href: "#workflow-execution",
   },
   {
     title: "Applied AI and Automation",
-    body: "Practical AI and automation implementation where it actually fits the work. Not novelty — leverage. We design systems with explicit scope, documented assumptions, and human review checkpoints at the right places.",
-    signal: "Useful when: manual overhead is slowing execution and automation is clearly bounded.",
+    body: "Practical AI and automation where it fits. Explicit scope, human review retained, no autonomy overclaims.",
+    href: "#applied-ai",
   },
   {
     title: "Internal Tools and Dashboards",
-    body: "Operator visibility tooling: control panels, monitoring surfaces, decision dashboards, and status boards. Built to fit the operating rhythm, not a generic SaaS template.",
-    signal: "Useful when: teams are managing operations through spreadsheets, Slack threads, or disconnected tools.",
+    body: "Operator visibility tooling — control panels, monitoring surfaces, decision dashboards built to your operating rhythm.",
+    href: null,
   },
   {
     title: "API and Integration Work",
-    body: "Backend integrations, API design, and data pipeline work for existing products and systems. We wire together what needs to talk, remove what creates coupling, and build what's missing.",
-    signal: "Useful when: data doesn't flow between systems that should be connected, or a key integration is brittle.",
+    body: "Backend integrations, API design, and data pipeline work. Wire together what needs to communicate, remove what creates coupling.",
+    href: null,
   },
   {
     title: "Operating System Design",
-    body: "A full operating model redesign — how the business runs, how decisions move, how tools align, how the team executes. For founders and operators who need structural clarity before the next phase of growth.",
-    signal: "Useful when: the business works but doesn't scale cleanly, and adding people or tools makes things worse.",
-  },
-];
-
-const PROCESS_STEPS = [
-  {
-    n: "01",
-    title: "Clarify the problem",
-    body: "We start with what's actually breaking, not a features list. Constraints, operating reality, and what 'solved' looks like.",
-  },
-  {
-    n: "02",
-    title: "Map the operating reality",
-    body: "How work moves today. Where decisions stall. What the team is actually doing versus what the process says.",
-  },
-  {
-    n: "03",
-    title: "Define the system",
-    body: "Scope, architecture, and engagement shape — confirmed before implementation work begins.",
-  },
-  {
-    n: "04",
-    title: "Prototype or implement",
-    body: "Scoped delivery with milestones, documented decisions, and change requests tracked explicitly.",
-  },
-  {
-    n: "05",
-    title: "Review and iterate",
-    body: "Built-in review points. Work expands only when there's a clear path and shared understanding of fit.",
+    body: "Full operating model redesign — decisions, workflows, tooling alignment, execution logic — for founders entering a new phase of growth.",
+    href: null,
   },
 ];
 
@@ -107,7 +79,7 @@ export default function SolutionsPage() {
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
-            Invariant — Applied Systems Work
+            Solutions
           </span>
           <h1
             className="font-semibold leading-[1.1]"
@@ -116,7 +88,7 @@ export default function SolutionsPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Solutions for teams operating through complexity.
+            Systems for teams operating through complexity.
           </h1>
           <p
             className="leading-[1.6]"
@@ -127,13 +99,13 @@ export default function SolutionsPage() {
             }}
           >
             Invariant helps teams clarify decisions, redesign workflows, and
-            implement practical software systems — without adding unnecessary
-            bloat or abstraction.
+            implement practical software systems that respect operational
+            reality — without adding unnecessary bloat.
           </p>
         </div>
       </MkSection>
 
-      {/* ── SOLUTION AREAS ── */}
+      {/* ── SOLUTION CARDS ── */}
       <MkSection tone="surface-1">
         <div className="flex flex-col gap-8">
           <div>
@@ -147,7 +119,7 @@ export default function SolutionsPage() {
               What we work on
             </h2>
             <p
-              className="mt-2 max-w-[60ch]"
+              className="mt-2"
               style={{
                 fontSize: "var(--mk-type-size-small)",
                 color: "var(--mk-color-text-muted)",
@@ -157,7 +129,6 @@ export default function SolutionsPage() {
               and practical implementation.
             </p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {SOLUTIONS.map((s) => (
               <MkCard key={s.title}>
@@ -168,16 +139,10 @@ export default function SolutionsPage() {
                   {s.title}
                 </h3>
                 <p
-                  className="leading-[1.6] text-sm mb-4"
+                  className="text-sm leading-[1.65]"
                   style={{ color: "var(--mk-color-text-muted)" }}
                 >
                   {s.body}
-                </p>
-                <p
-                  className="text-xs leading-[1.5] italic"
-                  style={{ color: "var(--mk-color-text-muted)", opacity: 0.7 }}
-                >
-                  {s.signal}
                 </p>
               </MkCard>
             ))}
@@ -185,49 +150,77 @@ export default function SolutionsPage() {
         </div>
       </MkSection>
 
-      {/* ── WHO WE WORK WITH ── */}
-      <MkSection>
-        <div className="flex flex-col gap-6 max-w-[720px]">
-          <h2
-            className="font-semibold"
-            style={{
-              fontSize: "var(--mk-type-size-h2)",
-              color: "var(--mk-color-text)",
-            }}
-          >
-            Who we work with
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* ── DECISION ARCHITECTURE ── */}
+      <MkSection id="decision-architecture">
+        <div className="flex flex-col gap-8">
+          <div className="max-w-[680px]">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-cta)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Deep Dive
+            </span>
+            <h2
+              className="mt-3 font-semibold leading-[1.2]"
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
+            >
+              Decision Architecture
+            </h2>
+            <p
+              className="mt-3 leading-[1.6]"
+              style={{
+                fontSize: "var(--mk-type-size-body)",
+                color: "var(--mk-color-text)",
+                opacity: 0.85,
+              }}
+            >
+              For teams where important choices dissolve into meetings, chat
+              threads, and spreadsheets — we help build structure around the
+              decisions that actually drive the business.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               {
-                label: "Founder-led teams",
-                body: "Moving from chaos to a working operating model, or from prototype to production-grade system.",
+                label: "Signals worth preserving",
+                body: "Identify which inputs actually change decisions and which ones create noise. Preserve the signal, filter the rest.",
               },
               {
-                label: "Operationally complex orgs",
-                body: "Businesses with meaningful operating constraints — regulatory, mission-adjacent, or coordination-heavy.",
+                label: "Context that travels with decisions",
+                body: "Decisions lose value when context is lost. We structure what information needs to accompany each decision through its lifecycle.",
               },
               {
-                label: "Teams building internal systems",
-                body: "Organizations that need better structure before they need more software.",
+                label: "Accountability boundaries",
+                body: "Who owns what. Who reviews what. Who can override. Clear ownership stops decisions from dying in committee.",
               },
-            ].map((w) => (
+              {
+                label: "Review loops and follow-through",
+                body: "Decisions need feedback loops. We build the structure for decision review, outcome tracking, and course correction.",
+              },
+            ].map((item) => (
               <div
-                key={w.label}
-                className="p-5 rounded-[var(--mk-radius-md)] border flex flex-col gap-2"
+                key={item.label}
+                className="p-5 rounded-[var(--mk-radius-md)] border"
                 style={{ borderColor: "var(--mk-color-border)" }}
               >
                 <h3
-                  className="font-semibold text-sm"
+                  className="font-semibold text-sm mb-2"
                   style={{ color: "var(--mk-color-text)" }}
                 >
-                  {w.label}
+                  {item.label}
                 </h3>
                 <p
-                  className="text-sm leading-[1.6]"
+                  className="text-sm leading-[1.65]"
                   style={{ color: "var(--mk-color-text-muted)" }}
                 >
-                  {w.body}
+                  {item.body}
                 </p>
               </div>
             ))}
@@ -235,70 +228,212 @@ export default function SolutionsPage() {
         </div>
       </MkSection>
 
-      {/* ── PROCESS ── */}
-      <MkSection tone="surface-1">
-        <div className="flex flex-col gap-8 max-w-[720px]">
-          <div>
+      {/* ── WORKFLOW & EXECUTION ── */}
+      <MkSection tone="surface-1" id="workflow-execution">
+        <div className="flex flex-col gap-8">
+          <div className="max-w-[680px]">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-cta)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Deep Dive
+            </span>
             <h2
-              className="font-semibold"
+              className="mt-3 font-semibold leading-[1.2]"
               style={{
                 fontSize: "var(--mk-type-size-h2)",
                 color: "var(--mk-color-text)",
               }}
             >
-              How work starts
+              Workflow and Execution Design
             </h2>
             <p
-              className="mt-2"
+              className="mt-3 leading-[1.6]"
               style={{
-                fontSize: "var(--mk-type-size-small)",
-                color: "var(--mk-color-text-muted)",
+                fontSize: "var(--mk-type-size-body)",
+                color: "var(--mk-color-text)",
+                opacity: 0.85,
               }}
             >
-              Most work starts with a focused sprint or scoped discovery — then
-              expands only when there is a clear path and shared fit.
+              When coordination is the bottleneck, the answer isn&apos;t more
+              tools — it&apos;s a cleaner model of how work moves. We redesign
+              operating workflows around how the team actually executes.
             </p>
           </div>
 
-          <ol className="flex flex-col gap-3">
-            {PROCESS_STEPS.map((step) => (
-              <li
-                key={step.n}
-                className="flex items-start gap-4 p-5 rounded-[var(--mk-radius-md)] border"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {
+                label: "Operating workflow mapping",
+                body: "Document how work actually moves through the organization — not the org chart version, the real version.",
+              },
+              {
+                label: "Execution instrumentation",
+                body: "Add visibility at the right points. Status, blockers, and handoff state should be observable without a meeting.",
+              },
+              {
+                label: "Handoff cleanup",
+                body: "Most coordination failures are handoff failures. We redesign the transitions between teams, roles, and tools.",
+              },
+              {
+                label: "Internal tooling alignment",
+                body: "Tools should match the workflow, not force the workflow to match the tool. We identify where tooling is creating friction.",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="p-5 rounded-[var(--mk-radius-md)] border"
+                style={{
+                  borderColor: "var(--mk-color-border)",
+                  background: "var(--mk-color-bg)",
+                }}
+              >
+                <h3
+                  className="font-semibold text-sm mb-2"
+                  style={{ color: "var(--mk-color-text)" }}
+                >
+                  {item.label}
+                </h3>
+                <p
+                  className="text-sm leading-[1.65]"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── APPLIED AI ── */}
+      <MkSection id="applied-ai">
+        <div className="flex flex-col gap-8">
+          <div className="max-w-[680px]">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-cta)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Deep Dive
+            </span>
+            <h2
+              className="mt-3 font-semibold leading-[1.2]"
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
+            >
+              Applied AI and Automation
+            </h2>
+            <p
+              className="mt-3 leading-[1.6]"
+              style={{
+                fontSize: "var(--mk-type-size-body)",
+                color: "var(--mk-color-text)",
+                opacity: 0.85,
+              }}
+            >
+              Where it fits the work, we implement practical AI and automation
+              support. The goal is not novelty — it&apos;s clearer operations
+              and better decision follow-through.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {
+                label: "Practical AI support",
+                body: "AI integrations tied to specific, bounded operational problems. Not a platform play — a workflow improvement.",
+              },
+              {
+                label: "Bounded automation",
+                body: "Automation with defined inputs, outputs, and failure modes. Scope is explicit before any implementation begins.",
+              },
+              {
+                label: "Human judgment retained",
+                body: "Review checkpoints are built into every AI-assisted workflow. Operator judgment stays in the loop at the right moments.",
+              },
+              {
+                label: "No autonomy overclaims",
+                body: "We do not build systems that claim to replace human decision-making. AI surfaces signals and structures context — humans decide.",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="p-5 rounded-[var(--mk-radius-md)] border"
                 style={{ borderColor: "var(--mk-color-border)" }}
               >
+                <h3
+                  className="font-semibold text-sm mb-2"
+                  style={{ color: "var(--mk-color-text)" }}
+                >
+                  {item.label}
+                </h3>
+                <p
+                  className="text-sm leading-[1.65]"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── ENGAGEMENT SHAPE ── */}
+      <MkSection tone="surface-1" compact>
+        <div className="flex flex-col gap-6 max-w-[680px]">
+          <h2
+            className="font-semibold"
+            style={{
+              fontSize: "var(--mk-type-size-h2)",
+              color: "var(--mk-color-text)",
+            }}
+          >
+            Engagement shape
+          </h2>
+          <p
+            className="leading-[1.6]"
+            style={{
+              fontSize: "var(--mk-type-size-body)",
+              color: "var(--mk-color-text)",
+              opacity: 0.85,
+            }}
+          >
+            Most work starts with scoped discovery or a focused sprint. Work
+            expands only when there is a clear implementation path and a shared
+            understanding of fit. We do not take on open-ended engagements.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {["Discovery", "Build Sprint", "Incremental Delivery", "Fractional Systems Partner"].map(
+              (t) => (
                 <span
-                  className="shrink-0 text-sm font-semibold pt-0.5"
+                  key={t}
+                  className="text-xs font-semibold px-3 py-1.5 rounded-full border"
                   style={{
-                    color: "var(--mk-color-cta)",
+                    borderColor: "var(--mk-color-border)",
+                    color: "var(--mk-color-text-muted)",
                     fontFamily: "var(--mk-type-font-mono)",
                   }}
                 >
-                  {step.n}
+                  {t}
                 </span>
-                <div>
-                  <h3
-                    className="font-semibold text-sm"
-                    style={{ color: "var(--mk-color-text)" }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p
-                    className="mt-1 text-sm leading-[1.6]"
-                    style={{ color: "var(--mk-color-text-muted)" }}
-                  >
-                    {step.body}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+              )
+            )}
+          </div>
         </div>
       </MkSection>
 
       {/* ── CTA ── */}
-      <MkSection>
-        <div className="flex flex-col gap-5 items-start max-w-[560px]">
+      <MkSection compact>
+        <div className="flex flex-col gap-5 max-w-[560px]">
           <h2
             className="font-semibold leading-[1.2]"
             style={{
@@ -337,7 +472,7 @@ export default function SolutionsPage() {
                 color: "var(--mk-color-text)",
               }}
             >
-              See Offerings
+              How We Work
             </Link>
           </div>
         </div>
