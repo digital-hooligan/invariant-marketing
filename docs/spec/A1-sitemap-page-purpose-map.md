@@ -13,6 +13,7 @@ Public Web is standalone marketing. It does not import/connect/depend on the Sci
 ### Top-level pages
 
 - `/`
+- `/cohort`
 - `/platform`
 - `/how-it-works`
 - `/security`
@@ -55,9 +56,14 @@ Public Web is standalone marketing. It does not import/connect/depend on the Sci
 Primary CTA (site-wide): **Schedule a Strategy Call** → `/contact`  
 Secondary CTA (site-wide): **Read Security Posture** → `/security`
 
+Exception: `/cohort` is a temporary campaign route with one primary conversion
+CTA (**Request Cohort Access** → `/contact`) and one low-prominence contextual
+link back to `/`.
+
 | Page                   | Goal                                                   | Primary CTA                         | Secondary CTA                     | Target audience                   | Key message                              | Success criteria                                |
 | ---------------------- | ------------------------------------------------------ | ----------------------------------- | --------------------------------- | --------------------------------- | ---------------------------------------- | ----------------------------------------------- |
 | `/`                    | Establish promise + credibility quickly                | Schedule a Strategy Call            | Read Security Posture             | Evaluators + operators            | Evidence-first posture; clear boundaries | CTA clicks; progression to Platform/Security    |
+| `/cohort`              | Convert qualified early-cohort interest without acting as the homepage | Request Cohort Access | See the broader public site | Qualified early-cohort prospects | Temporary campaign surface; stable route | Single conversion path; no site-shell confusion |
 | `/platform`            | Define Scientia.io conceptually without layer collapse | Schedule a Strategy Call            | Read Security Posture             | Exec + technical evaluators       | What it is / isn’t                       | Clicks to How-it-works/Security; less confusion |
 | `/how-it-works`        | Explain flow + authority boundaries                    | Schedule a Strategy Call            | Read Security Posture             | Operators / technical buyers      | Lifecycle + roles                        | Scroll depth; fewer “how does it work” loops    |
 | `/security`            | Publish trust posture + controls                       | Schedule a Strategy Call            | Jump to sections (optional later) | Security/IT + cautious buyers     | Concrete controls & separation           | Lower security friction; conversions            |
@@ -72,3 +78,14 @@ Secondary CTA (site-wide): **Read Security Posture** → `/security`
 | `/legal/terms`         | Terms                                                  | —                                   | —                                 | Compliance + buyers               | Clear terms                              | Less back-and-forth                             |
 | `/legal/privacy`       | Privacy policy                                         | —                                   | —                                 | Everyone                          | Data handling disclosure                 | Reduced privacy questions                       |
 | `/legal/disclaimer`    | Disclaimers                                            | —                                   | —                                 | Everyone                          | Clear boundaries                         | Reduced misinterpretation risk                  |
+
+## Cohort alignment note
+
+- `/cohort` is the temporary campaign/conversion surface during early rollout.
+- `/` remains a separate long-term public-site surface and is not replaced by
+  `/cohort`.
+- Early traffic concentration on `/cohort` does not transfer homepage ownership.
+- Migration from cohort-first rollout to broader site rollout happens by
+  shifting traffic and CTA emphasis, not by changing the `/cohort` route.
+- Future durable public-site CTAs should route toward `/cohort`; `/cohort` may
+  link back to `/` only as a lightweight contextual path.

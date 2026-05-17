@@ -13,6 +13,9 @@
   "footerNav": [
     { "label": "Company", "href": "/company" },
     { "label": "Contact", "href": "/contact" },
+    { "label": "Offering", "href": "/offering" },
+    { "label": "Solutions", "href": "/solutions" },
+    { "label": "Pricing", "href": "/pricing" },
     { "label": "Legal", "href": "/legal" }
   ],
   "legalEntityName": "Digital Hooligan LLC d/b/a Invariant"

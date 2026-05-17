@@ -1,22 +1,37 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getHomePage } from "@/content/pages";
 import { MkSection } from "@/components/mk/MkSection";
 import { MkCard } from "@/components/mk/MkCard";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { frontmatter } = await getHomePage();
-  return {
-    title: frontmatter.seo.title,
-    description: frontmatter.seo.description,
-    alternates: { canonical: frontmatter.seo.canonical },
-    openGraph: {
-      title: frontmatter.seo.title,
-      description: frontmatter.seo.description,
-      url: frontmatter.seo.canonical,
-    },
-  };
-}
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Invariant — execution-grade software systems",
+} as const;
+
+export const metadata: Metadata = {
+  title: "Invariant — Execution-grade software systems",
+  description:
+    "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    title: "Invariant — Execution-grade software systems",
+    description:
+      "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
+    url: "/",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Invariant — Execution-grade software systems",
+    description:
+      "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: { index: true, follow: true },
+};
 
 function CtaLink({
   href,
@@ -176,9 +191,7 @@ const SERVICES = [
   },
 ];
 
-export default async function HomePage() {
-  void (await getHomePage());
-
+export default function HomePage() {
   return (
     <article className="w-full">
       {/* ── HERO ── */}
@@ -186,21 +199,31 @@ export default async function HomePage() {
         <div className="flex flex-col gap-6 max-w-[760px]">
           <span
             className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "var(--mk-color-cta)", fontFamily: "var(--mk-type-font-mono)" }}
+            style={{
+              color: "var(--mk-color-cta)",
+              fontFamily: "var(--mk-type-font-mono)",
+            }}
           >
             Digital Hooligan LLC dba Invariant
           </span>
 
           <h1
             className="font-semibold leading-[1.05]"
-            style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", color: "var(--mk-color-text)" }}
+            style={{
+              fontSize: "clamp(2rem, 5vw, 3.25rem)",
+              color: "var(--mk-color-text)",
+            }}
           >
             Execution-grade software systems for messy operations.
           </h1>
 
           <p
             className="leading-[1.6] max-w-[68ch]"
-            style={{ fontSize: "var(--mk-type-size-body)", color: "var(--mk-color-text)", opacity: 0.9 }}
+            style={{
+              fontSize: "var(--mk-type-size-body)",
+              color: "var(--mk-color-text)",
+              opacity: 0.9,
+            }}
           >
             We design and ship SaaS products, automation workflows, internal
             tools, and operational intelligence platforms for founders,
@@ -225,13 +248,19 @@ export default async function HomePage() {
           <div>
             <h2
               className="font-semibold leading-[1.2]"
-              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
             >
               What Invariant builds
             </h2>
             <p
               className="mt-2 max-w-[64ch]"
-              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+              style={{
+                fontSize: "var(--mk-type-size-small)",
+                color: "var(--mk-color-text-muted)",
+              }}
             >
               Execution-grade systems across the full product surface — from
               first prototype to production-grade SaaS.
@@ -249,7 +278,10 @@ export default async function HomePage() {
                 </h3>
                 <p
                   className="mt-2 leading-[1.6]"
-                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                  style={{
+                    fontSize: "var(--mk-type-size-small)",
+                    color: "var(--mk-color-text-muted)",
+                  }}
                 >
                   {card.body}
                 </p>
@@ -265,13 +297,19 @@ export default async function HomePage() {
           <div>
             <h2
               className="font-semibold leading-[1.2]"
-              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
             >
               Who we build for
             </h2>
             <p
               className="mt-2 max-w-[64ch]"
-              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+              style={{
+                fontSize: "var(--mk-type-size-small)",
+                color: "var(--mk-color-text-muted)",
+              }}
             >
               We work with people who need software that actually ships — not
               strategy decks.
@@ -299,7 +337,10 @@ export default async function HomePage() {
                 </div>
                 <p
                   className="leading-[1.6] pl-[14px]"
-                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                  style={{
+                    fontSize: "var(--mk-type-size-small)",
+                    color: "var(--mk-color-text-muted)",
+                  }}
                 >
                   {item.body}
                 </p>
@@ -315,19 +356,28 @@ export default async function HomePage() {
           <div>
             <span
               className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "var(--mk-color-link)", fontFamily: "var(--mk-type-font-mono)" }}
+              style={{
+                color: "var(--mk-color-link)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
             >
               Hooligan Labs — Product &amp; R&amp;D Ecosystem
             </span>
             <h2
               className="mt-3 font-semibold leading-[1.2]"
-              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
             >
               Products in the lab
             </h2>
             <p
               className="mt-2 max-w-[64ch]"
-              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+              style={{
+                fontSize: "var(--mk-type-size-small)",
+                color: "var(--mk-color-text-muted)",
+              }}
             >
               Hooligan Labs is the R&amp;D and product-building arm of Digital
               Hooligan LLC. Live products and tools in active development.
@@ -357,7 +407,10 @@ export default async function HomePage() {
                 </div>
                 <p
                   className="leading-[1.6]"
-                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                  style={{
+                    fontSize: "var(--mk-type-size-small)",
+                    color: "var(--mk-color-text-muted)",
+                  }}
                 >
                   {product.body}
                 </p>
@@ -373,13 +426,19 @@ export default async function HomePage() {
           <div>
             <h2
               className="font-semibold leading-[1.2]"
-              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
             >
               Services
             </h2>
             <p
               className="mt-2 max-w-[64ch]"
-              style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+              style={{
+                fontSize: "var(--mk-type-size-small)",
+                color: "var(--mk-color-text-muted)",
+              }}
             >
               Scoped engagements with clear deliverables. Work is led by
               operators, not delegated to autonomy.
@@ -404,7 +463,10 @@ export default async function HomePage() {
                 </h3>
                 <p
                   className="mt-2 leading-[1.6]"
-                  style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
+                  style={{
+                    fontSize: "var(--mk-type-size-small)",
+                    color: "var(--mk-color-text-muted)",
+                  }}
                 >
                   {svc.body}
                 </p>
@@ -423,90 +485,75 @@ export default async function HomePage() {
       {/* ── COMPANY STATUS / CREDIBILITY ── */}
       <MkSection tone="surface-1">
         <div className="flex flex-col gap-8">
-          <div>
-            <h2
-              className="font-semibold leading-[1.2]"
-              style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
-            >
-              Company
-            </h2>
-          </div>
+          <h2
+            className="font-semibold leading-[1.2]"
+            style={{
+              fontSize: "var(--mk-type-size-h2)",
+              color: "var(--mk-color-text)",
+            }}
+          >
+            Company
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  Legal Entity
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                >
-                  Digital Hooligan LLC
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  DBA
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                >
-                  Invariant
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  Ownership
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                >
-                  Veteran-owned software company
-                </span>
-              </div>
+              {[
+                { label: "Legal Entity", value: "Digital Hooligan LLC" },
+                { label: "DBA", value: "Invariant" },
+                {
+                  label: "Ownership",
+                  value: "Veteran-owned software company",
+                },
+              ].map((row) => (
+                <div key={row.label} className="flex flex-col gap-1">
+                  <span
+                    className="text-xs uppercase tracking-wider"
+                    style={{ color: "var(--mk-color-text-muted)" }}
+                  >
+                    {row.label}
+                  </span>
+                  <span
+                    className="font-semibold"
+                    style={{
+                      fontSize: "16px",
+                      color: "var(--mk-color-text)",
+                    }}
+                  >
+                    {row.value}
+                  </span>
+                </div>
+              ))}
             </div>
 
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  Federal Contracting
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                >
-                  Readiness in progress
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: "var(--mk-color-text-muted)" }}
-                >
-                  SBA 8(a)
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                >
-                  Application in progress — not yet certified
-                </span>
-              </div>
+              {[
+                {
+                  label: "Federal Contracting",
+                  value: "Readiness in progress",
+                },
+                {
+                  label: "SBA 8(a)",
+                  value: "Application in progress — not yet certified",
+                },
+              ].map((row) => (
+                <div key={row.label} className="flex flex-col gap-1">
+                  <span
+                    className="text-xs uppercase tracking-wider"
+                    style={{ color: "var(--mk-color-text-muted)" }}
+                  >
+                    {row.label}
+                  </span>
+                  <span
+                    className="font-semibold"
+                    style={{
+                      fontSize: "16px",
+                      color: "var(--mk-color-text)",
+                    }}
+                  >
+                    {row.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -517,7 +564,10 @@ export default async function HomePage() {
         <div className="max-w-[72ch]">
           <span
             className="text-xs uppercase tracking-widest"
-            style={{ color: "var(--mk-color-text-muted)", fontFamily: "var(--mk-type-font-mono)" }}
+            style={{
+              color: "var(--mk-color-text-muted)",
+              fontFamily: "var(--mk-type-font-mono)",
+            }}
           >
             Founder Note
           </span>
@@ -547,7 +597,10 @@ export default async function HomePage() {
         <div className="flex flex-col gap-6 items-start">
           <h2
             className="font-semibold leading-[1.2]"
-            style={{ fontSize: "var(--mk-type-size-h2)", color: "var(--mk-color-text)" }}
+            style={{
+              fontSize: "var(--mk-type-size-h2)",
+              color: "var(--mk-color-text)",
+            }}
           >
             Bring the chaos.
             <br />

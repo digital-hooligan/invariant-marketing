@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "prebuild": "pnpm run env:check",
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -20,9 +20,11 @@
   "dependencies": {
     "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
+    "@types/nodemailer": "^7.0.11",
     "gray-matter": "^4.0.3",
     "next": "^15.0.0",
     "next-mdx-remote": "^5.0.0",
+    "nodemailer": "^8.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^6.12.3",

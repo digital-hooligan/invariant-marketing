@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#08131F"/>
+  <circle cx="164" cy="122" r="220" fill="#12314B"/>
+  <circle cx="1084" cy="560" r="244" fill="#0E2539"/>
+  <rect x="80" y="80" width="1040" height="470" rx="28" fill="#0D1A28" stroke="#1E405A" stroke-width="2"/>
+  <rect x="120" y="126" width="156" height="12" rx="6" fill="#2FD9FF"/>
+  <text x="120" y="232" fill="#F5F7FA" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="700">
+    Invariant
+  </text>
+  <text x="120" y="308" fill="#C8D4E0" font-family="Helvetica, Arial, sans-serif" font-size="30">
+    Applied systems studio for clearer decisions,
+  </text>
+  <text x="120" y="348" fill="#C8D4E0" font-family="Helvetica, Arial, sans-serif" font-size="30">
+    tighter workflows, and stronger execution.
+  </text>
+  <rect x="120" y="416" width="278" height="52" rx="12" fill="#2FD9FF"/>
+  <text x="150" y="450" fill="#08131F" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="700">
+    Digital Hooligan LLC
+  </text>
+  <text x="120" y="514" fill="#8EA3B7" font-family="Helvetica, Arial, sans-serif" font-size="24">
+    Signals. Context. Decisions. Execution.
+  </text>
+</svg>

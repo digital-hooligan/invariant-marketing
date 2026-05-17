@@ -2,10 +2,34 @@ import type { Metadata } from "next";
 import { MkSection } from "@/components/mk/MkSection";
 import { ContactForm } from "./ContactForm";
 
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Invariant marketing site",
+} as const;
+
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    title: "Contact",
+    description:
+      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+    url: "/contact",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact",
+    description:
+      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function ContactPage() {
@@ -39,8 +63,8 @@ export default function ContactPage() {
               opacity: 0.85,
             }}
           >
-            Tell us what you're trying to build and what's in your way. We
-            review every inquiry for fit — no automated responses.
+            Tell us what you&apos;re trying to build and what&apos;s in your
+            way. We review every inquiry for fit — no automated responses.
           </p>
         </div>
       </MkSection>

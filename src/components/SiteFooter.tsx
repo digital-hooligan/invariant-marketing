@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { SiteSettings } from "@/content/siteSettings";
+import { TrackedLink } from "@/components/analytics/PublicAnalytics";
 
 export function SiteFooter({ settings }: { settings: SiteSettings }) {
   return (
@@ -10,12 +10,18 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
       >
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
           <div className="flex flex-col gap-1">
-            <span className="font-semibold" style={{ color: "var(--mk-color-text)" }}>
+            <span
+              className="font-semibold"
+              style={{ color: "var(--mk-color-text)" }}
+            >
               Invariant
             </span>
             <span
               className="text-xs"
-              style={{ color: "var(--mk-color-text-muted)", fontFamily: "var(--mk-type-font-mono)" }}
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
             >
               by Digital Hooligan LLC
             </span>
@@ -29,14 +35,16 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
 
           <nav className="flex flex-wrap gap-4 text-sm">
             {settings.footerNav.map((item) => (
-              <Link
+              <TrackedLink
                 key={item.href}
                 href={item.href}
-                className="hover:underline"
-                style={{ color: "var(--mk-color-text)" }}
+                event="public_nav_click"
+                label={item.label}
+                location="footer_nav"
+                className="hover:underline text-[var(--mk-color-text)]"
               >
                 {item.label}
-              </Link>
+              </TrackedLink>
             ))}
           </nav>
         </div>
@@ -48,7 +56,8 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             borderColor: "var(--mk-color-border)",
           }}
         >
-          © {new Date().getFullYear()} {settings.legalEntityName}. All rights reserved.
+          © {new Date().getFullYear()} {settings.legalEntityName}. All rights
+          reserved.
         </div>
       </div>
     </footer>
