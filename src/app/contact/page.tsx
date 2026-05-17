@@ -1,8 +1,6 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import { ContactIntakeForm } from "@/components/contact/ContactIntakeForm";
-import { MkCard } from "@/components/mk/MkCard";
 import { MkSection } from "@/components/mk/MkSection";
+import { ContactForm } from "./ContactForm";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -14,13 +12,13 @@ const DEFAULT_SOCIAL_IMAGE = {
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
+    "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
   alternates: { canonical: "/contact" },
   openGraph: {
     type: "website",
     title: "Contact",
     description:
-      "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
+      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
     url: "/contact",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
@@ -28,82 +26,72 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact",
     description:
-      "Start a conversation about discovery, implementation, or ongoing systems work with Invariant.",
+      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function ContactPage() {
   return (
-    <div>
+    <article className="w-full">
       <MkSection>
-        <div className="max-w-3xl">
-          <h1
-            className="font-semibold"
+        <div className="flex flex-col gap-3 max-w-[56ch]">
+          <span
+            className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              fontSize: "var(--mk-type-size-h1)",
-              lineHeight: "var(--mk-type-lh-tight)",
+              color: "var(--mk-color-cta)",
+              fontFamily: "var(--mk-type-font-mono)",
             }}
           >
-            Start a conversation
+            Invariant
+          </span>
+          <h1
+            className="font-semibold leading-[1.1]"
+            style={{
+              fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
+              color: "var(--mk-color-text)",
+            }}
+          >
+            Start a project.
           </h1>
-          <p className="mt-6" style={{ color: "var(--mk-color-text-muted)" }}>
-            Tell us what you are trying to build or fix. We&apos;ll review and
-            respond with next steps if there&apos;s a fit.
+          <p
+            className="leading-[1.6]"
+            style={{
+              fontSize: "var(--mk-type-size-body)",
+              color: "var(--mk-color-text)",
+              opacity: 0.85,
+            }}
+          >
+            Tell us what you&apos;re trying to build and what&apos;s in your
+            way. We review every inquiry for fit — no automated responses.
           </p>
         </div>
       </MkSection>
 
-      <MkSection>
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(280px,0.8fr)]">
-          <MkCard>
-            <ContactIntakeForm />
-          </MkCard>
-
-          <div className="space-y-6">
-            <MkCard>
-              <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-                Before you submit
-              </h2>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                <li>Use this form for studio and engagement inquiries.</li>
-                <li>Share enough context for scope, timing, and fit review.</li>
-                <li>Replies are routed through a founder-managed inbox.</li>
-                <li>
-                  Information submitted here is used only to respond to your
-                  inquiry.
-                </li>
-              </ul>
-              <p className="mt-4 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                See the{" "}
-                <Link href="/privacy" className="font-medium">
-                  Privacy Policy
-                </Link>{" "}
-                for details.
-              </p>
-            </MkCard>
-
-            <MkCard>
-              <h2 className="text-lg font-semibold text-[var(--mk-color-text)]">
-                ScientiaOS public entry
-              </h2>
-              <p className="mt-4 text-sm leading-[1.7] text-[var(--mk-color-text-muted)]">
-                If you are looking for platform explanation, security posture,
-                governance, or admissions for Scientia, start at{" "}
-                <a href="https://scientiaos.io/admissions/apply">
-                  scientiaos.io/admissions/apply
-                </a>
-                . The Invariant contact form stays focused on studio and
-                engagement inquiries.
-              </p>
-            </MkCard>
-          </div>
+      <MkSection tone="surface-1">
+        <div className="max-w-2xl">
+          <ContactForm />
         </div>
       </MkSection>
-    </div>
+
+      <MkSection>
+        <div
+          className="flex flex-col gap-2 max-w-[56ch] text-sm"
+          style={{ color: "var(--mk-color-text-muted)" }}
+        >
+          <p>
+            <strong style={{ color: "var(--mk-color-text)" }}>
+              What happens next:
+            </strong>{" "}
+            We read every submission. If there&apos;s a fit, we&apos;ll reach
+            out within 2–3 business days to schedule a conversation. If
+            we&apos;re not the right team for your project, we&apos;ll tell
+            you that directly.
+          </p>
+          <p>Scoped work only — we don&apos;t take open-ended retainers.</p>
+        </div>
+      </MkSection>
+    </article>
   );
 }

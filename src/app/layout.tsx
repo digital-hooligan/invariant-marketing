@@ -11,40 +11,35 @@ const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
   width: 1200,
   height: 630,
-  alt: "Invariant marketing site",
+  alt: "Invariant — execution-grade software systems",
 } as const;
 
 export const metadata: Metadata = {
   metadataBase: new URL(PUBLIC_SITE_URL),
   title: {
-    default: "Digital Hooligan LLC",
+    default: "Invariant — Execution-grade software systems",
     template: "%s | Invariant",
   },
   description:
-    "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
-  alternates: {
-    canonical: "/",
-  },
+    "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: "Invariant",
-    title: "Digital Hooligan LLC",
+    title: "Invariant — Execution-grade software systems",
     description:
-      "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
+      "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
     url: "/",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Digital Hooligan LLC",
+    title: "Invariant — Execution-grade software systems",
     description:
-      "Invariant is the applied systems studio for scoped discovery, implementation, and structured execution.",
+      "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -59,9 +54,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <PageViewTracker />
         <SiteHeader settings={settings} />
-        <main className="flex-1">
-          <div className="mx-auto max-w-5xl px-6 py-10">{children}</div>
-        </main>
+        <main className="flex-1">{children}</main>
         <SiteFooter settings={settings} />
       </body>
     </html>

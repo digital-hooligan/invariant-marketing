@@ -41,10 +41,7 @@ export async function generateMetadata({
         description: page.frontmatter.seo.description,
         images: [DEFAULT_SOCIAL_IMAGE.url],
       },
-      robots: {
-        index: true,
-        follow: true,
-      },
+      robots: { index: true, follow: true },
     };
   }
 
@@ -68,10 +65,7 @@ export async function generateMetadata({
       description: legalDoc.frontmatter.seo.description,
       images: [DEFAULT_SOCIAL_IMAGE.url],
     },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    robots: { index: true, follow: true },
   };
 }
 
@@ -91,7 +85,6 @@ export default async function TopLevelPage({
               {page.frontmatter.title}
             </h1>
           </header>
-
           <MDXContent>{page.content}</MDXContent>
         </article>
       </MkSection>
@@ -108,14 +101,11 @@ export default async function TopLevelPage({
           <h1 className="text-[40px] font-semibold leading-[1.05] text-[var(--mk-color-text)] md:text-[56px]">
             {legalDoc.frontmatter.title}
           </h1>
-
           <div className="text-sm text-[var(--mk-color-text-muted)]">
             Last updated: {legalDoc.frontmatter.lastUpdated}
           </div>
         </header>
-
         <MDXContent>{legalDoc.content}</MDXContent>
-
         <footer className="text-sm text-[var(--mk-color-text-muted)]">
           {legalDoc.frontmatter.legalEntityName}
         </footer>

@@ -13,9 +13,20 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
           event="public_nav_click"
           label="Invariant"
           location="header_brand"
-          className="font-semibold no-underline text-[var(--mk-color-text)]"
+          className="no-underline flex flex-col leading-none"
         >
-          Invariant
+          <span className="font-semibold text-[var(--mk-color-text)]">
+            Invariant
+          </span>
+          <span
+            className="text-[10px] tracking-wide"
+            style={{
+              color: "var(--mk-color-text-muted)",
+              fontFamily: "var(--mk-type-font-mono)",
+            }}
+          >
+            by Digital Hooligan LLC
+          </span>
         </TrackedLink>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm">

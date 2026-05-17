@@ -39,10 +39,16 @@ export default async function LegalHubPage() {
   const { frontmatter } = await getLegalHub();
 
   return (
-    <article className="space-y-6">
+    <div className="mx-auto w-full px-6 py-10" style={{ maxWidth: "var(--mk-layout-content-max)" }}>
+    <article className="space-y-6 max-w-3xl">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold">{frontmatter.title}</h1>
-        <p className="opacity-80">{frontmatter.intro}</p>
+        <h1
+          className="font-semibold"
+          style={{ fontSize: "var(--mk-type-size-h1)", lineHeight: "var(--mk-type-lh-tight)", color: "var(--mk-color-text)" }}
+        >
+          {frontmatter.title}
+        </h1>
+        <p style={{ color: "var(--mk-color-text-muted)" }}>{frontmatter.intro}</p>
       </header>
 
       <ul className="space-y-3">
@@ -62,5 +68,6 @@ export default async function LegalHubPage() {
 
       <p className="text-xs opacity-75">{frontmatter.legalEntityName}</p>
     </article>
+    </div>
   );
 }
