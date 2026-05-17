@@ -135,7 +135,7 @@ export function ContactForm() {
           style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
         >
           We review every inquiry and respond within 2–3 business days if
-          there's a fit. If we're not the right team for your project, we'll
+          there&apos;s a fit. If we&apos;re not the right team for your project, we&apos;ll
           tell you that too.
         </p>
       </div>

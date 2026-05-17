@@ -41,8 +41,8 @@ export default function CompanyPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            We build execution-grade software for operators who can't afford to
-            guess.
+            We build execution-grade software for operators who can&apos;t afford
+            to guess.
           </h1>
 
           <p
@@ -139,7 +139,7 @@ export default function CompanyPage() {
                 }}
               >
                 The client-facing brand and commercial layer. When you work
-                with Invariant, you're contracting with Digital Hooligan LLC.
+                with Invariant, you&apos;re contracting with Digital Hooligan LLC.
               </p>
             </MkCard>
 
@@ -197,8 +197,8 @@ export default function CompanyPage() {
             }}
           >
             Most software problems are operations problems in disguise. Tools
-            don't fix unclear ownership, undefined scope, or broken handoffs.
-            Execution-grade software does — because it's built with operator
+            don&apos;t fix unclear ownership, undefined scope, or broken handoffs.
+            Execution-grade software does — because it&apos;s built with operator
             constraints in mind, not hypothetical futures.
           </p>
 
@@ -210,7 +210,7 @@ export default function CompanyPage() {
               opacity: 0.85,
             }}
           >
-            We ship working systems. Not roadmaps. Not "platforms." Systems
+            We ship working systems. Not roadmaps. Not &quot;platforms.&quot; Systems
             that earn their complexity by solving the actual problem.
           </p>
         </div>
