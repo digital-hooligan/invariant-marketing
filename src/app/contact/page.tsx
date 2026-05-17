@@ -76,20 +76,56 @@ export default function ContactPage() {
       </MkSection>
 
       <MkSection>
-        <div
-          className="flex flex-col gap-2 max-w-[56ch] text-sm"
-          style={{ color: "var(--mk-color-text-muted)" }}
-        >
-          <p>
-            <strong style={{ color: "var(--mk-color-text)" }}>
-              What happens next:
-            </strong>{" "}
-            We read every submission. If there&apos;s a fit, we&apos;ll reach
-            out within 2–3 business days to schedule a conversation. If
-            we&apos;re not the right team for your project, we&apos;ll tell
-            you that directly.
-          </p>
-          <p>Scoped work only — we don&apos;t take open-ended retainers.</p>
+        <div className="flex flex-col gap-6 max-w-[56ch]">
+          <div
+            className="flex flex-col gap-2 text-sm"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            <p>
+              <strong style={{ color: "var(--mk-color-text)" }}>
+                What happens next:
+              </strong>{" "}
+              We read every submission. If there&apos;s a fit, we&apos;ll reach
+              out within 2–3 business days to schedule a conversation. If
+              we&apos;re not the right team for your project, we&apos;ll tell
+              you that directly.
+            </p>
+            <p>Scoped work only — we don&apos;t take open-ended retainers.</p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <p
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Follow Digital Hooligan
+            </p>
+            <div className="flex gap-5">
+              <a
+                href="https://www.linkedin.com/company/digital-hooligan-llc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on LinkedIn"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-link)" }}
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://x.com/DHooliganIO"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on X"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-link)" }}
+              >
+                X / Twitter
+              </a>
+            </div>
+          </div>
         </div>
       </MkSection>
     </article>

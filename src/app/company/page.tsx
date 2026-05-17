@@ -422,7 +422,7 @@ export default function CompanyPage() {
             We take on scoped engagements for founders, operators, and
             mission-adjacent organizations. Start with a conversation.
           </p>
-          <div>
+          <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/contact"
               className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
@@ -433,6 +433,28 @@ export default function CompanyPage() {
             >
               Start a Conversation
             </Link>
+            <div className="flex gap-4">
+              <a
+                href="https://www.linkedin.com/company/digital-hooligan-llc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on LinkedIn"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://x.com/DHooliganIO"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on X"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                X / Twitter
+              </a>
+            </div>
           </div>
         </div>
       </MkSection>

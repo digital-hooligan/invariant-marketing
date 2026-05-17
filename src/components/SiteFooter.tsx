@@ -46,6 +46,30 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             >
               Veteran-owned · SAM.gov registered · SDVOSB
             </span>
+
+            {/* Social links */}
+            <div className="flex gap-4 mt-3">
+              <a
+                href="https://www.linkedin.com/company/digital-hooligan-llc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on LinkedIn"
+                className="text-xs hover:underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://x.com/DHooliganIO"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on X"
+                className="text-xs hover:underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                X / Twitter
+              </a>
+            </div>
           </div>
 
           {/* Nav columns */}
