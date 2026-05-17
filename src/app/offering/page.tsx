@@ -363,7 +363,7 @@ export default function OfferingPage() {
               "Staff augmentation or body-shop placement",
               "Marketing, brand, or creative agency services",
               "Guaranteed business outcomes",
-              "Autonomous AI systems without human review checkpoints",
+              "AI integrations that operate without explicit human review checkpoints",
             ].map((item) => (
               <li key={item} className="flex items-start gap-3 text-sm">
                 <span
