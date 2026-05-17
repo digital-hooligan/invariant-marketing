@@ -4,11 +4,9 @@ import { pagesDir } from "./paths";
 import { loadMdxWithFrontmatter } from "./mdx";
 import { TopLevelPageFrontmatter } from "./schema";
 
-export const TOP_LEVEL_SLUGS = [
-  "solutions",
-  "pricing",
-  // "company" and "contact" have dedicated page routes — excluded here
-] as const;
+export const TOP_LEVEL_SLUGS = [] as const;
+// all top-level pages have dedicated app routes:
+// company, contact, solutions, offering, pricing
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];
 

@@ -6,24 +6,45 @@ import { MkCard } from "@/components/mk/MkCard";
 export const metadata: Metadata = {
   title: "Company",
   description:
-    "Digital Hooligan LLC is the legal entity. Invariant is the commercial studio. Hooligan Labs is the product and R&D ecosystem.",
+    "Digital Hooligan LLC is the legal entity behind Invariant, a studio identity focused on applied systems design, decision architecture, workflow implementation, and operational tooling.",
 };
 
 const PRODUCTS = [
-  { name: "Syntaxed", tag: "Release confidence" },
-  { name: "RadixOS", tag: "Founder OS" },
-  { name: "Scientia", tag: "Platform intelligence" },
-  { name: "OpsToys", tag: "Operator utilities" },
-  { name: "PennyWize", tag: "Financial signal" },
-  { name: "HypeWatch", tag: "Trend radar" },
+  { name: "Syntaxed", tag: "Release confidence", href: "https://syntaxed.io" },
+  { name: "RadixOS", tag: "Founder OS", href: "https://scientiaos.io" },
+  { name: "Scientia", tag: "Platform intelligence", href: "https://scientiaos.io" },
+  { name: "OpsToys", tag: "Operator utilities", href: null },
+  { name: "PennyWize", tag: "Financial signal", href: null },
+  { name: "HypeWatch", tag: "Trend radar", href: null },
+];
+
+const FOCUS_AREAS = [
+  "Applied systems design",
+  "Decision architecture",
+  "Workflow implementation",
+  "Operational experimentation",
+  "Internal tooling",
+  "Applied AI with human judgment retained",
+];
+
+const CREDIBILITY = [
+  { label: "Legal Entity", value: "Digital Hooligan LLC" },
+  { label: "DBA", value: "Invariant" },
+  { label: "Ownership", value: "Veteran-owned software company" },
+  { label: "Federal Contracting", value: "Approved · SAM.gov registered" },
+  { label: "Certifications", value: "SDVOSB · VOSB" },
+  {
+    label: "SBA 8(a)",
+    value: "Application in progress — not yet certified",
+  },
 ];
 
 export default function CompanyPage() {
   return (
     <article className="w-full">
-      {/* ── OVERVIEW ── */}
+      {/* ── HERO ── */}
       <MkSection>
-        <div className="flex flex-col gap-6 max-w-[760px]">
+        <div className="flex flex-col gap-5 max-w-[720px]">
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
@@ -31,33 +52,29 @@ export default function CompanyPage() {
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
-            Digital Hooligan LLC dba Invariant
+            Company
           </span>
-
           <h1
             className="font-semibold leading-[1.1]"
             style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               color: "var(--mk-color-text)",
             }}
           >
-            We build execution-grade software for operators who can&apos;t afford
-            to guess.
+            The studio and legal entity behind the work.
           </h1>
-
           <p
-            className="leading-[1.6] max-w-[68ch]"
+            className="leading-[1.6]"
             style={{
               fontSize: "var(--mk-type-size-body)",
               color: "var(--mk-color-text)",
-              opacity: 0.9,
+              opacity: 0.85,
             }}
           >
-            Digital Hooligan LLC is a veteran-owned software company. We design
-            and ship SaaS products, automation workflows, internal tooling, and
-            applied R&amp;D platforms for founders, operators, and
-            mission-adjacent organizations that need clarity, speed, and
-            control.
+            Digital Hooligan LLC is the legal company behind Invariant — a
+            studio identity focused on applied systems design, decision
+            architecture, workflow implementation, and operational tooling for
+            founders, operators, and mission-adjacent organizations.
           </p>
         </div>
       </MkSection>
@@ -76,7 +93,7 @@ export default function CompanyPage() {
               How the company is structured
             </h2>
             <p
-              className="mt-2 max-w-[64ch]"
+              className="mt-2"
               style={{
                 fontSize: "var(--mk-type-size-small)",
                 color: "var(--mk-color-text-muted)",
@@ -87,97 +104,103 @@ export default function CompanyPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <MkCard>
-              <div
-                className="text-xs font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  color: "var(--mk-color-cta)",
-                  fontFamily: "var(--mk-type-font-mono)",
-                }}
-              >
-                Legal Entity
-              </div>
-              <h3
-                className="font-semibold"
-                style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-              >
-                Digital Hooligan LLC
-              </h3>
-              <p
-                className="mt-2 leading-[1.6]"
-                style={{
-                  fontSize: "var(--mk-type-size-small)",
-                  color: "var(--mk-color-text-muted)",
-                }}
-              >
-                The registered legal entity. Owns all intellectual property,
-                contracts, and operating relationships.
-              </p>
-            </MkCard>
+            {[
+              {
+                tag: "Legal Entity",
+                name: "Digital Hooligan LLC",
+                body: "Legal parent company. Contracts and operates the studio work. Owns the intellectual property developed through company initiatives and provides the legal and operational foundation for all engagements.",
+                tagColor: "var(--mk-color-cta)",
+              },
+              {
+                tag: "Commercial Studio / DBA",
+                name: "Invariant",
+                body: "DBA and studio identity used for public marketing, systems work, and client-facing engagements. When you work with Invariant, you’re contracting with Digital Hooligan LLC.",
+                tagColor: "var(--mk-color-cta)",
+              },
+              {
+                tag: "Product & R&D",
+                name: "Hooligan Labs",
+                body: "Product and R&D ecosystem for internal products, experiments, and software surfaces. Hooligan Labs builds tools and platforms for operators — by operators.",
+                tagColor: "var(--mk-color-link)",
+              },
+            ].map((card) => (
+              <MkCard key={card.name}>
+                <div
+                  className="text-xs font-semibold uppercase tracking-widest mb-3"
+                  style={{
+                    color: card.tagColor,
+                    fontFamily: "var(--mk-type-font-mono)",
+                  }}
+                >
+                  {card.tag}
+                </div>
+                <h3
+                  className="font-semibold mb-2"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  {card.name}
+                </h3>
+                <p
+                  className="text-sm leading-[1.65]"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  {card.body}
+                </p>
+              </MkCard>
+            ))}
+          </div>
+        </div>
+      </MkSection>
 
-            <MkCard>
+      {/* ── WHAT INVARIANT FOCUSES ON ── */}
+      <MkSection>
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2
+              className="font-semibold leading-[1.2]"
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
+            >
+              What Invariant focuses on
+            </h2>
+            <p
+              className="mt-2"
+              style={{
+                fontSize: "var(--mk-type-size-small)",
+                color: "var(--mk-color-text-muted)",
+              }}
+            >
+              Applied systems work across the full product and operations surface.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {FOCUS_AREAS.map((area) => (
               <div
-                className="text-xs font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  color: "var(--mk-color-cta)",
-                  fontFamily: "var(--mk-type-font-mono)",
-                }}
+                key={area}
+                className="flex items-start gap-3 p-4 rounded-[var(--mk-radius-md)] border"
+                style={{ borderColor: "var(--mk-color-border)" }}
               >
-                Commercial Studio / DBA
+                <span
+                  className="mt-[5px] w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: "var(--mk-color-cta)" }}
+                />
+                <span
+                  className="text-sm font-medium leading-[1.5]"
+                  style={{ color: "var(--mk-color-text)" }}
+                >
+                  {area}
+                </span>
               </div>
-              <h3
-                className="font-semibold"
-                style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-              >
-                Invariant
-              </h3>
-              <p
-                className="mt-2 leading-[1.6]"
-                style={{
-                  fontSize: "var(--mk-type-size-small)",
-                  color: "var(--mk-color-text-muted)",
-                }}
-              >
-                The client-facing brand and commercial layer. When you work
-                with Invariant, you&apos;re contracting with Digital Hooligan LLC.
-              </p>
-            </MkCard>
-
-            <MkCard>
-              <div
-                className="text-xs font-semibold uppercase tracking-widest mb-3"
-                style={{
-                  color: "var(--mk-color-link)",
-                  fontFamily: "var(--mk-type-font-mono)",
-                }}
-              >
-                Product &amp; R&amp;D
-              </div>
-              <h3
-                className="font-semibold"
-                style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-              >
-                Hooligan Labs
-              </h3>
-              <p
-                className="mt-2 leading-[1.6]"
-                style={{
-                  fontSize: "var(--mk-type-size-small)",
-                  color: "var(--mk-color-text-muted)",
-                }}
-              >
-                The product and R&amp;D arm. Hooligan Labs builds tools,
-                platforms, and applied experiments — for operators, by
-                operators.
-              </p>
-            </MkCard>
+            ))}
           </div>
         </div>
       </MkSection>
 
       {/* ── MISSION ── */}
-      <MkSection>
-        <div className="flex flex-col gap-6 max-w-[72ch]">
+      <MkSection tone="surface-1" compact>
+        <div className="flex flex-col gap-5 max-w-[720px]">
           <h2
             className="font-semibold leading-[1.2]"
             style={{
@@ -185,9 +208,8 @@ export default function CompanyPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Mission
+            Direction
           </h2>
-
           <p
             className="leading-[1.6]"
             style={{
@@ -197,27 +219,26 @@ export default function CompanyPage() {
             }}
           >
             Most software problems are operations problems in disguise. Tools
-            don&apos;t fix unclear ownership, undefined scope, or broken handoffs.
-            Execution-grade software does — because it&apos;s built with operator
-            constraints in mind, not hypothetical futures.
+            don&apos;t fix unclear ownership, undefined scope, or broken
+            handoffs. Execution-grade software does — because it&apos;s built
+            with operator constraints in mind, not hypothetical futures.
           </p>
-
           <p
             className="leading-[1.6]"
             style={{
               fontSize: "var(--mk-type-size-body)",
               color: "var(--mk-color-text)",
-              opacity: 0.85,
+              opacity: 0.8,
             }}
           >
-            We ship working systems. Not roadmaps. Not &quot;platforms.&quot; Systems
-            that earn their complexity by solving the actual problem.
+            The goal is to help organizations build systems where decisions stay
+            understandable, traceable, and accountable over time.
           </p>
         </div>
       </MkSection>
 
       {/* ── HOOLIGAN LABS ── */}
-      <MkSection tone="surface-1">
+      <MkSection>
         <div className="flex flex-col gap-8">
           <div>
             <span
@@ -239,50 +260,82 @@ export default function CompanyPage() {
               Products built on the same discipline
             </h2>
             <p
-              className="mt-2 max-w-[64ch]"
+              className="mt-2"
               style={{
                 fontSize: "var(--mk-type-size-small)",
                 color: "var(--mk-color-text-muted)",
               }}
             >
               Every product in Hooligan Labs exists because an operator problem
-              was too good not to solve. The same execution discipline from
-              client work applies here.
+              was too good not to solve.
             </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {PRODUCTS.map((p) => (
-              <div
-                key={p.name}
-                className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-1"
-                style={{ borderColor: "var(--mk-color-border)" }}
-              >
-                <span
-                  className="font-semibold"
-                  style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
+            {PRODUCTS.map((p) => {
+              const inner = (
+                <>
+                  <span
+                    className="font-semibold"
+                    style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
+                  >
+                    {p.name}
+                    {p.href && (
+                      <span className="ml-1 text-xs opacity-60">↗</span>
+                    )}
+                  </span>
+                  <span
+                    className="text-[11px] font-semibold mt-0.5"
+                    style={{
+                      color: "var(--mk-color-link)",
+                      fontFamily: "var(--mk-type-font-mono)",
+                      opacity: 0.8,
+                    }}
+                  >
+                    {p.tag}
+                  </span>
+                  {!p.href && (
+                    <span
+                      className="text-[10px] mt-1"
+                      style={{
+                        color: "var(--mk-color-text-muted)",
+                        opacity: 0.55,
+                      }}
+                    >
+                      In development
+                    </span>
+                  )}
+                </>
+              );
+
+              return p.href ? (
+                <a
+                  key={p.name}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5 no-underline hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
+                  style={{ borderColor: "var(--mk-color-border)" }}
                 >
-                  {p.name}
-                </span>
-                <span
-                  className="text-[11px] font-semibold"
-                  style={{
-                    color: "var(--mk-color-link)",
-                    fontFamily: "var(--mk-type-font-mono)",
-                    opacity: 0.8,
-                  }}
+                  {inner}
+                </a>
+              ) : (
+                <div
+                  key={p.name}
+                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5"
+                  style={{ borderColor: "var(--mk-color-border)" }}
                 >
-                  {p.tag}
-                </span>
-              </div>
-            ))}
+                  {inner}
+                </div>
+              );
+            })}
           </div>
         </div>
       </MkSection>
 
-      {/* ── FOUNDER NOTE ── */}
-      <MkSection>
-        <div className="max-w-[72ch]">
+      {/* ── FOUNDER ── */}
+      <MkSection tone="surface-1" compact>
+        <div className="max-w-[680px]">
           <span
             className="text-xs uppercase tracking-widest"
             style={{
@@ -314,7 +367,7 @@ export default function CompanyPage() {
       </MkSection>
 
       {/* ── CREDIBILITY ── */}
-      <MkSection tone="surface-1">
+      <MkSection>
         <div className="flex flex-col gap-8">
           <h2
             className="font-semibold leading-[1.2]"
@@ -326,20 +379,8 @@ export default function CompanyPage() {
             Company status
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-5">
-            {[
-              { label: "Legal Entity", value: "Digital Hooligan LLC" },
-              { label: "DBA", value: "Invariant" },
-              { label: "Ownership", value: "Veteran-owned software company" },
-              {
-                label: "Federal Contracting",
-                value: "Readiness in progress",
-              },
-              {
-                label: "SBA 8(a)",
-                value: "Application in progress — not yet certified",
-              },
-            ].map((row) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+            {CREDIBILITY.map((row) => (
               <div key={row.label} className="flex flex-col gap-1">
                 <span
                   className="text-xs uppercase tracking-wider"
@@ -360,8 +401,8 @@ export default function CompanyPage() {
       </MkSection>
 
       {/* ── CTA ── */}
-      <MkSection>
-        <div className="flex flex-col gap-5 items-start max-w-[56ch]">
+      <MkSection tone="surface-1" compact>
+        <div className="flex flex-col gap-5 max-w-[560px]">
           <h2
             className="font-semibold leading-[1.2]"
             style={{
@@ -381,16 +422,40 @@ export default function CompanyPage() {
             We take on scoped engagements for founders, operators, and
             mission-adjacent organizations. Start with a conversation.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
-            style={{
-              background: "var(--mk-color-cta)",
-              color: "var(--mk-color-bg)",
-            }}
-          >
-            Start a Project
-          </Link>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+              style={{
+                background: "var(--mk-color-cta)",
+                color: "var(--mk-color-bg)",
+              }}
+            >
+              Start a Conversation
+            </Link>
+            <div className="flex gap-4">
+              <a
+                href="https://www.linkedin.com/company/digital-hooligan-llc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on LinkedIn"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://x.com/DHooliganIO"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Digital Hooligan on X"
+                className="text-sm hover:underline no-underline"
+                style={{ color: "var(--mk-color-text-muted)" }}
+              >
+                X / Twitter
+              </a>
+            </div>
+          </div>
         </div>
       </MkSection>
     </article>
