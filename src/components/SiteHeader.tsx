@@ -30,9 +30,9 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
         </TrackedLink>
 
         <nav className="flex flex-wrap items-center gap-4 text-sm">
-          {settings.mainNav.map((item) => (
+          {settings.mainNav.map((item, i) => (
             <TrackedLink
-              key={item.href}
+              key={`${item.label}-${i}`}
               href={item.href}
               event="public_nav_click"
               label={item.label}
