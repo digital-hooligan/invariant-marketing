@@ -6,8 +6,8 @@
   --mk-color-border: #263245;
   --mk-color-text: #f7faff;
   --mk-color-text-muted: #8a94a6;
-  --mk-color-cta: #2dffb7;
-  --mk-color-cta-hover: #18e6a3;
+  --mk-color-cta: #ff3131; /* Rebel Red — primary action/CTA only */
+  --mk-color-cta-hover: #e61c1c;
   --mk-color-link: #00e5ff;
   --mk-color-warning: #f2c94c;
   --mk-color-danger: #ff3b30;

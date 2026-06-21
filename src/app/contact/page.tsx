@@ -40,7 +40,7 @@ export default function ContactPage() {
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "var(--mk-color-cta)",
+              color: "var(--mk-color-link)",
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >

@@ -113,14 +113,14 @@ export function ContactForm() {
       <div
         className="rounded-[var(--mk-radius-lg)] border p-8 flex flex-col gap-3"
         style={{
-          borderColor: "var(--mk-color-cta)",
+          borderColor: "var(--mk-color-success)",
           background: "var(--mk-color-surface-1)",
         }}
         role="status"
       >
         <span
           className="text-xs font-semibold uppercase tracking-widest"
-          style={{ color: "var(--mk-color-cta)", fontFamily: "var(--mk-type-font-mono)" }}
+          style={{ color: "var(--mk-color-success)", fontFamily: "var(--mk-type-font-mono)" }}
         >
           Received
         </span>

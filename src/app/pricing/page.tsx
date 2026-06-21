@@ -76,7 +76,7 @@ export default function PricingPage() {
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "var(--mk-color-cta)",
+              color: "var(--mk-color-link)",
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
@@ -156,7 +156,7 @@ export default function PricingPage() {
 
                 <div
                   className="text-2xl font-semibold mb-1"
-                  style={{ color: "var(--mk-color-cta)" }}
+                  style={{ color: "var(--mk-color-link)" }}
                 >
                   {plan.price}
                 </div>
@@ -174,15 +174,15 @@ export default function PricingPage() {
                 <div
                   className="text-xs rounded-[var(--mk-radius-sm)] px-3 py-2 mb-5 border-l-2"
                   style={{
-                    borderColor: "var(--mk-color-cta)",
-                    background: "rgba(45,255,183,0.06)",
+                    borderColor: "var(--mk-color-link)",
+                    background: "rgba(0,229,255,0.06)",
                     color: "var(--mk-color-text-muted)",
                   }}
                 >
                   <span
                     className="font-semibold uppercase tracking-widest mr-1.5"
                     style={{
-                      color: "var(--mk-color-cta)",
+                      color: "var(--mk-color-link)",
                       fontSize: "10px",
                     }}
                   >
