@@ -75,7 +75,7 @@ export default function SolutionsPage() {
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "var(--mk-color-cta)",
+              color: "var(--mk-color-link)",
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
@@ -157,7 +157,7 @@ export default function SolutionsPage() {
             <span
               className="text-xs font-semibold uppercase tracking-widest"
               style={{
-                color: "var(--mk-color-cta)",
+                color: "var(--mk-color-link)",
                 fontFamily: "var(--mk-type-font-mono)",
               }}
             >
@@ -180,9 +180,10 @@ export default function SolutionsPage() {
                 opacity: 0.85,
               }}
             >
-              For teams where important choices dissolve into meetings, chat
-              threads, and spreadsheets — we help build structure around the
-              decisions that actually drive the business.
+              Every tool captures activity. Few preserve judgment. For teams
+              where important choices dissolve into meetings, chat threads, and
+              spreadsheets — we help build structure around the decisions that
+              actually drive the business.
             </p>
           </div>
 
@@ -235,7 +236,7 @@ export default function SolutionsPage() {
             <span
               className="text-xs font-semibold uppercase tracking-widest"
               style={{
-                color: "var(--mk-color-cta)",
+                color: "var(--mk-color-link)",
                 fontFamily: "var(--mk-type-font-mono)",
               }}
             >
@@ -316,7 +317,7 @@ export default function SolutionsPage() {
             <span
               className="text-xs font-semibold uppercase tracking-widest"
               style={{
-                color: "var(--mk-color-cta)",
+                color: "var(--mk-color-link)",
                 fontFamily: "var(--mk-type-font-mono)",
               }}
             >

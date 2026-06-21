@@ -44,7 +44,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
               className="text-xs mt-1"
               style={{ color: "var(--mk-color-text-muted)" }}
             >
-              Veteran-owned · SAM.gov registered · SDVOSB
+              Veteran-owned · SAM.gov Registered · SBA Certified SDVOSB
             </span>
 
             {/* Social links */}

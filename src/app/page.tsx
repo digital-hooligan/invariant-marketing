@@ -99,7 +99,7 @@ const BUILDS = [
     body: "Operator visibility tools — control panels, monitoring surfaces, and decision dashboards.",
   },
   {
-    title: "AI-Assisted Operating Systems",
+    title: "AI-Assisted Operator Systems",
     body: "Applied AI integrations with explicit scope and human judgment retained throughout.",
   },
   {
@@ -563,15 +563,15 @@ export default function HomePage() {
               {[
                 {
                   label: "Federal Contracting",
-                  value: "Approved · SAM.gov registered",
+                  value: "SAM.gov Registered · Federal Contracting Ready",
                 },
                 {
                   label: "Certifications",
-                  value: "SDVOSB · VOSB",
+                  value: "SBA Certified SDVOSB · SBA Certified VOSB",
                 },
                 {
                   label: "SBA 8(a)",
-                  value: "Application in progress — not yet certified",
+                  value: "Application in Progress",
                 },
               ].map((row) => (
                 <div key={row.label} className="flex flex-col gap-1">

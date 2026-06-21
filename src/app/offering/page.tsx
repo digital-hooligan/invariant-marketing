@@ -122,7 +122,7 @@ export default function OfferingPage() {
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "var(--mk-color-cta)",
+              color: "var(--mk-color-link)",
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
@@ -392,7 +392,7 @@ export default function OfferingPage() {
                 <span
                   className="shrink-0 text-sm font-semibold pt-0.5"
                   style={{
-                    color: "var(--mk-color-cta)",
+                    color: "var(--mk-color-link)",
                     fontFamily: "var(--mk-type-font-mono)",
                   }}
                 >

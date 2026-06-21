@@ -31,11 +31,14 @@ const CREDIBILITY = [
   { label: "Legal Entity", value: "Digital Hooligan LLC" },
   { label: "DBA", value: "Invariant" },
   { label: "Ownership", value: "Veteran-owned software company" },
-  { label: "Federal Contracting", value: "Approved · SAM.gov registered" },
-  { label: "Certifications", value: "SDVOSB · VOSB" },
+  {
+    label: "Federal Contracting",
+    value: "SAM.gov Registered · Federal Contracting Ready",
+  },
+  { label: "Certifications", value: "SBA Certified SDVOSB · SBA Certified VOSB" },
   {
     label: "SBA 8(a)",
-    value: "Application in progress — not yet certified",
+    value: "Application in Progress",
   },
 ];
 
@@ -48,7 +51,7 @@ export default function CompanyPage() {
           <span
             className="text-xs font-semibold uppercase tracking-widest"
             style={{
-              color: "var(--mk-color-cta)",
+              color: "var(--mk-color-link)",
               fontFamily: "var(--mk-type-font-mono)",
             }}
           >
@@ -109,13 +112,13 @@ export default function CompanyPage() {
                 tag: "Legal Entity",
                 name: "Digital Hooligan LLC",
                 body: "Legal parent company. Contracts and operates the studio work. Owns the intellectual property developed through company initiatives and provides the legal and operational foundation for all engagements.",
-                tagColor: "var(--mk-color-cta)",
+                tagColor: "var(--mk-color-link)",
               },
               {
                 tag: "Commercial Studio / DBA",
                 name: "Invariant",
                 body: "DBA and studio identity used for public marketing, systems work, and client-facing engagements. When you work with Invariant, you’re contracting with Digital Hooligan LLC.",
-                tagColor: "var(--mk-color-cta)",
+                tagColor: "var(--mk-color-link)",
               },
               {
                 tag: "Product & R&D",
