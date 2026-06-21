@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireEnv } from "@/lib/env";
+import { getPublishedOperatorNoteSlugs } from "@/content/operatorNotes";
 
 const INDEXABLE_ROUTES = [
   "/",
@@ -8,6 +9,7 @@ const INDEXABLE_ROUTES = [
   "/pricing",
   "/company",
   "/contact",
+  "/operator-notes",
   "/legal",
   "/terms",
   "/privacy",
@@ -28,7 +30,10 @@ function xmlEscape(s: string) {
 }
 
 export function GET() {
-  const routes = [...new Set(INDEXABLE_ROUTES)];
+  const noteRoutes = getPublishedOperatorNoteSlugs().map(
+    (slug) => `/operator-notes/${slug}`,
+  );
+  const routes = [...new Set([...INDEXABLE_ROUTES, ...noteRoutes])];
 
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
@@ -43,7 +48,9 @@ export function GET() {
                 r === "/privacy" ||
                 r === "/disclaimer"
               ? "0.3"
-              : "0.7";
+              : r === "/operator-notes" || r.startsWith("/operator-notes/")
+                ? "0.6"
+                : "0.7";
         return [
           "  <url>",
           `    <loc>${xmlEscape(getPublicUrl(r))}</loc>`,
