@@ -8,6 +8,7 @@
     { "label": "Solutions", "href": "/solutions" },
     { "label": "Pricing", "href": "/pricing" },
     { "label": "Company", "href": "/company" },
+    { "label": "Notes", "href": "/operator-notes" },
     { "label": "Contact", "href": "/contact" }
   ],
   "footerNav": [
@@ -16,6 +17,7 @@
     { "label": "Pricing", "href": "/pricing" },
     { "label": "Company", "href": "/company" },
     { "label": "Contact", "href": "/contact" },
+    { "label": "Operator Notes", "href": "/operator-notes" },
     { "label": "Legal", "href": "/legal" }
   ],
   "legalEntityName": "Digital Hooligan LLC d/b/a Invariant"
