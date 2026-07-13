@@ -156,18 +156,21 @@ const SHIPPED_PRODUCTS: Product[] = [
   },
 ];
 
+const EARLY_ACCESS_PRODUCTS: Product[] = [
+  {
+    name: "PennyWize",
+    tag: "Financial signal",
+    body: "Small-cap signal and research assist. Operator-grade market intelligence without the noise.",
+    href: "https://www.pennywize.ai/",
+    note: null,
+  },
+];
+
 const IN_DEVELOPMENT_PRODUCTS: Product[] = [
   {
     name: "OpsToys",
     tag: "Operator utilities",
     body: "Browser-based operator utilities and workflow tooling. Small tools with outsized leverage.",
-    href: null,
-    note: null,
-  },
-  {
-    name: "PennyWize",
-    tag: "Financial signal",
-    body: "Small-cap signal and research assist. Operator-grade market intelligence without the noise.",
     href: null,
     note: null,
   },
@@ -469,6 +472,23 @@ export default function HomePage() {
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {SHIPPED_PRODUCTS.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Early access
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {EARLY_ACCESS_PRODUCTS.map((product) => (
                 <ProductCard key={product.name} product={product} />
               ))}
             </div>

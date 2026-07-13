@@ -44,9 +44,12 @@ const SHIPPED_PRODUCTS: LabProduct[] = [
   },
 ];
 
+const EARLY_ACCESS_PRODUCTS: LabProduct[] = [
+  { name: "PennyWize", tag: "Financial signal", href: "https://www.pennywize.ai/" },
+];
+
 const IN_DEVELOPMENT_PRODUCTS: LabProduct[] = [
   { name: "OpsToys", tag: "Operator utilities", href: null },
-  { name: "PennyWize", tag: "Financial signal", href: null },
   { name: "HypeWatch", tag: "Trend radar", href: null },
 ];
 
@@ -362,6 +365,23 @@ export default function CompanyPage() {
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {SHIPPED_PRODUCTS.map((p) => (
+                  <ProductChip key={p.name} p={p} />
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <span
+                className="text-xs font-semibold uppercase tracking-widest"
+                style={{
+                  color: "var(--mk-color-text-muted)",
+                  fontFamily: "var(--mk-type-font-mono)",
+                }}
+              >
+                Early access
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {EARLY_ACCESS_PRODUCTS.map((p) => (
                   <ProductChip key={p.name} p={p} />
                 ))}
               </div>
