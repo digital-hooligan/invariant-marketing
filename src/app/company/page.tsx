@@ -36,12 +36,12 @@ export const metadata: Metadata = {
 type LabProduct = { name: string; tag: string; href: string | null };
 
 const SHIPPED_PRODUCTS: LabProduct[] = [
-  { name: "Syntaxed", tag: "Release confidence", href: "https://syntaxed.io" },
   {
     name: "Scientia for Slack",
     tag: "Decision capture",
     href: "https://scientiaos.io/slack",
   },
+  { name: "Syntaxed", tag: "Release confidence", href: "https://syntaxed.io" },
 ];
 
 const EARLY_ACCESS_PRODUCTS: LabProduct[] = [

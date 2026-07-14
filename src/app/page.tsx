@@ -141,18 +141,18 @@ type Product = {
 
 const SHIPPED_PRODUCTS: Product[] = [
   {
-    name: "Syntaxed",
-    tag: "Release confidence",
-    body: "Post-deploy sanity checks and release confidence tooling. Catch regressions before your users do.",
-    href: "https://syntaxed.io",
-    note: null,
-  },
-  {
     name: "Scientia for Slack",
     tag: "Decision capture",
     body: "Native decision capture inside Slack. Turn important threads into structured Decision Cards your team can review, approve, and revisit later.",
     href: "https://scientiaos.io/slack",
     note: "Available to approved pilot workspaces.",
+  },
+  {
+    name: "Syntaxed",
+    tag: "Release confidence",
+    body: "Post-deploy sanity checks and release confidence tooling. Catch regressions before your users do.",
+    href: "https://syntaxed.io",
+    note: null,
   },
 ];
 
