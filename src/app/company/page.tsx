@@ -3,20 +3,98 @@ import Link from "next/link";
 import { MkSection } from "@/components/mk/MkSection";
 import { MkCard } from "@/components/mk/MkCard";
 
+const COMPANY_DESCRIPTION =
+  "Digital Hooligan LLC is the legal entity behind Invariant, a studio identity focused on applied systems design, decision architecture, workflow implementation, and operational tooling.";
+
+const DEFAULT_SOCIAL_IMAGE = {
+  url: "/social/og-default.png",
+  width: 1200,
+  height: 630,
+  alt: "Invariant — Company",
+} as const;
+
 export const metadata: Metadata = {
   title: "Company",
-  description:
-    "Digital Hooligan LLC is the legal entity behind Invariant, a studio identity focused on applied systems design, decision architecture, workflow implementation, and operational tooling.",
+  description: COMPANY_DESCRIPTION,
+  alternates: { canonical: "/company" },
+  openGraph: {
+    type: "website",
+    title: "Company — Invariant",
+    description: COMPANY_DESCRIPTION,
+    url: "/company",
+    images: [DEFAULT_SOCIAL_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Company — Invariant",
+    description: COMPANY_DESCRIPTION,
+    images: [DEFAULT_SOCIAL_IMAGE.url],
+  },
+  robots: { index: true, follow: true },
 };
 
-const PRODUCTS = [
+type LabProduct = { name: string; tag: string; href: string | null };
+
+const SHIPPED_PRODUCTS: LabProduct[] = [
+  {
+    name: "Scientia for Slack",
+    tag: "Decision capture",
+    href: "https://scientiaos.io/slack",
+  },
   { name: "Syntaxed", tag: "Release confidence", href: "https://syntaxed.io" },
-  { name: "RadixOS", tag: "Founder OS", href: "https://scientiaos.io" },
-  { name: "Scientia", tag: "Platform intelligence", href: "https://scientiaos.io" },
+];
+
+const EARLY_ACCESS_PRODUCTS: LabProduct[] = [
+  { name: "PennyWize", tag: "Financial signal", href: "https://www.pennywize.ai/" },
+];
+
+const IN_DEVELOPMENT_PRODUCTS: LabProduct[] = [
   { name: "OpsToys", tag: "Operator utilities", href: null },
-  { name: "PennyWize", tag: "Financial signal", href: null },
   { name: "HypeWatch", tag: "Trend radar", href: null },
 ];
+
+function ProductChip({ p }: { p: LabProduct }) {
+  const inner = (
+    <>
+      <span
+        className="font-semibold"
+        style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
+      >
+        {p.name}
+        {p.href && <span className="ml-1 text-xs opacity-60">↗</span>}
+      </span>
+      <span
+        className="text-[11px] font-semibold mt-0.5"
+        style={{
+          color: "var(--mk-color-link)",
+          fontFamily: "var(--mk-type-font-mono)",
+          opacity: 0.8,
+        }}
+      >
+        {p.tag}
+      </span>
+    </>
+  );
+
+  return p.href ? (
+    <a
+      href={p.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5 no-underline hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
+      style={{ borderColor: "var(--mk-color-border)" }}
+    >
+      {inner}
+    </a>
+  ) : (
+    <div
+      className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5"
+      style={{ borderColor: "var(--mk-color-border)" }}
+    >
+      {inner}
+    </div>
+  );
+}
 
 const FOCUS_AREAS = [
   "Applied systems design",
@@ -274,64 +352,57 @@ export default function CompanyPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {PRODUCTS.map((p) => {
-              const inner = (
-                <>
-                  <span
-                    className="font-semibold"
-                    style={{ fontSize: "15px", color: "var(--mk-color-text)" }}
-                  >
-                    {p.name}
-                    {p.href && (
-                      <span className="ml-1 text-xs opacity-60">↗</span>
-                    )}
-                  </span>
-                  <span
-                    className="text-[11px] font-semibold mt-0.5"
-                    style={{
-                      color: "var(--mk-color-link)",
-                      fontFamily: "var(--mk-type-font-mono)",
-                      opacity: 0.8,
-                    }}
-                  >
-                    {p.tag}
-                  </span>
-                  {!p.href && (
-                    <span
-                      className="text-[10px] mt-1"
-                      style={{
-                        color: "var(--mk-color-text-muted)",
-                        opacity: 0.55,
-                      }}
-                    >
-                      In development
-                    </span>
-                  )}
-                </>
-              );
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3">
+              <span
+                className="text-xs font-semibold uppercase tracking-widest"
+                style={{
+                  color: "var(--mk-color-text-muted)",
+                  fontFamily: "var(--mk-type-font-mono)",
+                }}
+              >
+                Shipped
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {SHIPPED_PRODUCTS.map((p) => (
+                  <ProductChip key={p.name} p={p} />
+                ))}
+              </div>
+            </div>
 
-              return p.href ? (
-                <a
-                  key={p.name}
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5 no-underline hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
-                  style={{ borderColor: "var(--mk-color-border)" }}
-                >
-                  {inner}
-                </a>
-              ) : (
-                <div
-                  key={p.name}
-                  className="p-4 rounded-[var(--mk-radius-md)] border flex flex-col gap-0.5"
-                  style={{ borderColor: "var(--mk-color-border)" }}
-                >
-                  {inner}
-                </div>
-              );
-            })}
+            <div className="flex flex-col gap-3">
+              <span
+                className="text-xs font-semibold uppercase tracking-widest"
+                style={{
+                  color: "var(--mk-color-text-muted)",
+                  fontFamily: "var(--mk-type-font-mono)",
+                }}
+              >
+                Early access
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {EARLY_ACCESS_PRODUCTS.map((p) => (
+                  <ProductChip key={p.name} p={p} />
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <span
+                className="text-xs font-semibold uppercase tracking-widest"
+                style={{
+                  color: "var(--mk-color-text-muted)",
+                  fontFamily: "var(--mk-type-font-mono)",
+                }}
+              >
+                In development
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {IN_DEVELOPMENT_PRODUCTS.map((p) => (
+                  <ProductChip key={p.name} p={p} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </MkSection>

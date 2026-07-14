@@ -11,7 +11,7 @@ const DEFAULT_SOCIAL_IMAGE = {
 } as const;
 
 export const metadata: Metadata = {
-  title: "Invariant — Execution-grade software systems",
+  title: { absolute: "Invariant — Execution-grade software systems" },
   description:
     "Digital Hooligan LLC dba Invariant builds SaaS products, automation workflows, internal tools, and operational intelligence platforms for founders, operators, and mission-adjacent teams.",
   alternates: { canonical: "/" },
@@ -131,44 +131,114 @@ const AUDIENCES = [
   },
 ];
 
-const PRODUCTS = [
+type Product = {
+  name: string;
+  tag: string;
+  body: string;
+  href: string | null;
+  note: string | null;
+};
+
+const SHIPPED_PRODUCTS: Product[] = [
+  {
+    name: "Scientia for Slack",
+    tag: "Decision capture",
+    body: "Native decision capture inside Slack. Turn important threads into structured Decision Cards your team can review, approve, and revisit later.",
+    href: "https://scientiaos.io/slack",
+    note: "Available to approved pilot workspaces.",
+  },
   {
     name: "Syntaxed",
     tag: "Release confidence",
     body: "Post-deploy sanity checks and release confidence tooling. Catch regressions before your users do.",
     href: "https://syntaxed.io",
+    note: null,
   },
+];
+
+const EARLY_ACCESS_PRODUCTS: Product[] = [
   {
-    name: "RadixOS",
-    tag: "Founder OS",
-    body: "Operational OS for founder and operator decision flow. Clarity layer for the messy middle of running a company.",
-    href: "https://scientiaos.io",
+    name: "PennyWize",
+    tag: "Financial signal",
+    body: "Small-cap signal and research assist. Operator-grade market intelligence without the noise.",
+    href: "https://www.pennywize.ai/",
+    note: null,
   },
-  {
-    name: "Scientia",
-    tag: "Platform intelligence",
-    body: "Platform intelligence and contract-aware systems for mission-adjacent and operationally complex organizations.",
-    href: "https://scientiaos.io",
-  },
+];
+
+const IN_DEVELOPMENT_PRODUCTS: Product[] = [
   {
     name: "OpsToys",
     tag: "Operator utilities",
     body: "Browser-based operator utilities and workflow tooling. Small tools with outsized leverage.",
     href: null,
-  },
-  {
-    name: "PennyWize",
-    tag: "Financial signal",
-    body: "Small-cap signal and research assist. Operator-grade market intelligence without the noise.",
-    href: null,
+    note: null,
   },
   {
     name: "HypeWatch",
     tag: "Trend radar",
     body: "Hype intelligence and trend radar. Know what's signal and what's noise before the cycle peaks.",
     href: null,
+    note: null,
   },
 ];
+
+function ProductCard({ product }: { product: Product }) {
+  const cardContent = (
+    <>
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <h3
+          className="font-semibold"
+          style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+        >
+          {product.name}
+          {product.href && <span className="ml-1 text-xs opacity-50">↗</span>}
+        </h3>
+        <span
+          className="text-[11px] font-semibold flex-shrink-0 mt-0.5"
+          style={{
+            color: "var(--mk-color-link)",
+            fontFamily: "var(--mk-type-font-mono)",
+            opacity: 0.8,
+          }}
+        >
+          {product.tag}
+        </span>
+      </div>
+      <p
+        className="leading-[1.6]"
+        style={{
+          fontSize: "var(--mk-type-size-small)",
+          color: "var(--mk-color-text-muted)",
+        }}
+      >
+        {product.body}
+      </p>
+      {product.note && (
+        <p
+          className="mt-3 text-[11px]"
+          style={{ color: "var(--mk-color-text-muted)", opacity: 0.5 }}
+        >
+          {product.note}
+        </p>
+      )}
+    </>
+  );
+
+  return product.href ? (
+    <a
+      href={product.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="rounded-[var(--mk-radius-lg)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6 no-underline block hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
+      style={{ boxShadow: "var(--mk-shadow-1)" }}
+    >
+      {cardContent}
+    </a>
+  ) : (
+    <MkCard>{cardContent}</MkCard>
+  );
+}
 
 const SERVICES = [
   {
@@ -390,66 +460,55 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PRODUCTS.map((product) => {
-              const cardContent = (
-                <>
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <h3
-                      className="font-semibold"
-                      style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
-                    >
-                      {product.name}
-                      {product.href && (
-                        <span className="ml-1 text-xs opacity-50">↗</span>
-                      )}
-                    </h3>
-                    <span
-                      className="text-[11px] font-semibold flex-shrink-0 mt-0.5"
-                      style={{
-                        color: "var(--mk-color-link)",
-                        fontFamily: "var(--mk-type-font-mono)",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {product.tag}
-                    </span>
-                  </div>
-                  <p
-                    className="leading-[1.6]"
-                    style={{
-                      fontSize: "var(--mk-type-size-small)",
-                      color: "var(--mk-color-text-muted)",
-                    }}
-                  >
-                    {product.body}
-                  </p>
-                  {!product.href && (
-                    <p
-                      className="mt-3 text-[11px]"
-                      style={{ color: "var(--mk-color-text-muted)", opacity: 0.5 }}
-                    >
-                      In development
-                    </p>
-                  )}
-                </>
-              );
+          <div className="flex flex-col gap-4">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Shipped
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {SHIPPED_PRODUCTS.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
+          </div>
 
-              return product.href ? (
-                <a
-                  key={product.name}
-                  href={product.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-[var(--mk-radius-lg)] border border-[var(--mk-color-border)] bg-[var(--mk-color-surface-1)] p-6 no-underline block hover:border-[var(--mk-color-link)] transition-colors duration-[120ms]"
-                  style={{ boxShadow: "var(--mk-shadow-1)" }}
-                >
-                  {cardContent}
-                </a>
-              ) : (
-                <MkCard key={product.name}>{cardContent}</MkCard>
-              );
-            })}
+          <div className="flex flex-col gap-4">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              Early access
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {EARLY_ACCESS_PRODUCTS.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{
+                color: "var(--mk-color-text-muted)",
+                fontFamily: "var(--mk-type-font-mono)",
+              }}
+            >
+              In development
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {IN_DEVELOPMENT_PRODUCTS.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
           </div>
         </div>
       </MkSection>

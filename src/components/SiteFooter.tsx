@@ -3,9 +3,9 @@ import { TrackedLink } from "@/components/analytics/PublicAnalytics";
 
 const EXTERNAL_PRODUCTS = [
   {
-    label: "ScientiaOS",
-    href: "https://scientiaos.io",
-    tag: "Platform intelligence",
+    label: "Scientia for Slack",
+    href: "https://scientiaos.io/slack",
+    tag: "Decision capture",
   },
   {
     label: "Syntaxed",
