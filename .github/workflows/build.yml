@@ -12,6 +12,14 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Non-secret, schema-valid build env (see env.contract.json). Replaces the
+    # values that used to come from the committed .env.local for `next build`.
+    env:
+      ENVIRONMENT: preview
+      PUBLIC_SITE_URL: https://digitalhooligan.io
+      APP_ID: invariant-marketing
+      APP_VERSION: 0.1.0
+      BUILD_TIMESTAMP: "1970-01-01T00:00:00.000Z"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
