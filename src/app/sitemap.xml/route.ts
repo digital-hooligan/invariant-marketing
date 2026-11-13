@@ -8,6 +8,8 @@ const INDEXABLE_ROUTES = [
   "/solutions",
   "/pricing",
   "/company",
+  "/federal",
+  "/federal/capability-statement",
   "/contact",
   "/operator-notes",
   "/legal",

@@ -149,6 +149,17 @@ export default function OfferingPage() {
             system, and implement practical software or automation — without
             adding unnecessary bloat or abstraction.
           </p>
+          <p
+            className="leading-[1.6] text-sm"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            Supporting a federal program?{" "}
+            <Link href="/federal" style={{ color: "var(--mk-color-link)" }}>
+              See our Federal &amp; Defense capabilities
+            </Link>{" "}
+            — Invariant takes on defined engineering work packages and
+            subcontracting alongside its commercial engagements.
+          </p>
           <div className="flex flex-wrap gap-3 pt-1">
             <Link
               href="/pricing"
