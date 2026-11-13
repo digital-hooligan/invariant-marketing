@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MkSection } from "@/components/mk/MkSection";
+import {
+  DIRECT_CONTACT_EMAIL,
+  PROJECT_INTAKE_HREF,
+  TEAMING_INTAKE_HREF,
+  type InquiryType,
+} from "@/content/intake";
 import { ContactForm } from "./ContactForm";
 
 const DEFAULT_SOCIAL_IMAGE = {
@@ -12,13 +19,13 @@ const DEFAULT_SOCIAL_IMAGE = {
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+    "Discuss a federal work package or a commercial project with Invariant. We review every inquiry and respond within 2–3 business days.",
   alternates: { canonical: "/contact" },
   openGraph: {
     type: "website",
     title: "Contact",
     description:
-      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+      "Discuss a federal work package or a commercial project with Invariant. We review every inquiry and respond within 2–3 business days.",
     url: "/contact",
     images: [DEFAULT_SOCIAL_IMAGE],
   },
@@ -26,13 +33,39 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact",
     description:
-      "Start a project with Invariant. We review every inquiry and respond within 2–3 business days.",
+      "Discuss a federal work package or a commercial project with Invariant. We review every inquiry and respond within 2–3 business days.",
     images: [DEFAULT_SOCIAL_IMAGE.url],
   },
   robots: { index: true, follow: true },
 };
 
-export default function ContactPage() {
+const COPY: Record<
+  InquiryType,
+  { heading: string; body: string; tab: string; href: string }
+> = {
+  teaming: {
+    tab: "Federal teaming",
+    href: TEAMING_INTAKE_HREF,
+    heading: "Discuss a work package.",
+    body: "Tell us about the program or opportunity, the scope of work, and the timeline. If those details are still being defined, share what you know — early conversations are welcome.",
+  },
+  project: {
+    tab: "Commercial project",
+    href: PROJECT_INTAKE_HREF,
+    heading: "Discuss a project.",
+    body: "Tell us what you're trying to build and what's in your way. We review every inquiry for fit — no automated responses.",
+  },
+};
+
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string | string[] }>;
+}) {
+  const { type } = await searchParams;
+  const inquiryType: InquiryType = type === "project" ? "project" : "teaming";
+  const copy = COPY[inquiryType];
+
   return (
     <article className="w-full">
       <MkSection>
@@ -53,7 +86,7 @@ export default function ContactPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Start a project.
+            {copy.heading}
           </h1>
           <p
             className="leading-[1.6]"
@@ -63,15 +96,39 @@ export default function ContactPage() {
               opacity: 0.85,
             }}
           >
-            Tell us what you&apos;re trying to build and what&apos;s in your
-            way. We review every inquiry for fit — no automated responses.
+            {copy.body}
           </p>
         </div>
       </MkSection>
 
       <MkSection tone="surface-1">
-        <div className="max-w-2xl">
-          <ContactForm />
+        <div className="max-w-2xl flex flex-col gap-6">
+          <nav aria-label="Inquiry type" className="flex flex-wrap gap-2">
+            {(Object.keys(COPY) as InquiryType[]).map((key) => {
+              const active = key === inquiryType;
+              return (
+                <Link
+                  key={key}
+                  href={COPY[key].href}
+                  scroll={false}
+                  aria-current={active ? "page" : undefined}
+                  className="inline-flex items-center justify-center min-h-[40px] rounded-[var(--mk-radius-md)] border px-4 py-2 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+                  style={{
+                    borderColor: active
+                      ? "var(--mk-color-link)"
+                      : "var(--mk-color-border)",
+                    color: active
+                      ? "var(--mk-color-text)"
+                      : "var(--mk-color-text-muted)",
+                    background: active ? "var(--mk-color-bg)" : "transparent",
+                  }}
+                >
+                  {COPY[key].tab}
+                </Link>
+              );
+            })}
+          </nav>
+          <ContactForm key={inquiryType} inquiryType={inquiryType} />
         </div>
       </MkSection>
 
@@ -90,7 +147,20 @@ export default function ContactPage() {
               we&apos;re not the right team for your project, we&apos;ll tell
               you that directly.
             </p>
-            <p>Scoped work only — we don&apos;t take open-ended retainers.</p>
+            <p>
+              Every engagement runs on agreed deliverables — including ongoing
+              Fractional Systems Partner support.
+            </p>
+            <p>
+              Prefer email? Write to{" "}
+              <a
+                href={`mailto:${DIRECT_CONTACT_EMAIL}`}
+                style={{ color: "var(--mk-color-link)" }}
+              >
+                {DIRECT_CONTACT_EMAIL}
+              </a>
+              .
+            </p>
           </div>
 
           <div className="flex flex-col gap-2">
