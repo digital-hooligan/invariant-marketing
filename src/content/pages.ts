@@ -6,7 +6,7 @@ import { TopLevelPageFrontmatter } from "./schema";
 
 export const TOP_LEVEL_SLUGS = [] as const;
 // all top-level pages have dedicated app routes:
-// company, contact, solutions, offering, pricing
+// company, contact, services, pricing, labs, federal
 
 export type TopLevelSlug = (typeof TOP_LEVEL_SLUGS)[number];
 

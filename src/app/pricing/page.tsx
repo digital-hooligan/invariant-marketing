@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MkSection } from "@/components/mk/MkSection";
+import { PROJECT_INTAKE_HREF } from "@/content/intake";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -12,7 +13,7 @@ const DEFAULT_SOCIAL_IMAGE = {
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Founder-led systems engagements for businesses that need better decisions, cleaner operations, and stronger execution. Decision sprints, operating system design, fractional partnership.",
+    "Commercial pricing from Invariant: scoped software builds quoted after scoping, decision and operating-model sprints, and ongoing Fractional Systems Partner support with agreed deliverables.",
   alternates: { canonical: "/pricing" },
   openGraph: {
     type: "website",
@@ -32,7 +33,48 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const PLANS = [
+type Plan = {
+  id: string;
+  name: string;
+  price: string;
+  cadence: string;
+  bestFor: string;
+  description: string;
+  delivers: string;
+  example?: string;
+  steps?: ReadonlyArray<{ label: string; body: string }>;
+  disclosure: string | null;
+};
+
+const PLANS: ReadonlyArray<Plan> = [
+  {
+    id: "scoped-software-build",
+    name: "Scoped Software Build",
+    price: "Quoted after scoping",
+    cadence: "Fixed-scope build",
+    bestFor: "Teams that need a defined piece of software built and handed off",
+    description:
+      "A defined build — an integration, internal tool, or product increment — delivered against written acceptance criteria.",
+    delivers:
+      "Working software in your repository, automated tests, documentation, and a handoff walkthrough.",
+    example:
+      "Connect your CRM to your billing system so closed deals create invoices automatically — with field mapping, data validation, tests, and a runbook your team can maintain.",
+    steps: [
+      {
+        label: "Scoping",
+        body: "Written scope, acceptance criteria, and a fixed quote before work begins.",
+      },
+      {
+        label: "Delivery",
+        body: "Milestones with review points; any scope change is logged and agreed.",
+      },
+      {
+        label: "Handoff",
+        body: "Source, tests, docs, and a walkthrough so your team owns it.",
+      },
+    ],
+    disclosure: "Builds are quoted after scoping. No build starts without an agreed scope.",
+  },
   {
     id: "decision-architecture-sprint",
     name: "Decision Architecture Sprint",
@@ -41,6 +83,8 @@ const PLANS = [
     bestFor: "Teams drowning in ambiguity and context loss",
     description:
       "A focused founder-led sprint to diagnose operating friction, clarify priorities, and produce a practical decision roadmap your team can execute against.",
+    delivers:
+      "A written decision roadmap: key decisions, owners, the context each needs, and prioritized next steps.",
     disclosure: null,
   },
   {
@@ -51,6 +95,8 @@ const PLANS = [
     bestFor: "Founders who need a clearer operating model",
     description:
       "A deeper engagement to redesign workflows, decision structure, tooling alignment, and execution logic around how the business actually runs.",
+    delivers:
+      "An operating-model blueprint — workflows, decision structure, and tooling alignment — plus a prioritized implementation plan.",
     disclosure:
       "Final scope and pricing are confirmed in proposal after discovery and fit review.",
   },
@@ -61,11 +107,13 @@ const PLANS = [
     cadence: "Ongoing monthly",
     bestFor: "Teams that need continuous systems thinking",
     description:
-      "Ongoing founder-level support for implementation guidance, decision review, operating refinement, and structured follow-through.",
+      "Ongoing support with agreed deliverables: implementation guidance, decision review, operating refinement, and structured follow-through.",
+    delivers:
+      "A monthly set of agreed deliverables and scheduled decision reviews, revisited each month.",
     disclosure:
       "Final scope and pricing are confirmed in proposal after discovery and fit review.",
   },
-] as const;
+];
 
 export default function PricingPage() {
   return (
@@ -89,7 +137,7 @@ export default function PricingPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Founder services for clearer operations.
+            Commercial pricing.
           </h1>
           <p
             className="leading-[1.6]"
@@ -99,9 +147,12 @@ export default function PricingPage() {
               opacity: 0.85,
             }}
           >
-            Clarity first. Then structure. Then guided implementation.
-            Founder-led systems engagements for businesses that need better
-            decisions, cleaner operations, and stronger execution.
+            Scoped software builds, founder-led systems sprints, and ongoing
+            support — each with clear deliverables. See{" "}
+            <Link href="/services" style={{ color: "var(--mk-color-link)" }}>
+              Services
+            </Link>{" "}
+            for what each engagement covers.
           </p>
         </div>
       </MkSection>
@@ -117,7 +168,7 @@ export default function PricingPage() {
                 color: "var(--mk-color-text)",
               }}
             >
-              Founder Services
+              Engagements
             </h2>
             <p
               className="mt-2"
@@ -126,15 +177,16 @@ export default function PricingPage() {
                 color: "var(--mk-color-text-muted)",
               }}
             >
-              Three engagement types. All scoped before work begins.
+              Four engagement types. All scoped before work begins.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
             {PLANS.map((plan) => (
               <div
                 key={plan.id}
-                className="flex flex-col rounded-[var(--mk-radius-lg)] border p-6 sm:p-7 h-full"
+                id={plan.id}
+                className="scroll-mt-24 flex flex-col rounded-[var(--mk-radius-lg)] border p-6 sm:p-7 h-full"
                 style={{
                   borderColor: "var(--mk-color-border)",
                   background: "var(--mk-color-bg)",
@@ -199,6 +251,69 @@ export default function PricingPage() {
                   {plan.description}
                 </p>
 
+                {/* What it delivers */}
+                <p
+                  className="text-sm leading-[1.6] mb-5"
+                  style={{ color: "var(--mk-color-text)" }}
+                >
+                  <span className="font-semibold">Delivers: </span>
+                  <span style={{ color: "var(--mk-color-text-muted)" }}>
+                    {plan.delivers}
+                  </span>
+                </p>
+
+                {plan.example && (
+                  <div
+                    className="text-sm leading-[1.6] mb-5 rounded-[var(--mk-radius-md)] border px-4 py-3"
+                    style={{
+                      borderColor: "var(--mk-color-border)",
+                      color: "var(--mk-color-text-muted)",
+                    }}
+                  >
+                    <span
+                      className="block text-[10px] font-semibold uppercase tracking-widest mb-1"
+                      style={{
+                        color: "var(--mk-color-link)",
+                        fontFamily: "var(--mk-type-font-mono)",
+                      }}
+                    >
+                      Example
+                    </span>
+                    {plan.example}
+                  </div>
+                )}
+
+                {plan.steps && (
+                  <ol className="flex flex-col gap-2 mb-5">
+                    {plan.steps.map((step, i) => (
+                      <li
+                        key={step.label}
+                        className="flex gap-3 text-sm leading-[1.55]"
+                        style={{ color: "var(--mk-color-text-muted)" }}
+                      >
+                        <span
+                          className="font-semibold shrink-0"
+                          style={{
+                            color: "var(--mk-color-link)",
+                            fontFamily: "var(--mk-type-font-mono)",
+                          }}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span>
+                          <span
+                            className="font-semibold"
+                            style={{ color: "var(--mk-color-text)" }}
+                          >
+                            {step.label}.
+                          </span>{" "}
+                          {step.body}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
                 {/* Disclosure */}
                 {plan.disclosure && (
                   <p
@@ -214,14 +329,14 @@ export default function PricingPage() {
 
                 {/* CTA */}
                 <Link
-                  href="/contact"
-                  className="mt-auto inline-flex items-center justify-center min-h-[44px] w-full rounded-[var(--mk-radius-md)] px-4 py-2.5 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+                  href={PROJECT_INTAKE_HREF}
+                  className="mt-auto inline-flex items-center justify-center min-h-[44px] w-full rounded-[var(--mk-radius-md)] px-4 py-2.5 text-sm font-semibold no-underline transition-colors duration-[120ms] hover:bg-[var(--mk-color-cta-hover)]"
                   style={{
                     background: "var(--mk-color-cta)",
                     color: "var(--mk-color-bg)",
                   }}
                 >
-                  Start a Conversation
+                  Discuss a project
                 </Link>
               </div>
             ))}
@@ -244,7 +359,10 @@ export default function PricingPage() {
           <ul className="flex flex-col gap-3">
             {[
               "Discovery is used to confirm fit and scope before deeper implementation work begins.",
+              "Scoped Software Builds are quoted after scoping, against written acceptance criteria.",
+              "Every engagement — including ongoing Fractional Systems Partner support — runs on agreed deliverables.",
               "Final scope and pricing are confirmed in proposal after discovery and fit review.",
+              "Federal subcontract work is scoped per opportunity with the prime; see Federal & Defense.",
               "Product admissions for ScientiaOS are handled separately on the ScientiaOS public entry surface.",
             ].map((note) => (
               <li key={note} className="flex items-start gap-3">
@@ -284,19 +402,19 @@ export default function PricingPage() {
             }}
           >
             Start with a conversation. We&apos;ll identify whether you need a
-            sprint, a system design pass, or ongoing support — before any scope
-            is confirmed.
+            build, a sprint, a system design pass, or ongoing support — before
+            any scope is confirmed.
           </p>
           <div>
             <Link
-              href="/contact"
-              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+              href={PROJECT_INTAKE_HREF}
+              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms] hover:bg-[var(--mk-color-cta-hover)]"
               style={{
                 background: "var(--mk-color-cta)",
                 color: "var(--mk-color-bg)",
               }}
             >
-              Start a Conversation
+              Discuss a project
             </Link>
           </div>
         </div>

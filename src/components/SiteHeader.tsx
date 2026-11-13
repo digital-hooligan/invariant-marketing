@@ -49,16 +49,18 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
 
         {/* Right group */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Secondary CTA — hidden on mobile */}
-          <TrackedLink
-            href={settings.secondaryCtaHref}
-            event="public_cta_click"
-            label={settings.secondaryCtaLabel}
-            location="header_secondary"
-            className="hidden lg:inline-flex text-sm hover:underline text-[var(--mk-color-text)]"
-          >
-            {settings.secondaryCtaLabel}
-          </TrackedLink>
+          {/* Secondary CTA — optional, hidden on mobile */}
+          {settings.secondaryCtaHref && settings.secondaryCtaLabel && (
+            <TrackedLink
+              href={settings.secondaryCtaHref}
+              event="public_cta_click"
+              label={settings.secondaryCtaLabel}
+              location="header_secondary"
+              className="hidden lg:inline-flex text-sm hover:underline text-[var(--mk-color-text)]"
+            >
+              {settings.secondaryCtaLabel}
+            </TrackedLink>
+          )}
 
           {/* Primary CTA */}
           <TrackedLink
