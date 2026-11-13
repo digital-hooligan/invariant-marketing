@@ -3,17 +3,23 @@ import Link from "next/link";
 import { MkSection } from "@/components/mk/MkSection";
 import { MkCard } from "@/components/mk/MkCard";
 import {
+  CAPABILITY_STATEMENT_PDF,
+  CAPABILITY_TIER_LABEL,
+  EXAMPLE_LABEL,
   FEDERAL_CAPABILITIES,
   FEDERAL_COMPANY,
   FEDERAL_DIFFERENTIATORS,
   FEDERAL_FOCUS_AREAS,
+  FEDERAL_HANDOFF,
   FEDERAL_NAICS,
   FEDERAL_TEAMING,
+  FEDERAL_WORK_PACKAGE_EXAMPLES,
   FOUNDER_EXPERIENCE,
 } from "@/content/federal";
+import { TEAMING_INTAKE_HREF } from "@/content/intake";
 
 const DESCRIPTION =
-  "Digital Hooligan LLC, operating as Invariant, is a veteran-owned software engineering firm supporting federal organizations and prime contractors with custom software, AI-enabled workflow automation, ICAM, systems integration, and applied R&D. Available for teaming and subcontracting.";
+  "Digital Hooligan LLC, operating as Invariant, is an SBA-certified SDVOSB available for defined subcontract work in application and data integration, identity and access integration, and workflow automation. UEI, CAGE, NAICS, and teaming details.";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -75,7 +81,8 @@ export default function FederalPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Federal software engineering &amp; AI integration.
+            Integration, identity, and automation work packages for federal
+            primes.
           </h1>
           <p
             className="leading-[1.6] max-w-[68ch]"
@@ -85,43 +92,42 @@ export default function FederalPage() {
               opacity: 0.9,
             }}
           >
-            Digital Hooligan LLC, operating as Invariant, is a veteran-owned
-            software engineering firm. We help federal organizations and prime
-            contractors solve operational and technical problems — with custom
-            software, accountable automation, and secure systems integration
-            built for mission environments.
+            Digital Hooligan LLC, operating as Invariant, is an SBA-certified
+            SDVOSB available for defined subcontract work in application and
+            data integration, identity and access integration, and workflow
+            automation.
           </p>
           <div className="flex flex-wrap gap-3 pt-1">
             <Link
-              href="/federal/capability-statement"
-              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+              href={TEAMING_INTAKE_HREF}
+              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms] hover:bg-[var(--mk-color-cta-hover)]"
               style={{
                 background: "var(--mk-color-cta)",
                 color: "var(--mk-color-bg)",
               }}
             >
-              View Capability Statement
+              Discuss a work package
             </Link>
             <Link
-              href="/contact"
+              href="/federal/capability-statement"
               className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] border px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms] hover:border-[var(--mk-color-cta)] hover:text-[var(--mk-color-cta)]"
               style={{
                 borderColor: "var(--mk-color-border)",
                 color: "var(--mk-color-text)",
               }}
             >
-              Discuss Teaming
+              View capability statement
             </Link>
-            <a
-              href="/federal/invariant-federal-capability-statement.pdf"
-              download
-              className="inline-flex items-center gap-1 self-center text-sm font-semibold no-underline hover:underline"
-              style={{ color: "var(--mk-color-link)" }}
-            >
-              Download one-page PDF
-              <span aria-hidden>↓</span>
-            </a>
           </div>
+          <a
+            href={CAPABILITY_STATEMENT_PDF}
+            download
+            className="inline-flex items-center gap-1 self-start text-sm font-semibold no-underline hover:underline"
+            style={{ color: "var(--mk-color-link)" }}
+          >
+            Download Capability Statement (PDF)
+            <span aria-hidden>↓</span>
+          </a>
         </div>
       </MkSection>
 
@@ -146,15 +152,25 @@ export default function FederalPage() {
                 color: "var(--mk-color-text-muted)",
               }}
             >
-              Specific technical work packages — scoped, documented, and built
-              to integrate with a prime&apos;s existing systems.
+              Listed in priority order. Each is scoped as a defined work
+              package, documented, and built to integrate with a prime&apos;s
+              existing systems.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEDERAL_CAPABILITIES.map((cap) => (
               <MkCard key={cap.title}>
+                <span
+                  className="text-[11px] font-semibold uppercase tracking-widest"
+                  style={{
+                    color: "var(--mk-color-link)",
+                    fontFamily: "var(--mk-type-font-mono)",
+                  }}
+                >
+                  {CAPABILITY_TIER_LABEL[cap.tier]}
+                </span>
                 <h3
-                  className="font-semibold mb-2"
+                  className="mt-2 font-semibold mb-2"
                   style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
                 >
                   {cap.title}
@@ -171,8 +187,85 @@ export default function FederalPage() {
         </div>
       </MkSection>
 
-      {/* ── RELEVANT EXPERIENCE ── */}
+      {/* ── EXAMPLE WORK PACKAGES + HANDOFF ── */}
       <MkSection>
+        <div className="flex flex-col gap-8">
+          <div>
+            <Eyebrow>Example Work Packages</Eyebrow>
+            <h2
+              className="mt-3 font-semibold leading-[1.2]"
+              style={{
+                fontSize: "var(--mk-type-size-h2)",
+                color: "var(--mk-color-text)",
+              }}
+            >
+              What Invariant can scope — and what you receive
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {FEDERAL_WORK_PACKAGE_EXAMPLES.map((ex) => (
+              <div
+                key={ex.title}
+                className="flex flex-col gap-3 p-6 rounded-[var(--mk-radius-md)] border"
+                style={{ borderColor: "var(--mk-color-border)" }}
+              >
+                <span
+                  className="text-[11px] font-semibold uppercase tracking-widest"
+                  style={{
+                    color: "var(--mk-color-text-muted)",
+                    fontFamily: "var(--mk-type-font-mono)",
+                  }}
+                >
+                  {EXAMPLE_LABEL}
+                </span>
+                <h3
+                  className="font-semibold"
+                  style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+                >
+                  {ex.title}
+                </h3>
+                <ol className="flex flex-col gap-2 list-decimal pl-5">
+                  {ex.steps.map((step) => (
+                    <li
+                      key={step}
+                      className="text-sm leading-[1.55]"
+                      style={{ color: "var(--mk-color-text-muted)" }}
+                    >
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-3">
+            <h3
+              className="font-semibold"
+              style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+            >
+              Delivered at handoff
+            </h3>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+              {FEDERAL_HANDOFF.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm leading-[1.55]"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  <span
+                    className="mt-[7px] w-1.5 h-1.5 rounded-full shrink-0"
+                    style={{ background: "var(--mk-color-cta)" }}
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </MkSection>
+
+      {/* ── RELEVANT EXPERIENCE ── */}
+      <MkSection tone="surface-1">
         <div className="flex flex-col gap-6 max-w-[760px]">
           <div>
             <Eyebrow>Relevant Experience</Eyebrow>
@@ -183,7 +276,7 @@ export default function FederalPage() {
                 color: "var(--mk-color-text)",
               }}
             >
-              Founder background
+              Founder background: {FOUNDER_EXPERIENCE.name}
             </h2>
           </div>
           <p
@@ -194,7 +287,7 @@ export default function FederalPage() {
               opacity: 0.9,
             }}
           >
-            {FOUNDER_EXPERIENCE.summary}
+            {FOUNDER_EXPERIENCE.bio}
           </p>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {FOUNDER_EXPERIENCE.areas.map((area) => (
@@ -220,7 +313,7 @@ export default function FederalPage() {
             className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm leading-[1.6]"
             style={{
               borderColor: "var(--mk-color-border)",
-              background: "var(--mk-color-surface-1)",
+              background: "var(--mk-color-bg)",
               color: "var(--mk-color-text-muted)",
             }}
           >
@@ -231,7 +324,7 @@ export default function FederalPage() {
       </MkSection>
 
       {/* ── DIFFERENTIATORS ── */}
-      <MkSection tone="surface-1">
+      <MkSection>
         <div className="flex flex-col gap-8">
           <div>
             <Eyebrow>Why Invariant</Eyebrow>
@@ -252,7 +345,7 @@ export default function FederalPage() {
                 className="p-5 rounded-[var(--mk-radius-md)] border"
                 style={{
                   borderColor: "var(--mk-color-border)",
-                  background: "var(--mk-color-bg)",
+                  background: "var(--mk-color-surface-1)",
                 }}
               >
                 <h3
@@ -274,7 +367,7 @@ export default function FederalPage() {
       </MkSection>
 
       {/* ── TEAMING & SUBCONTRACTING ── */}
-      <MkSection>
+      <MkSection tone="surface-1">
         <div className="flex flex-col gap-8">
           <div className="max-w-[760px]">
             <Eyebrow>Teaming &amp; Subcontracting</Eyebrow>
@@ -324,8 +417,8 @@ export default function FederalPage() {
             className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm leading-[1.6] max-w-[760px]"
             style={{
               borderColor: "var(--mk-color-border)",
-              background: "var(--mk-color-surface-1)",
-              color: "var(--mk-color-text-muted)",
+              background: "var(--mk-color-bg)",
+              color: "var(--mk-color-text)",
             }}
           >
             {FEDERAL_TEAMING.note}
@@ -361,7 +454,7 @@ export default function FederalPage() {
       </MkSection>
 
       {/* ── COMPANY / PROCUREMENT INFORMATION ── */}
-      <MkSection tone="surface-1">
+      <MkSection>
         <div className="flex flex-col gap-8">
           <div>
             <Eyebrow>Company Information</Eyebrow>
@@ -445,7 +538,7 @@ export default function FederalPage() {
       </MkSection>
 
       {/* ── CTA ── */}
-      <MkSection compact>
+      <MkSection tone="surface-1" compact>
         <div className="flex flex-col gap-5 max-w-[620px]">
           <h2
             className="font-semibold leading-[1.2]"
@@ -454,7 +547,7 @@ export default function FederalPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Request a capability statement or start a teaming conversation.
+            Discuss a work package.
           </h2>
           <p
             className="leading-[1.6]"
@@ -463,20 +556,21 @@ export default function FederalPage() {
               color: "var(--mk-color-text-muted)",
             }}
           >
-            Tell us about the program, the work package, and where Invariant
-            could fit. We review every inquiry and respond within 2–3 business
+            Share the program or opportunity, the scope of work, and the
+            timeline — or whatever is defined so far. Early conversations are
+            welcome. We review every inquiry and respond within 2–3 business
             days.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/contact"
-              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+              href={TEAMING_INTAKE_HREF}
+              className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms] hover:bg-[var(--mk-color-cta-hover)]"
               style={{
                 background: "var(--mk-color-cta)",
                 color: "var(--mk-color-bg)",
               }}
             >
-              Start a Conversation
+              Discuss a work package
             </Link>
             <Link
               href="/federal/capability-statement"
@@ -486,7 +580,7 @@ export default function FederalPage() {
                 color: "var(--mk-color-text)",
               }}
             >
-              View Capability Statement
+              View capability statement
             </Link>
           </div>
         </div>

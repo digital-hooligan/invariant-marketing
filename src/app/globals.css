@@ -168,4 +168,46 @@ summary::-webkit-details-marker {
   .cap-statement section {
     break-inside: avoid;
   }
+
+  /* Letter page is ~720 CSS px wide (below the md breakpoint), so force the
+     two-column layouts and tighten spacing to keep the statement on one page. */
+  body:has(.cap-statement) main > section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .cap-statement .text-sm {
+    font-size: 11.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  .cap-statement li {
+    margin: 0 !important;
+  }
+
+  .cap-statement .cap-grid {
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 0.3in !important;
+    row-gap: 14px !important;
+  }
+
+  .cap-statement .cap-data dl {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    row-gap: 8px !important;
+  }
+
+  .cap-statement .cap-masthead {
+    padding-bottom: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .cap-statement .cap-data {
+    margin-top: 16px !important;
+    padding-top: 12px !important;
+  }
+
+  .cap-statement .cap-contact {
+    margin-top: 12px !important;
+    padding-top: 10px !important;
+  }
 }
