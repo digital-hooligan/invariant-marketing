@@ -21,15 +21,14 @@ export const FEDERAL_COMPANY = {
   dba: "Invariant",
   classification:
     "Service-Disabled Veteran-Owned Small Business (SDVOSB) · Veteran-Owned Small Business (VOSB)",
-  // Mirrors the owner-confirmed wording already published on the home, company,
-  // and footer surfaces. Do not alter without founder confirmation.
-  certifications: "SBA Certified SDVOSB · SBA Certified VOSB",
+  // Owner-confirmed 2026-11-13: SBA SDVOSB certification is current.
+  certifications:
+    "SBA Certified Service-Disabled Veteran-Owned Small Business (SDVOSB)",
   sba8a: "Application in Progress",
   samStatus: "Registered",
-  // Unverified identifiers — not present anywhere in the repo. Fill in when
-  // confirmed from SAM.gov / official records.
-  uei: PENDING as string | null,
-  cageCode: PENDING as string | null,
+  // Owner-confirmed 2026-11-13 from official records.
+  uei: "UDYWXUL6KCY5" as string | null,
+  cageCode: "17SY4" as string | null,
   website: "https://digitalhooligan.io",
   contactPath: "/contact",
   linkedIn: "https://www.linkedin.com/company/digital-hooligan-llc/",
