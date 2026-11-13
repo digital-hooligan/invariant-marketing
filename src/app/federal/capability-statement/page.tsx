@@ -78,13 +78,26 @@ export default function CapabilityStatementPage() {
             className="text-sm"
             style={{ color: "var(--mk-color-text-muted)" }}
           >
-            Use the button to save as PDF or print.{" "}
+            Download the one-page PDF, or print this view.{" "}
             <Link href="/federal" style={{ color: "var(--mk-color-link)" }}>
               Back to Federal &amp; Defense
             </Link>
           </p>
         </div>
-        <PrintButton />
+        <div className="flex items-center gap-3">
+          <a
+            href="/federal/invariant-federal-capability-statement.pdf"
+            download
+            className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+            style={{
+              background: "var(--mk-color-cta)",
+              color: "var(--mk-color-bg)",
+            }}
+          >
+            Download PDF
+          </a>
+          <PrintButton />
+        </div>
       </div>
 
       {/* The printable document */}

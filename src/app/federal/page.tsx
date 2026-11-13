@@ -112,6 +112,15 @@ export default function FederalPage() {
             >
               Discuss Teaming
             </Link>
+            <a
+              href="/federal/invariant-federal-capability-statement.pdf"
+              download
+              className="inline-flex items-center gap-1 self-center text-sm font-semibold no-underline hover:underline"
+              style={{ color: "var(--mk-color-link)" }}
+            >
+              Download one-page PDF
+              <span aria-hidden>↓</span>
+            </a>
           </div>
         </div>
       </MkSection>
