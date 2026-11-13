@@ -626,7 +626,8 @@ export default function HomePage() {
                 },
                 {
                   label: "Certifications",
-                  value: "SBA Certified SDVOSB · SBA Certified VOSB",
+                  value:
+                    "SBA Certified Service-Disabled Veteran-Owned Small Business (SDVOSB)",
                 },
                 {
                   label: "SBA 8(a)",

@@ -113,7 +113,11 @@ const CREDIBILITY = [
     label: "Federal Contracting",
     value: "SAM.gov Registered · Federal Contracting Ready",
   },
-  { label: "Certifications", value: "SBA Certified SDVOSB · SBA Certified VOSB" },
+  {
+    label: "Certifications",
+    value:
+      "SBA Certified Service-Disabled Veteran-Owned Small Business (SDVOSB)",
+  },
   {
     label: "SBA 8(a)",
     value: "Application in Progress",
