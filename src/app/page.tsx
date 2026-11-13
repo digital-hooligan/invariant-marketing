@@ -626,7 +626,8 @@ export default function HomePage() {
                 },
                 {
                   label: "Certifications",
-                  value: "SBA Certified SDVOSB · SBA Certified VOSB",
+                  value:
+                    "SBA Certified Service-Disabled Veteran-Owned Small Business (SDVOSB)",
                 },
                 {
                   label: "SBA 8(a)",
@@ -652,6 +653,17 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div>
+            <Link
+              href="/federal"
+              className="inline-flex items-center gap-1 text-sm font-semibold no-underline hover:underline"
+              style={{ color: "var(--mk-color-link)" }}
+            >
+              Federal &amp; defense teaming and subcontracting
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       </MkSection>

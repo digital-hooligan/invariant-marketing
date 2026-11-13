@@ -108,3 +108,64 @@ summary {
 summary::-webkit-details-marker {
   display: none;
 }
+
+/* ──────────────────────────────────────────────────────────
+   Capability statement — print-optimized one-pager.
+   Scoped to pages that render a `.cap-statement` document so it
+   never affects any other page. On print, flip to white paper,
+   drop the site chrome and the on-screen toolbar (`.no-print`),
+   and collapse to a compact single-page layout.
+   ────────────────────────────────────────────────────────── */
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+
+  body:has(.cap-statement) {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Hide global header/footer and anything flagged no-print. */
+  body:has(.cap-statement) > header,
+  body:has(.cap-statement) > footer,
+  body:has(.cap-statement) .no-print {
+    display: none !important;
+  }
+
+  body:has(.cap-statement) main {
+    padding: 0 !important;
+  }
+
+  .cap-statement {
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .cap-statement * {
+    color: #000000 !important;
+    background: transparent !important;
+  }
+
+  .cap-statement .cap-heading {
+    color: #333333 !important;
+  }
+
+  .cap-statement a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
+
+  .cap-statement .cap-masthead,
+  .cap-statement .cap-data,
+  .cap-statement .cap-contact {
+    border-color: #cccccc !important;
+  }
+
+  .cap-statement section {
+    break-inside: avoid;
+  }
+}

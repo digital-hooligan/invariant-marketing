@@ -8,6 +8,7 @@
     { "label": "Solutions", "href": "/solutions" },
     { "label": "Pricing", "href": "/pricing" },
     { "label": "Company", "href": "/company" },
+    { "label": "Federal", "href": "/federal" },
     { "label": "Notes", "href": "/operator-notes" },
     { "label": "Contact", "href": "/contact" }
   ],
@@ -16,6 +17,7 @@
     { "label": "Solutions", "href": "/solutions" },
     { "label": "Pricing", "href": "/pricing" },
     { "label": "Company", "href": "/company" },
+    { "label": "Federal & Defense", "href": "/federal" },
     { "label": "Contact", "href": "/contact" },
     { "label": "Operator Notes", "href": "/operator-notes" },
     { "label": "Legal", "href": "/legal" }
