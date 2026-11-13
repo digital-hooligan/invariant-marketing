@@ -41,21 +41,48 @@ export const metadata: Metadata = {
 
 const COPY: Record<
   InquiryType,
-  { heading: string; body: string; tab: string; href: string }
+  {
+    heading: string;
+    body: string;
+    tab: string;
+    href: string;
+    cta: string;
+    chooserBody: string;
+  }
 > = {
   teaming: {
     tab: "Federal teaming",
     href: TEAMING_INTAKE_HREF,
+    cta: "Discuss a work package",
+    chooserBody:
+      "For federal prime contractors: a program or opportunity, a scope of work, and a timeline — or whatever is defined so far.",
     heading: "Discuss a work package.",
     body: "Tell us about the program or opportunity, the scope of work, and the timeline. If those details are still being defined, share what you know — early conversations are welcome.",
   },
   project: {
     tab: "Commercial project",
     href: PROJECT_INTAKE_HREF,
+    cta: "Discuss a project",
+    chooserBody:
+      "For commercial teams: a software build, a systems sprint, or ongoing Fractional Systems Partner support.",
     heading: "Discuss a project.",
     body: "Tell us what you're trying to build and what's in your way. We review every inquiry for fit — no automated responses.",
   },
 };
+
+/** Chooser order: federal teaming first. */
+const CHOOSER_ORDER: InquiryType[] = ["teaming", "project"];
+
+const CHOOSER_COPY = {
+  heading: "Start a conversation.",
+  body: "Choose the path that fits. Both reach the same inbox; the form just asks the right questions.",
+};
+
+function parseInquiryType(
+  value: string | string[] | undefined,
+): InquiryType | null {
+  return value === "teaming" || value === "project" ? value : null;
+}
 
 export default async function ContactPage({
   searchParams,
@@ -63,8 +90,9 @@ export default async function ContactPage({
   searchParams: Promise<{ type?: string | string[] }>;
 }) {
   const { type } = await searchParams;
-  const inquiryType: InquiryType = type === "project" ? "project" : "teaming";
-  const copy = COPY[inquiryType];
+  // Bare /contact shows a chooser; ?type=teaming|project opens a form directly.
+  const inquiryType = parseInquiryType(type);
+  const copy = inquiryType ? COPY[inquiryType] : CHOOSER_COPY;
 
   return (
     <article className="w-full">
@@ -102,34 +130,84 @@ export default async function ContactPage({
       </MkSection>
 
       <MkSection tone="surface-1">
-        <div className="max-w-2xl flex flex-col gap-6">
-          <nav aria-label="Inquiry type" className="flex flex-wrap gap-2">
-            {(Object.keys(COPY) as InquiryType[]).map((key) => {
-              const active = key === inquiryType;
-              return (
-                <Link
-                  key={key}
-                  href={COPY[key].href}
-                  scroll={false}
-                  aria-current={active ? "page" : undefined}
-                  className="inline-flex items-center justify-center min-h-[40px] rounded-[var(--mk-radius-md)] border px-4 py-2 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+        {inquiryType ? (
+          <div className="max-w-2xl flex flex-col gap-6">
+            <nav aria-label="Inquiry type" className="flex flex-wrap gap-2">
+              {CHOOSER_ORDER.map((key) => {
+                const active = key === inquiryType;
+                return (
+                  <Link
+                    key={key}
+                    href={COPY[key].href}
+                    scroll={false}
+                    aria-current={active ? "page" : undefined}
+                    className="inline-flex items-center justify-center min-h-[40px] rounded-[var(--mk-radius-md)] border px-4 py-2 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+                    style={{
+                      borderColor: active
+                        ? "var(--mk-color-link)"
+                        : "var(--mk-color-border)",
+                      color: active
+                        ? "var(--mk-color-text)"
+                        : "var(--mk-color-text-muted)",
+                      background: active ? "var(--mk-color-bg)" : "transparent",
+                    }}
+                  >
+                    {COPY[key].tab}
+                  </Link>
+                );
+              })}
+            </nav>
+            <ContactForm key={inquiryType} inquiryType={inquiryType} />
+          </div>
+        ) : (
+          <ul
+            aria-label="Choose an inquiry type"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl"
+          >
+            {CHOOSER_ORDER.map((key, i) => (
+              <li
+                key={key}
+                className="flex flex-col gap-3 rounded-[var(--mk-radius-lg)] border p-6"
+                style={{
+                  borderColor: "var(--mk-color-border)",
+                  background: "var(--mk-color-bg)",
+                }}
+              >
+                <span
+                  className="text-[11px] font-semibold uppercase tracking-widest"
                   style={{
-                    borderColor: active
-                      ? "var(--mk-color-link)"
-                      : "var(--mk-color-border)",
-                    color: active
-                      ? "var(--mk-color-text)"
-                      : "var(--mk-color-text-muted)",
-                    background: active ? "var(--mk-color-bg)" : "transparent",
+                    color: "var(--mk-color-link)",
+                    fontFamily: "var(--mk-type-font-mono)",
                   }}
                 >
                   {COPY[key].tab}
+                </span>
+                <p
+                  className="text-sm leading-[1.6] flex-1"
+                  style={{ color: "var(--mk-color-text-muted)" }}
+                >
+                  {COPY[key].chooserBody}
+                </p>
+                <Link
+                  href={COPY[key].href}
+                  className={[
+                    "inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]",
+                    i === 0
+                      ? "hover:bg-[var(--mk-color-cta-hover)]"
+                      : "border hover:border-[var(--mk-color-cta)] hover:text-[var(--mk-color-cta)]",
+                  ].join(" ")}
+                  style={
+                    i === 0
+                      ? { background: "var(--mk-color-cta)", color: "var(--mk-color-bg)" }
+                      : { borderColor: "var(--mk-color-border)", color: "var(--mk-color-text)" }
+                  }
+                >
+                  {COPY[key].cta}
                 </Link>
-              );
-            })}
-          </nav>
-          <ContactForm key={inquiryType} inquiryType={inquiryType} />
-        </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </MkSection>
 
       <MkSection>
