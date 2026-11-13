@@ -508,7 +508,7 @@ export default function FederalPage() {
               className="text-xs uppercase tracking-wider"
               style={{ color: "var(--mk-color-text-muted)" }}
             >
-              Relevant NAICS Codes
+              NAICS Codes
             </span>
             <ul className="flex flex-wrap gap-2">
               {FEDERAL_NAICS.map((n) => (
@@ -530,6 +530,17 @@ export default function FederalPage() {
                     {n.code}
                   </span>
                   <span>{n.title}</span>
+                  {n.primary && (
+                    <span
+                      className="text-[10px] font-semibold uppercase tracking-widest"
+                      style={{
+                        color: "var(--mk-color-link)",
+                        fontFamily: "var(--mk-type-font-mono)",
+                      }}
+                    >
+                      Primary
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>

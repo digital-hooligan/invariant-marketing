@@ -243,7 +243,9 @@ export default function CapabilityStatementPage() {
               { label: "CAGE Code", value: orRequest(FEDERAL_COMPANY.cageCode) },
               {
                 label: "NAICS",
-                value: FEDERAL_NAICS.map((n) => n.code).join(", "),
+                value: FEDERAL_NAICS.map((n) =>
+                  n.primary ? `${n.code} (primary)` : n.code,
+                ).join(", "),
               },
               {
                 label: "Website",

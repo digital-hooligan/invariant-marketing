@@ -34,13 +34,20 @@ export const FEDERAL_COMPANY = {
   linkedIn: "https://www.linkedin.com/company/digital-hooligan-llc/",
 } as const;
 
-/** Relevant NAICS codes for the company's service lines.
- *  Confirm the final set against the SAM.gov registration before relying on it. */
-export const FEDERAL_NAICS: ReadonlyArray<{ code: string; title: string }> = [
-  { code: "541511", title: "Custom Computer Programming Services" },
+/** NAICS codes — owner-confirmed 2026-11-13 against the official SBA profile.
+ *  Keep in sync with SAM.gov / SBA; do not add codes not on the profile. */
+export const FEDERAL_NAICS: ReadonlyArray<{
+  code: string;
+  title: string;
+  primary?: boolean;
+}> = [
+  {
+    code: "541511",
+    title: "Custom Computer Programming Services",
+    primary: true,
+  },
   { code: "541512", title: "Computer Systems Design Services" },
   { code: "541519", title: "Other Computer Related Services" },
-  { code: "541715", title: "R&D in the Physical, Engineering & Life Sciences" },
   {
     code: "518210",
     title: "Computing Infrastructure Providers, Data Processing & Hosting",
