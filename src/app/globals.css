@@ -119,6 +119,15 @@ summary::-webkit-details-marker {
 @media print {
   @page {
     margin: 0.5in;
+    background: #fff;
+  }
+
+  /* Chrome paints the @page margins with the root canvas, which is dark
+     under color-scheme: dark. Make the whole sheet white. */
+  :root:has(.cap-statement) {
+    color-scheme: light !important;
+    background: #fff !important;
+    print-color-adjust: exact;
   }
 
   body:has(.cap-statement) {
