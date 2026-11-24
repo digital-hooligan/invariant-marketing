@@ -35,13 +35,7 @@ export const FEDERAL_COMPANY = {
 } as const;
 
 /** NAICS codes — owner-confirmed 2026-11-13 against the official SBA profile.
- *  Keep in sync with SAM.gov / SBA; do not add codes not on the profile.
- *
- *  RECONCILE (2026-11-23): the published capability statement PDF lists two
- *  secondary codes that are NOT in this list — 541330 (Engineering Services)
- *  and 541715 (R&D in the Physical, Engineering & Life Sciences). Do not add
- *  them here until verified against the current SAM.gov / SBA registration.
- *  If they are not registered, correct the PDF instead. */
+ *  Keep in sync with SAM.gov / SBA; do not add codes not on the profile. */
 export const FEDERAL_NAICS: ReadonlyArray<{
   code: string;
   title: string;
@@ -63,7 +57,7 @@ export const FEDERAL_NAICS: ReadonlyArray<{
 /** Finalized one-page capability statement PDF. It is a separately designed
  *  file, not generated from /federal/capability-statement, so the two can
  *  drift — keep their content aligned by hand. Replace the file in place to
- *  keep this public URL stable. See the NAICS reconciliation note above. */
+ *  keep this public URL stable. Its NAICS codes must match FEDERAL_NAICS. */
 export const CAPABILITY_STATEMENT_PDF =
   "/federal/invariant-federal-capability-statement.pdf";
 
