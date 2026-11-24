@@ -6,20 +6,22 @@ import {
   CAPABILITY_STATEMENT_PDF,
   CAPABILITY_TIER_LABEL,
   EXAMPLE_LABEL,
-  FEDERAL_CAPABILITIES,
   FEDERAL_COMPANY,
+  FEDERAL_CORE_CAPABILITIES,
   FEDERAL_DIFFERENTIATORS,
   FEDERAL_FOCUS_AREAS,
+  FEDERAL_FOUNDER_BACKGROUND,
   FEDERAL_HANDOFF,
   FEDERAL_NAICS,
+  FEDERAL_POSITIONING,
+  FEDERAL_PRIME_WORK_PACKAGES,
   FEDERAL_TEAMING,
-  FEDERAL_WORK_PACKAGE_EXAMPLES,
   FOUNDER_EXPERIENCE,
 } from "@/content/federal";
 import { TEAMING_INTAKE_HREF } from "@/content/intake";
 
 const DESCRIPTION =
-  "Digital Hooligan LLC, operating as Invariant, is an SBA-certified SDVOSB available for defined subcontract work in application and data integration, identity and access integration, and workflow automation. UEI, CAGE, NAICS, and teaming details.";
+  "Digital Hooligan LLC, operating as Invariant, is an SBA-certified SDVOSB for mission systems engineering and federal technology delivery: systems integration, ICAM/PKI modernization, technical product delivery, and applied AI/ML for prime teaming and subcontracting. UEI, CAGE, NAICS, and teaming details.";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -81,9 +83,9 @@ export default function FederalPage() {
               color: "var(--mk-color-text)",
             }}
           >
-            Integration, identity, and automation work packages for federal
-            primes.
+            {FEDERAL_POSITIONING.headline}
           </h1>
+          <Eyebrow>{FEDERAL_POSITIONING.focus}</Eyebrow>
           <p
             className="leading-[1.6] max-w-[68ch]"
             style={{
@@ -93,9 +95,8 @@ export default function FederalPage() {
             }}
           >
             Digital Hooligan LLC, operating as Invariant, is an SBA-certified
-            SDVOSB available for defined subcontract work in application and
-            data integration, identity and access integration, and workflow
-            automation.
+            SDVOSB available for prime teaming and subcontracting.{" "}
+            {FEDERAL_POSITIONING.summary}
           </p>
           <div className="flex flex-wrap gap-3 pt-1">
             <Link
@@ -143,7 +144,7 @@ export default function FederalPage() {
                 color: "var(--mk-color-text)",
               }}
             >
-              Applied engineering for federal programs
+              Mission systems engineering and technical delivery
             </h2>
             <p
               className="mt-2 max-w-[64ch]"
@@ -158,7 +159,7 @@ export default function FederalPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FEDERAL_CAPABILITIES.map((cap) => (
+            {FEDERAL_CORE_CAPABILITIES.map((cap) => (
               <MkCard key={cap.title}>
                 <span
                   className="text-[11px] font-semibold uppercase tracking-widest"
@@ -191,7 +192,7 @@ export default function FederalPage() {
       <MkSection>
         <div className="flex flex-col gap-8">
           <div>
-            <Eyebrow>Example Work Packages</Eyebrow>
+            <Eyebrow>Prime-Ready Work Packages</Eyebrow>
             <h2
               className="mt-3 font-semibold leading-[1.2]"
               style={{
@@ -203,7 +204,7 @@ export default function FederalPage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {FEDERAL_WORK_PACKAGE_EXAMPLES.map((ex) => (
+            {FEDERAL_PRIME_WORK_PACKAGES.map((ex) => (
               <div
                 key={ex.title}
                 className="flex flex-col gap-3 p-6 rounded-[var(--mk-radius-md)] border"
@@ -287,10 +288,10 @@ export default function FederalPage() {
               opacity: 0.9,
             }}
           >
-            {FOUNDER_EXPERIENCE.bio}
+            {FEDERAL_FOUNDER_BACKGROUND.bio}
           </p>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {FOUNDER_EXPERIENCE.areas.map((area) => (
+            {FEDERAL_FOUNDER_BACKGROUND.areas.map((area) => (
               <li
                 key={area}
                 className="flex items-start gap-3 p-4 rounded-[var(--mk-radius-md)] border"

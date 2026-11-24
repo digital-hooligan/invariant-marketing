@@ -83,7 +83,95 @@ export const CAPABILITY_TIER_LABEL: Record<CapabilityTier, string> = {
   additional: "Additional",
 };
 
-/** Ordered to match the homepage: integration leads, identity is the
+/** Federal positioning — mirrors the finalized capability statement PDF.
+ *  Used by /federal and /federal/capability-statement. */
+export const FEDERAL_POSITIONING = {
+  headline: "Mission systems engineering & federal technology delivery",
+  focus: "Systems integration | ICAM/PKI modernization | Technical product delivery",
+  summary:
+    "Invariant supports federal primes with mission systems engineering, technical integration, product leadership, and applied AI/ML workflow development. We translate operational requirements into scoped work packages, testable acceptance criteria, and documented technical handoffs.",
+} as const;
+
+/** Core technical capabilities for the federal pages — mirrors the
+ *  finalized capability statement PDF. */
+export const FEDERAL_CORE_CAPABILITIES: ReadonlyArray<{
+  title: string;
+  tier: CapabilityTier;
+  body: string;
+}> = [
+  {
+    title: "Technical Project & Product Delivery",
+    tier: "lead",
+    body: "Requirements baselines, roadmaps, prioritized backlogs, milestones, acceptance criteria, and release readiness — scoped as a defined work package within a prime's statement of work.",
+  },
+  {
+    title: "Systems Engineering & Integration",
+    tier: "lead",
+    body: "Interface requirements, traceability, integration planning, validation strategy, and structured handoff for mission systems and the applications around them.",
+  },
+  {
+    title: "Applied AI/ML Engineering",
+    tier: "supporting",
+    body: "AI-enabled workflows, model evaluation, human-review checkpoints, bounded decision support, and auditable outputs — accountable automation, not a replacement for oversight.",
+  },
+];
+
+/** Prime-ready work packages — mirrors the finalized capability statement
+ *  PDF. Illustrative scope, NOT past engagements; always render with
+ *  EXAMPLE_LABEL. */
+export const FEDERAL_PRIME_WORK_PACKAGES: ReadonlyArray<{
+  title: string;
+  steps: ReadonlyArray<string>;
+}> = [
+  {
+    title: "01 — Technical project & product delivery",
+    steps: [
+      "Requirements baseline and prioritized backlog",
+      "Milestones and acceptance criteria",
+      "Release-readiness plan",
+    ],
+  },
+  {
+    title: "02 — Systems integration & validation",
+    steps: [
+      "Interface mapping and integration risks",
+      "Requirements traceability and test plan",
+      "Technical handoff",
+    ],
+  },
+  {
+    title: "03 — ICAM/PKI modernization support",
+    steps: [
+      "EJBCA upgrade dependencies",
+      "RBAC/ABAC review and identity test cases",
+      "Readiness documentation",
+    ],
+  },
+  {
+    title: "04 — AI/ML workflow prototype",
+    steps: [
+      "Defined use case and working prototype",
+      "Evaluation metrics and human-review checkpoints",
+      "Documented findings",
+    ],
+  },
+];
+
+/** Founder background for the federal pages — wording from the finalized
+ *  capability statement PDF. Do not embellish. /company keeps
+ *  FOUNDER_EXPERIENCE.bio. */
+export const FEDERAL_FOUNDER_BACKGROUND = {
+  bio: "Courtez Cannady is a U.S. Marine Corps veteran with experience in RF/SATCOM operations, systems engineering, and technical product management for USMC SATCOM systems. Subsequent professional experience includes DoD ICAM/PKI delivery, EJBCA modernization, identity QA, Army cloud governance, and applied AI/ML workflow development and automation.",
+  areas: [
+    "USMC RF/SATCOM operations and product management",
+    "Systems engineering",
+    "DoD ICAM/PKI delivery and EJBCA modernization",
+    "Applied AI/ML workflow development",
+  ] as const,
+};
+
+/** Used by the homepage. The federal pages use FEDERAL_CORE_CAPABILITIES.
+ *  Ordered to match the homepage: integration leads, identity is the
  *  specialty, workflow automation supports. */
 export const FEDERAL_CAPABILITIES: ReadonlyArray<{
   title: string;
@@ -158,16 +246,16 @@ export const FEDERAL_DIFFERENTIATORS: ReadonlyArray<{
   body: string;
 }> = [
   {
-    title: "Veteran-founded, operator-led",
-    body: "Engineering led by a Marine Corps veteran with hands-on experience delivering DoD enterprise technology.",
+    title: "DoD ICAM/PKI modernization",
+    body: "Enterprise ICAM delivery, EJBCA modernization, RBAC/ABAC requirements, identity QA, and test planning.",
   },
   {
-    title: "Small-team speed, enterprise discipline",
-    body: "Scoped engagements with documented decisions, review points, and explicit change control.",
+    title: "Technical delivery leadership",
+    body: "USMC RF/SATCOM product management, systems engineering, and Army cloud governance experience.",
   },
   {
-    title: "Accountable AI integration",
-    body: "Human judgment retained throughout. We do not build systems that claim to replace human oversight or accountability.",
+    title: "Accountable AI prototyping",
+    body: "Scoped AI/ML use cases, testable evaluation criteria, human-review gates, and documented findings. Human judgment retained throughout.",
   },
   {
     title: "Built to integrate, not to lock in",
@@ -196,21 +284,20 @@ export const FOUNDER_EXPERIENCE = {
 
 export const FEDERAL_TEAMING = {
   intro:
-    "Invariant welcomes discussions with prime contractors about defined work packages in application integration, identity and access, and workflow automation. We are an engineering partner — not a commodity staffing provider.",
+    "Invariant welcomes prime teaming and subcontracting discussions on defined work packages in mission systems engineering, systems integration, ICAM/PKI modernization, technical product delivery, and applied AI/ML. We are an engineering partner — not a commodity staffing provider.",
   items: [
-    "Defined work packages within a prime's statement of work",
-    "Application and data integration, identity and access integration, and workflow automation",
-    "Rapid prototyping and technical feasibility efforts",
-    "Subcontracting on DoD and civilian modernization programs",
+    "Prime-led task orders, embedded support, and scoped SOW subcontracts",
+    "Product delivery, systems integration and verification, ICAM QA, and bounded AI/ML pilots",
+    "SBIR/STTR feasibility and prototypes where solicitation and teaming rules permit",
+    "Work in authorized prime-hosted environments, with safeguarding and access controls per contract",
   ] as const,
   note: FEDERAL_GSA_STATEMENT,
 };
 
 /** Target mission areas for teaming — framed as areas of interest, not customers. */
 export const FEDERAL_FOCUS_AREAS: ReadonlyArray<string> = [
-  "Application and data integration",
-  "Identity, credential, and access management (ICAM)",
-  "Workflow automation",
-  "DoD enterprise modernization",
-  "Software engineering",
+  "Navy/Marine Corps C4ISR and mission systems",
+  "Army modernization",
+  "Federal ICAM/PKI",
+  "Applied AI/ML",
 ];
