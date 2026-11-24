@@ -5,16 +5,18 @@ import { PrintButton } from "./PrintButton";
 import {
   CAPABILITY_STATEMENT_PDF,
   CAPABILITY_TIER_LABEL,
-  FEDERAL_CAPABILITIES,
   FEDERAL_COMPANY,
+  FEDERAL_CORE_CAPABILITIES,
   FEDERAL_DIFFERENTIATORS,
+  FEDERAL_FOUNDER_BACKGROUND,
   FEDERAL_NAICS,
+  FEDERAL_POSITIONING,
   FEDERAL_TEAMING,
   FOUNDER_EXPERIENCE,
 } from "@/content/federal";
 
 const DESCRIPTION =
-  "Federal capability statement for Digital Hooligan LLC d/b/a Invariant — an SBA-certified SDVOSB available for subcontract work in application and data integration, identity and access integration, and workflow automation.";
+  "Federal capability statement for Digital Hooligan LLC d/b/a Invariant — an SBA-certified SDVOSB for prime teaming and subcontracting in mission systems engineering, systems integration, ICAM/PKI modernization, technical product delivery, and applied AI/ML.";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -130,6 +132,27 @@ export default function CapabilityStatementPage() {
           >
             Federal Capability Statement
           </p>
+          <p
+            className="font-semibold"
+            style={{ fontSize: "16px", color: "var(--mk-color-text)" }}
+          >
+            {FEDERAL_POSITIONING.headline}
+          </p>
+          <p
+            className="text-xs font-semibold uppercase tracking-widest"
+            style={{
+              color: "var(--mk-color-link)",
+              fontFamily: "var(--mk-type-font-mono)",
+            }}
+          >
+            {FEDERAL_POSITIONING.focus}
+          </p>
+          <p
+            className="text-sm leading-[1.5]"
+            style={{ color: "var(--mk-color-text-muted)" }}
+          >
+            {FEDERAL_POSITIONING.summary}
+          </p>
           <p className="text-sm" style={{ color: "var(--mk-color-text-muted)" }}>
             {FEDERAL_COMPANY.classification}
           </p>
@@ -138,9 +161,9 @@ export default function CapabilityStatementPage() {
         <div className="cap-grid grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
           {/* Core competencies */}
           <section>
-            <Heading>Core Competencies</Heading>
+            <Heading>Core Technical Capabilities</Heading>
             <ul className="flex flex-col gap-1.5">
-              {FEDERAL_CAPABILITIES.map((cap) => (
+              {FEDERAL_CORE_CAPABILITIES.map((cap) => (
                 <li
                   key={cap.title}
                   className="text-sm leading-[1.5]"
@@ -160,7 +183,7 @@ export default function CapabilityStatementPage() {
 
           {/* Differentiators */}
           <section>
-            <Heading>Differentiators</Heading>
+            <Heading>Specialized Differentiators</Heading>
             <ul className="flex flex-col gap-1.5">
               {FEDERAL_DIFFERENTIATORS.map((d) => (
                 <li
@@ -182,12 +205,12 @@ export default function CapabilityStatementPage() {
 
           {/* Relevant experience */}
           <section>
-            <Heading>Relevant Experience</Heading>
+            <Heading>Founder Professional Background</Heading>
             <p
               className="text-sm leading-[1.5] mb-2"
               style={{ color: "var(--mk-color-text-muted)" }}
             >
-              {FOUNDER_EXPERIENCE.bio}
+              {FEDERAL_FOUNDER_BACKGROUND.bio}
             </p>
             <p
               className="text-[11px] leading-[1.5] mt-2 italic"
@@ -199,7 +222,7 @@ export default function CapabilityStatementPage() {
 
           {/* Federal teaming */}
           <section>
-            <Heading>Federal Teaming Focus</Heading>
+            <Heading>Prime Teaming &amp; Subcontracting</Heading>
             <ul className="flex flex-col gap-1">
               {FEDERAL_TEAMING.items.map((item) => (
                 <li
