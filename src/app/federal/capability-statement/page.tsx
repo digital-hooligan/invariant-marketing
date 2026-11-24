@@ -3,6 +3,8 @@ import Link from "next/link";
 import { MkSection } from "@/components/mk/MkSection";
 import { PrintButton } from "./PrintButton";
 import {
+  CAPABILITY_STATEMENT_PDF,
+  CAPABILITY_TIER_LABEL,
   FEDERAL_CAPABILITIES,
   FEDERAL_COMPANY,
   FEDERAL_DIFFERENTIATORS,
@@ -12,7 +14,7 @@ import {
 } from "@/content/federal";
 
 const DESCRIPTION =
-  "Federal capability statement for Digital Hooligan LLC d/b/a Invariant — a veteran-owned software engineering firm available for federal teaming and subcontracting.";
+  "Federal capability statement for Digital Hooligan LLC d/b/a Invariant — an SBA-certified SDVOSB available for subcontract work in application and data integration, identity and access integration, and workflow automation.";
 
 const DEFAULT_SOCIAL_IMAGE = {
   url: "/social/og-default.png",
@@ -78,13 +80,26 @@ export default function CapabilityStatementPage() {
             className="text-sm"
             style={{ color: "var(--mk-color-text-muted)" }}
           >
-            Use the button to save as PDF or print.{" "}
+            Download the one-page PDF, or print this view.{" "}
             <Link href="/federal" style={{ color: "var(--mk-color-link)" }}>
               Back to Federal &amp; Defense
             </Link>
           </p>
         </div>
-        <PrintButton />
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={CAPABILITY_STATEMENT_PDF}
+            download
+            className="inline-flex items-center justify-center min-h-[44px] rounded-[var(--mk-radius-md)] px-6 py-3 text-sm font-semibold no-underline transition-colors duration-[120ms]"
+            style={{
+              background: "var(--mk-color-cta)",
+              color: "var(--mk-color-bg)",
+            }}
+          >
+            Download Capability Statement (PDF)
+          </a>
+          <PrintButton />
+        </div>
       </div>
 
       {/* The printable document */}
@@ -132,6 +147,12 @@ export default function CapabilityStatementPage() {
                   style={{ color: "var(--mk-color-text)" }}
                 >
                   <span className="font-semibold">{cap.title}</span>
+                  {cap.tier !== "additional" && (
+                    <span style={{ color: "var(--mk-color-text-muted)" }}>
+                      {" "}
+                      — {CAPABILITY_TIER_LABEL[cap.tier].toLowerCase()}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -166,19 +187,8 @@ export default function CapabilityStatementPage() {
               className="text-sm leading-[1.5] mb-2"
               style={{ color: "var(--mk-color-text-muted)" }}
             >
-              {FOUNDER_EXPERIENCE.summary}
+              {FOUNDER_EXPERIENCE.bio}
             </p>
-            <ul className="flex flex-col gap-1">
-              {FOUNDER_EXPERIENCE.areas.map((area) => (
-                <li
-                  key={area}
-                  className="text-sm leading-[1.4]"
-                  style={{ color: "var(--mk-color-text)" }}
-                >
-                  • {area}
-                </li>
-              ))}
-            </ul>
             <p
               className="text-[11px] leading-[1.5] mt-2 italic"
               style={{ color: "var(--mk-color-text-muted)" }}
@@ -201,6 +211,12 @@ export default function CapabilityStatementPage() {
                 </li>
               ))}
             </ul>
+            <p
+              className="text-sm leading-[1.45] mt-2 font-semibold"
+              style={{ color: "var(--mk-color-text)" }}
+            >
+              {FEDERAL_TEAMING.note}
+            </p>
           </section>
         </div>
 
@@ -227,7 +243,9 @@ export default function CapabilityStatementPage() {
               { label: "CAGE Code", value: orRequest(FEDERAL_COMPANY.cageCode) },
               {
                 label: "NAICS",
-                value: FEDERAL_NAICS.map((n) => n.code).join(", "),
+                value: FEDERAL_NAICS.map((n) =>
+                  n.primary ? `${n.code} (primary)` : n.code,
+                ).join(", "),
               },
               {
                 label: "Website",

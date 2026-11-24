@@ -3,6 +3,18 @@ const nextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
+      // Offering and Solutions were consolidated into Services. 308s keep
+      // existing deep links working; #fragments survive the redirect.
+      {
+        source: "/offering",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/solutions",
+        destination: "/services",
+        permanent: true,
+      },
       {
         source: "/platform",
         destination: "https://scientiaos.io/platform",

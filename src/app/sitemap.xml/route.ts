@@ -4,12 +4,12 @@ import { getPublishedOperatorNoteSlugs } from "@/content/operatorNotes";
 
 const INDEXABLE_ROUTES = [
   "/",
-  "/offering",
-  "/solutions",
+  "/services",
   "/pricing",
   "/company",
   "/federal",
   "/federal/capability-statement",
+  "/labs",
   "/contact",
   "/operator-notes",
   "/legal",

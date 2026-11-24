@@ -34,47 +34,114 @@ export const FEDERAL_COMPANY = {
   linkedIn: "https://www.linkedin.com/company/digital-hooligan-llc/",
 } as const;
 
-/** Relevant NAICS codes for the company's service lines.
- *  Confirm the final set against the SAM.gov registration before relying on it. */
-export const FEDERAL_NAICS: ReadonlyArray<{ code: string; title: string }> = [
-  { code: "541511", title: "Custom Computer Programming Services" },
+/** NAICS codes — owner-confirmed 2026-11-13 against the official SBA profile.
+ *  Keep in sync with SAM.gov / SBA; do not add codes not on the profile. */
+export const FEDERAL_NAICS: ReadonlyArray<{
+  code: string;
+  title: string;
+  primary?: boolean;
+}> = [
+  {
+    code: "541511",
+    title: "Custom Computer Programming Services",
+    primary: true,
+  },
   { code: "541512", title: "Computer Systems Design Services" },
   { code: "541519", title: "Other Computer Related Services" },
-  { code: "541715", title: "R&D in the Physical, Engineering & Life Sciences" },
   {
     code: "518210",
     title: "Computing Infrastructure Providers, Data Processing & Hosting",
   },
 ];
 
+/** Static one-page PDF, regenerated from /federal/capability-statement. */
+export const CAPABILITY_STATEMENT_PDF =
+  "/federal/invariant-federal-capability-statement.pdf";
+
+/** Short credential used next to offers. Detailed procurement data lives on /federal. */
+export const SDVOSB_SHORT = "SBA-certified SDVOSB";
+
+/** Exact GSA wording — do not paraphrase. */
+export const FEDERAL_GSA_STATEMENT =
+  "Invariant is available to subcontract under a GSA Schedule prime, subject to the requirements of the opportunity.";
+
+export type CapabilityTier = "lead" | "specialty" | "supporting" | "additional";
+
+export const CAPABILITY_TIER_LABEL: Record<CapabilityTier, string> = {
+  lead: "Lead capability",
+  specialty: "Specialty",
+  supporting: "Supporting capability",
+  additional: "Additional",
+};
+
+/** Ordered to match the homepage: integration leads, identity is the
+ *  specialty, workflow automation supports. */
 export const FEDERAL_CAPABILITIES: ReadonlyArray<{
   title: string;
+  tier: CapabilityTier;
   body: string;
 }> = [
   {
+    title: "Application & Data Integration",
+    tier: "lead",
+    body: "Connect existing applications, services, and data sources. Interface and API work, data mapping and validation, and migration support — delivered with tests and documentation a prime's team can sustain.",
+  },
+  {
+    title: "Identity & Access Integration",
+    tier: "specialty",
+    body: "ICAM engineering: onboarding applications to existing identity providers, authentication and authorization, role- and attribute-based access, and access testing aligned to enterprise and DoD identity patterns.",
+  },
+  {
+    title: "Workflow Automation",
+    tier: "supporting",
+    body: "Bounded automation tied to a specific operational process. Explicit scope, defined inputs and outputs, and human review at each checkpoint — accountable automation, not a replacement for oversight.",
+  },
+  {
     title: "Enterprise Software Engineering",
-    body: "Custom application development for complex, regulated environments — architecture, secure coding, testing, deployment, and documentation built to integrate with existing enterprise systems and sustainment processes.",
-  },
-  {
-    title: "AI-Enabled Workflow Automation",
-    body: "Bounded automation and applied AI tied to specific operational problems. Explicit scope, defined inputs and outputs, and human review at each checkpoint — accountable automation, not a replacement for oversight.",
-  },
-  {
-    title: "Identity & Access Management",
-    body: "ICAM engineering: authentication, authorization, directory integration, role- and attribute-based access control, and credential lifecycle work aligned to enterprise and DoD identity patterns.",
-  },
-  {
-    title: "Enterprise Systems Integration",
-    body: "Connect disparate systems, services, and data sources into coherent workflows. Interface design, middleware, and migration support that reduces coupling instead of adding it.",
-  },
-  {
-    title: "API & Data Integration",
-    body: "API design and development, data pipelines, and data engineering that move and reconcile information reliably across system and organizational boundaries.",
+    tier: "additional",
+    body: "Custom application development for regulated environments — architecture, secure coding, testing, deployment, and documentation built to fit existing sustainment processes.",
   },
   {
     title: "Rapid Prototyping & Applied R&D",
+    tier: "additional",
     body: "Fast, low-risk prototypes to test technical approaches and de-risk assumptions before full-scale build — proof of feasibility, not throwaway demos.",
   },
+];
+
+/** Illustrative work packages Invariant can scope. These are NOT past
+ *  engagements and must always render with EXAMPLE_LABEL. */
+export const EXAMPLE_LABEL =
+  "Example work package — illustrative scope, not a past engagement";
+
+export const FEDERAL_WORK_PACKAGE_EXAMPLES: ReadonlyArray<{
+  title: string;
+  steps: ReadonlyArray<string>;
+}> = [
+  {
+    title: "Application-to-data integration",
+    steps: [
+      "Connect an existing application to a defined data source",
+      "Map and validate the data against agreed rules",
+      "Deliver the integration with automated tests and handoff documentation",
+    ],
+  },
+  {
+    title: "Identity provider onboarding",
+    steps: [
+      "Onboard an application to the program's existing identity provider",
+      "Map application roles to identity groups and attributes",
+      "Test access for each role and document the configuration",
+    ],
+  },
+];
+
+/** What a prime receives at handoff. */
+export const FEDERAL_HANDOFF: ReadonlyArray<string> = [
+  "Source code committed to the prime's repository",
+  "Automated tests covering the delivered scope",
+  "Integration and configuration documentation",
+  "A runbook for operating and sustaining the work",
+  "A walkthrough with the prime's team",
 ];
 
 export const FEDERAL_DIFFERENTIATORS: ReadonlyArray<{
@@ -102,6 +169,10 @@ export const FEDERAL_DIFFERENTIATORS: ReadonlyArray<{
 /** Founder background — individual experience, explicitly distinguished from
  *  corporate past performance of Digital Hooligan LLC. */
 export const FOUNDER_EXPERIENCE = {
+  name: "Courtez Cannady",
+  role: "Founder",
+  // Founder-approved wording (2026-11-13). Do not embellish.
+  bio: "Courtez Cannady is the founder of Invariant and a U.S. Marine Corps veteran. His professional background includes DoD enterprise technology delivery, identity, credential, and access management (ICAM), and C4ISR systems integration.",
   disclaimer:
     "The following reflects the founder's individual professional background. It is not represented as corporate past performance of Digital Hooligan LLC.",
   summary:
@@ -116,22 +187,21 @@ export const FOUNDER_EXPERIENCE = {
 
 export const FEDERAL_TEAMING = {
   intro:
-    "Invariant welcomes discussions with prime contractors about defined engineering work packages, specialized technical support, rapid prototyping, and subcontracting on federal programs. We are an engineering partner — not a commodity staffing provider.",
+    "Invariant welcomes discussions with prime contractors about defined work packages in application integration, identity and access, and workflow automation. We are an engineering partner — not a commodity staffing provider.",
   items: [
-    "Defined engineering work packages within a prime's scope of work",
-    "Specialized technical support: software engineering, ICAM, integration, data, and applied AI",
+    "Defined work packages within a prime's statement of work",
+    "Application and data integration, identity and access integration, and workflow automation",
     "Rapid prototyping and technical feasibility efforts",
-    "Subcontracting on DoD enterprise modernization, AI integration, and software programs",
+    "Subcontracting on DoD and civilian modernization programs",
   ] as const,
-  // Clarifies a common misconception for small-business teaming reps.
-  note: "Teaming with Invariant does not require Invariant to hold its own GSA Schedule or prime contract vehicle. We participate as a subcontractor on an established contractor's team.",
+  note: FEDERAL_GSA_STATEMENT,
 };
 
 /** Target mission areas for teaming — framed as areas of interest, not customers. */
 export const FEDERAL_FOCUS_AREAS: ReadonlyArray<string> = [
-  "DoD enterprise modernization",
-  "AI integration and workflow automation",
-  "Software engineering",
+  "Application and data integration",
   "Identity, credential, and access management (ICAM)",
-  "Data systems and integration",
+  "Workflow automation",
+  "DoD enterprise modernization",
+  "Software engineering",
 ];

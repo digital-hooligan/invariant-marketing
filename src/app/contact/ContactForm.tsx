@@ -3,10 +3,11 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContact, type ContactState } from "./actions";
+import { DIRECT_CONTACT_EMAIL, type InquiryType } from "@/content/intake";
 
 const INITIAL: ContactState = { status: "idle" };
 
-function SubmitButton() {
+function SubmitButton({ label }: { label: string }) {
   const { pending } = useFormStatus();
   return (
     <button
@@ -19,7 +20,7 @@ function SubmitButton() {
         cursor: pending ? "not-allowed" : "pointer",
       }}
     >
-      {pending ? "Sending…" : "Send Inquiry"}
+      {pending ? "Sending…" : label}
     </button>
   );
 }
@@ -33,6 +34,7 @@ function Field({
   hint,
   as: Tag = "input",
   rows,
+  defaultValue,
 }: {
   label: string;
   name: string;
@@ -42,6 +44,7 @@ function Field({
   hint?: string;
   as?: "input" | "textarea";
   rows?: number;
+  defaultValue?: string;
 }) {
   const id = `contact-${name}`;
   const inputStyle = {
@@ -73,6 +76,7 @@ function Field({
           name={name}
           required={required}
           rows={rows ?? 5}
+          defaultValue={defaultValue}
           className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm resize-y"
           style={inputStyle}
           aria-describedby={error ? `${id}-error` : undefined}
@@ -84,6 +88,7 @@ function Field({
           name={name}
           type={type}
           required={required}
+          defaultValue={defaultValue}
           className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm"
           style={inputStyle}
           aria-describedby={error ? `${id}-error` : undefined}
@@ -105,8 +110,33 @@ function Field({
   );
 }
 
-export function ContactForm() {
+function DeliveryFailedNotice() {
+  return (
+    <div
+      className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm leading-[1.6]"
+      style={{
+        borderColor: "var(--mk-color-danger)",
+        color: "var(--mk-color-text)",
+        background: "var(--mk-color-surface-1)",
+      }}
+      role="alert"
+    >
+      We couldn&apos;t send your inquiry from this form. Your details are still
+      below. Email us directly at{" "}
+      <a
+        href={`mailto:${DIRECT_CONTACT_EMAIL}`}
+        style={{ color: "var(--mk-color-link)" }}
+      >
+        {DIRECT_CONTACT_EMAIL}
+      </a>{" "}
+      and we&apos;ll respond within 2–3 business days.
+    </div>
+  );
+}
+
+export function ContactForm({ inquiryType }: { inquiryType: InquiryType }) {
   const [state, action] = useActionState(submitContact, INITIAL);
+  const isTeaming = inquiryType === "teaming";
 
   if (state.status === "success") {
     return (
@@ -134,18 +164,21 @@ export function ContactForm() {
           className="leading-[1.6]"
           style={{ fontSize: "var(--mk-type-size-small)", color: "var(--mk-color-text-muted)" }}
         >
-          We review every inquiry and respond within 2–3 business days if
-          there&apos;s a fit. If we&apos;re not the right team for your project, we&apos;ll
-          tell you that too.
+          We review every inquiry and respond within 2–3 business days. If
+          we&apos;re not the right fit, we&apos;ll tell you that too.
         </p>
       </div>
     );
   }
 
   const e = state.fieldErrors ?? {};
+  const v = state.values ?? {};
+  const hasFieldErrors = Object.keys(e).length > 0;
 
   return (
     <form action={action} className="flex flex-col gap-5" noValidate>
+      <input type="hidden" name="inquiryType" value={inquiryType} />
+
       {/* Honeypot — hidden from real users, bots fill it */}
       <input
         type="text"
@@ -157,7 +190,8 @@ export function ContactForm() {
         style={{ position: "absolute", left: "-9999px" }}
       />
 
-      {state.status === "error" && state.message && (
+      {state.status === "error" && state.deliveryFailed && <DeliveryFailedNotice />}
+      {state.status === "error" && hasFieldErrors && (
         <div
           className="rounded-[var(--mk-radius-md)] border px-4 py-3 text-sm"
           style={{
@@ -167,46 +201,90 @@ export function ContactForm() {
           }}
           role="alert"
         >
-          {state.message}
+          Check the highlighted fields and try again.
         </div>
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Name" name="name" required error={e.name} />
-        <Field label="Email" name="email" type="email" required error={e.email} />
+        <Field label="Name" name="name" required error={e.name} defaultValue={v.name} />
+        <Field
+          label="Email"
+          name="email"
+          type="email"
+          required
+          error={e.email}
+          defaultValue={v.email}
+        />
       </div>
 
-      <Field
-        label="Organization"
-        name="org"
-        error={e.org}
-        hint="Optional"
-      />
-
-      <Field
-        label="What are you trying to solve?"
-        name="problem"
-        as="textarea"
-        required
-        error={e.problem}
-        hint="Describe the problem, not the solution. More context = faster alignment."
-      />
-
-      <Field
-        label="Timeline"
-        name="timeline"
-        required
-        error={e.timeline}
-        hint="e.g. ASAP, 4–6 weeks, Q3 launch, flexible"
-      />
+      {isTeaming ? (
+        <>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field
+              label="Organization"
+              name="org"
+              error={e.org}
+              hint="Optional — e.g. your prime contractor"
+              defaultValue={v.org}
+            />
+            <Field
+              label="Program or opportunity"
+              name="program"
+              error={e.program}
+              hint="Optional — name, agency, or solicitation if known"
+              defaultValue={v.program}
+            />
+          </div>
+          <Field
+            label="Scope of work"
+            name="problem"
+            as="textarea"
+            required
+            error={e.problem}
+            hint="What would Invariant own? Integration, identity, automation — whatever is defined so far."
+            defaultValue={v.problem}
+          />
+          <Field
+            label="Timeline"
+            name="timeline"
+            error={e.timeline}
+            hint="Optional — e.g. proposal due date, period of performance, or not yet defined"
+            defaultValue={v.timeline}
+          />
+        </>
+      ) : (
+        <>
+          <Field
+            label="Organization"
+            name="org"
+            error={e.org}
+            hint="Optional"
+            defaultValue={v.org}
+          />
+          <Field
+            label="What are you trying to solve?"
+            name="problem"
+            as="textarea"
+            required
+            error={e.problem}
+            hint="Describe the problem, not the solution. More context = faster alignment."
+            defaultValue={v.problem}
+          />
+          <Field
+            label="Timeline"
+            name="timeline"
+            required
+            error={e.timeline}
+            hint="e.g. ASAP, 4–6 weeks, Q3 launch, flexible"
+            defaultValue={v.timeline}
+          />
+        </>
+      )}
 
       <div className="flex items-center gap-4 pt-2 flex-wrap">
-        <SubmitButton />
-        <p
-          className="text-xs"
-          style={{ color: "var(--mk-color-text-muted)" }}
-        >
-          We review for fit and respond within 2–3 business days.
+        <SubmitButton label={isTeaming ? "Send teaming inquiry" : "Send project inquiry"} />
+        <p className="text-xs" style={{ color: "var(--mk-color-text-muted)" }}>
+          We respond within 2–3 business days.
         </p>
       </div>
     </form>

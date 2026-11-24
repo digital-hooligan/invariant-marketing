@@ -10,8 +10,8 @@ export const PageSEO = z.object({
 export const SiteSettingsSchema = z.object({
   primaryCtaLabel: z.string().min(1),
   primaryCtaHref: z.string().min(1),
-  secondaryCtaLabel: z.string().min(1),
-  secondaryCtaHref: z.string().min(1),
+  secondaryCtaLabel: z.string().min(1).optional(),
+  secondaryCtaHref: z.string().min(1).optional(),
   mainNav: z.array(
     z.object({ label: z.string().min(1), href: z.string().min(1) }),
   ),
